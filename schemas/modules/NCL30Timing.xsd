@@ -1,0 +1,32 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30Timing.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Timing module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:timing="http://www.ncl.org.br/NCL3.0/Timing"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/Timing"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <!-- declare global attributes in this module -->
+
+  <!-- define the explicitDur attribute group -->
+  <attributeGroup name="explicitDurAttrs">
+    <attribute name="explicitDur" type="string" use="optional"/>
+  </attributeGroup>
+
+  <!-- define the freeze attribute group -->
+  <attributeGroup name="freezeAttrs">
+    <attribute name="freeze" type="boolean" use="optional"/>
+  </attributeGroup>
+
+</schema>

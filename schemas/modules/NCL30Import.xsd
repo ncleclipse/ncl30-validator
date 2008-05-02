@@ -1,0 +1,44 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30Import.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Import module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:import="http://www.ncl.org.br/NCL3.0/Import"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/Import"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+  
+
+  <complexType name="importBasePrototype">
+      <attribute name="alias" type="ID" use="required"/>
+      <attribute name="region" type="IDREF" use="optional"/>
+      <attribute name="documentURI" type="anyURI" use="required"/>
+  </complexType>
+
+  <complexType name="importNCLPrototype">
+      <attribute name="alias" type="ID" use="required"/>
+      <attribute name="documentURI" type="anyURI" use="required"/>
+  </complexType>
+
+  <complexType name="importedDocumentBasePrototype">
+    <sequence minOccurs="1" maxOccurs="unbounded">
+      <element ref="import:importNCL" />
+    </sequence>
+    <attribute name="id" type="ID" use="optional" />                      
+  </complexType>
+
+
+  <!-- declare global elements in this module -->
+  <element name="importBase" type="import:importBasePrototype"/>
+  <element name="importNCL" type="import:importNCLPrototype"/>
+  <element name="importedDocumentBase" type="import:importedDocumentBasePrototype"/>
+  
+</schema>

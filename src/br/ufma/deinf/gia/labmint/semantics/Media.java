@@ -1,0 +1,311 @@
+/******************************************************************************
+Este arquivo eh uma extensao do ambiente declarativo do middleware 
+Ginga (Ginga-NCL).
+
+Direitos Autorais Reservados (c)2007 LabMint, Laboratorio de Midias Interativas 
+Departamento de Informatica, UFMA - Universidade Federal do Maranhao
+
+Este programa eh software livre; voce pode redistribui-lo e/ou modifica-lo sob 
+os termos da Licenca Publica Geral GNU versao 2 conforme publicada pela Free 
+Software Foundation.
+
+Este programa eh distribu�do na expectativa de que seja util, porem, SEM 
+NENHUMA GARANTIA; nem mesmo a garantia implicita de COMERCIABILIDADE OU 
+ADEQUACAO A UMA FINALIDADE ESPECIFICA. Consulte a Licenca Publica Geral do 
+GNU versao 2 para mais detalhes. 
+
+Voce deve ter recebido uma copia da Licenca Publica Geral do GNU versao 2 junto 
+com este programa; se nao, escreva para a Free Software Foundation, Inc., no 
+endereco 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
+
+Para maiores informacoes:
+ncl @ telemidia.puc-rio.br
+http://www.ncl.org.br
+http://www.ginga.org.br
+http://www.softwarepublico.gov.br
+
+Sobre o Validador NCL:
+labmint @ gia.deinf.ufma.br
+http://www.gia.deinf.ufma.br/~labmint/
+
+
+******************************************************************************
+This file is an extension of the declarative environment of 
+middleware Ginga (Ginga-NCL)
+
+Copyright: 2007 LabMint - Laboratory of Interactive Medias, Science Computing
+           Department, Federal University of Maranhao, All Rights Reserved.
+
+This program is free software; you can redistribute it and/or modify it under 
+the terms of the GNU General Public License version 2 as published by
+the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE.  See the GNU General Public License version 2 for more 
+details.
+
+You should have received a copy of the GNU General Public License version 2
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+For further information contact:
+ncl @ telemidia.puc-rio.br
+http://www.ncl.org.br
+http://www.ginga.org.br
+http://www.softwarepublico.gov.br
+
+About NCL Validator:
+labmint @ gia.deinf.ufma.br
+http://www.gia.deinf.ufma.br/~labmint/
+
+*******************************************************************************/
+
+package br.ufma.deinf.gia.labmint.semantics;
+
+import java.io.File;
+import java.net.URI;
+
+import org.w3c.dom.Element;
+
+import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
+import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.gia.labmint.util.MultiHashMap;
+
+public class Media extends ElementValidation{
+
+	public Media(NclValidatorDocument doc) {
+		super(doc);
+		setTypes();		
+	}
+
+	private MultiHashMap types = null;
+	private String idMedia = null;
+	
+    public boolean validate(Element eMedia){
+        boolean resultado = true;
+        
+        idMedia = eMedia.getAttribute("id");
+        
+        //Verifica se o atributo 'descriptor' da <media> aponta para um <descriptor>.
+        if(!hasValidMediaDescriptorAttribute(eMedia)) resultado = false;
+
+		//Verifica se o atributo 'type' da <media> possui um valor valido.
+        if(!hasValidMediaTypeAttribute(eMedia)) resultado = false;
+
+		//Verifica se o atributo 'src' da <media> possui um valor valido.
+        if(!hasValidMediaSrcAttribute(eMedia)) resultado = false;
+
+        //
+        //if(!hasValidMediaIDAttribute(eMedia)) resultado = false;
+
+        //Verifica se o atributo 'refer' da <media> aponta para um outro elemento <media>.
+        if(!hasValidMediaReferAttribute(eMedia)) resultado = false;
+
+		//Verifica se o atributo 'newInstace' da <media> possui um valor valido.
+        //if(!hasValidMediaNewInstanceAttribute(eMedia)) resultado = false;
+        
+        //Verifica se o arquivo especificado no atributo 'src' tem uma extensao valida.
+        //if (!hasValidExtension(eMedia)) resultado = false;
+        
+        //Verifica se a extensao diverge da definida pelo atributo type.
+        if (!hasValidExtensionForMediaType(eMedia)) resultado = false;
+
+        //Atributo refer não deve ser utilizado com o src simultaneamente
+        if(!eMedia.hasAttribute("refer")){
+        	//Atributo type é obrigatório se src não for definido        	
+        	if(!eMedia.hasAttribute("src")){
+        		if(!eMedia.hasAttribute("type")){
+        			MessageList.addError(doc.getId(), "Attribute type is required if src is not defined.", eMedia);
+        			resultado = false;
+        		}
+        	}
+        }
+        else if(eMedia.hasAttribute("src")){
+        	MessageList.addError(doc.getId(), "Attribute refer is not usefull with attribute src.", eMedia);
+    		resultado = false;
+        }
+        	
+        return resultado;
+    }
+
+    private boolean hasValidMediaDescriptorAttribute(Element eMedia){
+    	if( eMedia.hasAttribute("descriptor") ) {
+			
+			String idDescriptor = eMedia.getAttribute("descriptor");
+			Element element = doc.getElement(idDescriptor);
+			if( element==null ) {
+				MessageList.addError(doc.getId(), 
+						"There is not an element pointed by attribute descriptor with value '" + idDescriptor + "'.",
+				   		eMedia);
+				return false;
+			}
+			else if( element.getTagName().compareTo("descriptor")!=0 ) {
+				MessageList.addError(doc.getId(), 
+						"The element pointed by attributte descriptor in " +
+						"the element '" + idMedia + "' must be a <descriptor>.",
+				   		eMedia);				
+				return false;				
+			}
+		}
+        return true;
+    }
+
+    private boolean hasValidMediaTypeAttribute(Element eMedia){
+    	if (eMedia.hasAttribute("type")){
+    	
+    		String type = eMedia.getAttribute("type");
+    		
+    		if (!types.containsKey(type)){
+    			MessageList.addError(doc.getId(), 
+						"Invalid value for attribute type in <media> " + idMedia + ".",
+				   		eMedia);	
+    			return false;
+    		}
+    	}else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer")){
+    		MessageList.addError(doc.getId(), 
+					"The attribute type is mandatory when the attribute src is not present at media element.",
+			   		eMedia);	
+			return false;
+    	}
+        return true;
+    }
+
+    private boolean hasValidMediaSrcAttribute(Element eMedia){
+    	if (eMedia.hasAttribute("src"))
+        {
+        	String src = eMedia.getAttribute("src");
+        	
+        	File fMedia;
+			try {
+				URI uri = new URI(src);
+				if(uri.isAbsolute())
+					fMedia = new File(uri);
+				else{
+					uri = new URI(doc.getDir()+src);
+					if(!uri.isAbsolute())
+						MessageList.addWarning(doc.getId(), 
+		    					"Invalid path for attribute src in <media> " + idMedia + ".",
+		    			   		eMedia);
+				}
+				//System.out.println(doc.getDir()+src);
+	        					
+			} catch (Exception e) {
+				MessageList.addWarning(doc.getId(), 
+    					"Invalid path for attribute src in <media> " + idMedia + ".",
+    			   		eMedia);
+			}
+        }
+		return true;
+    }
+
+    private boolean hasValidMediaIDAttribute(Element eMedia){
+        //TODO Validar Atributo id
+        return true;
+    }
+
+    private boolean hasValidMediaReferAttribute(Element eMedia){
+    	if( eMedia.hasAttribute("refer") ) {
+			
+			String idRefer = eMedia.getAttribute("refer");
+			Element element = doc.getElement(idRefer);
+			if(element==null) {
+				MessageList.addError(doc.getId(), 
+						"The refer attribute does not point to an element.",
+						eMedia);
+				return false;				
+			}
+			else if(element.getTagName().compareTo("media")!=0) {
+				MessageList.addError(doc.getId(), 
+						"There is not a <media> element with id "+ idRefer + ".",
+						eMedia);
+				return false;
+			}
+		}		
+        return true;
+    }
+
+    private boolean hasValidMediaNewInstanceAttribute(Element eMedia){
+        //TODO Validar Atributo newIsntance
+        return true;
+    }
+    
+    private boolean hasValidExtension(Element eMedia){
+    	/*
+    	if (eMedia.hasAttribute("src"))
+    	{
+    		setTypes();
+    		
+    		String src = eMedia.getAttribute("src");
+    		String extension = getExtension(src);
+    		
+    		if (!types.containsValue(extension)){
+    			MessageList.addError(documentId, 
+						"Invalid extension for <media> "+ idMedia + ".",
+						eMedia);
+				return false;
+    		}
+    		
+    	}
+    	*/
+    	return true;
+    }
+    
+    private boolean hasValidExtensionForMediaType(Element eMedia){
+    	if (eMedia.hasAttribute("src") && eMedia.hasAttribute("type")){
+    		
+    		String type = eMedia.getAttribute("type");
+    		String src = eMedia.getAttribute("src");
+    		String extension = getExtension(src);
+    		if (!types.containsKey(type) || !types.get(type).contains(extension)){
+    			MessageList.addWarning(doc.getId(), 
+						"Invalid extension for the type "+type+" defined in <media> " + idMedia + ".",
+						eMedia);
+    		}
+    	}    	
+    	return true;
+    }
+    
+    private  String getExtension(String src){
+    	String extension = "";
+    	for (int i=src.length()-1;i>=0;i--) { 
+			if (src.charAt(i) == '.') break;
+    		extension = src.charAt(i) + extension;
+		}
+    	return extension;
+    }
+    
+    private void setTypes(){
+    	if (types == null){
+    		types = new MultiHashMap();
+    	
+    		types.put("text/html", "html");
+    		types.put("text/html", "htm");
+    		types.put("text/css", "css");
+    		types.put("text/xml", "xml");
+    		types.put("image/bmp", "bmp");
+    		types.put("image/png", "png");
+        	types.put("image/gif", "gif");
+        	types.put("image/jpeg", "jpg");
+        	types.put("image/jpeg", "jpeg");
+        	//types.put("image/mpeg", "");
+        	types.put("audio/basic", "wav");
+        	//types.put("audio/ac3", "ac3"); 
+        	types.put("audio/mp3", "mp3");
+        	types.put("audio/mp2", "mp2");
+        	//types.put("audio/mpeg", "mpeg");
+        	//types.put("audio/mpeg", "mpg");
+        	types.put("audio/mpeg4", "mp4");
+        	types.put("audio/mpeg4", "mpg4");
+        	types.put("video/mpeg", "mpeg");
+        	types.put("video/mpeg", "mpg");
+        	types.put("application/x-ginga-NCLua", "lua");
+        	types.put("application/x-ginga-NCLet", "xlt");
+        	types.put("application/x-ginga-NCLet", "xlet");
+        	types.put("application/x-ginga-NCLet", "class");
+        	types.put("application/x-ginga-settings", "");
+        	types.put("application/x-ginga-time", "");
+    	}
+    }
+
+}

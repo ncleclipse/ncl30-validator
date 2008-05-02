@@ -1,0 +1,111 @@
+<!--
+XML Schema for the NCL Language
+
+This is NCL
+Copyright: 2000-2005 LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/profiles/CausalConnector.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:causalConnectorFunctionality="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality"
+        xmlns:connectorBase="http://www.ncl.org.br/NCL3.0/ConnectorBase"
+        xmlns:structure="http://www.ncl.org.br/NCL3.0/Structure"
+        xmlns:import="http://www.ncl.org.br/NCL3.0/Import"
+        xmlns:profile="http://www.ncl.org.br/NCL3.0/CausalConnectorProfile"
+        targetNamespace="http://www.ncl.org.br/NCL3.0/CausalConnectorProfile"
+        elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <!-- import the definitions in the modules namespaces -->
+
+    <import namespace="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality" 
+    schemaLocation="../modules/NCL30CausalConnectorFunctionality.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL3.0/ConnectorBase" 
+    schemaLocation="../modules/NCL30ConnectorBase.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL3.0/Structure"
+    schemaLocation="../modules/NCL30Structure.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL30/Import"
+    schemaLocation="../modules/NCL30Import.xsd"/>
+
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Structure                                                   -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends ncl element -->
+
+    <complexType name="nclType">
+      <complexContent>
+        <restriction base="structure:nclPrototype">
+          <sequence>
+            <element ref="structure:head" minOccurs="0" maxOccurs="1"/>
+            <element ref="structure:body" minOccurs="0" maxOccurs="0"/>
+          </sequence>
+        </restriction>
+      </complexContent>
+    </complexType>
+
+    <element name="ncl" type="profile:nclType" substitutionGroup="structure:ncl"/>
+
+    <!-- extends head element -->
+
+    <complexType name="headType">
+      <complexContent>
+        <extension base="structure:headPrototype">
+          <all>
+            <element ref="profile:connectorBase" />
+          </all>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <element name="head" type="profile:headType" substitutionGroup="structure:head"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- XConnector                                                  -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+    <!-- extends connectorBase element -->
+
+    <complexType name="connectorBaseType">
+        <complexContent>
+            <extension base="connectorBase:connectorBasePrototype">
+              <choice minOccurs="0" maxOccurs="unbounded">
+                 <element ref="profile:importBase"/> 
+           <element ref="profile:causalConnector" />
+              </choice>
+            </extension>
+        </complexContent>
+    </complexType>
+
+
+  <element name="connectorBase" type="profile:connectorBaseType" substitutionGroup="connectorBase:connectorBase"/>
+
+  <element name="causalConnector" substitutionGroup="causalConnectorFunctionality:causalConnector"/>
+
+  <element name="connectorParam" substitutionGroup="causalConnectorFunctionality:connectorParam"/>
+
+  <element name="simpleCondition" substitutionGroup="causalConnectorFunctionality:simpleCondition"/>
+
+  <element name="compoundCondition" substitutionGroup="causalConnectorFunctionality:compoundCondition"/>
+
+  <element name="simpleAction" substitutionGroup="causalConnectorFunctionality:simpleAction"/>
+
+  <element name="compoundAction" substitutionGroup="causalConnectorFunctionality:compoundAction"/>
+
+  <element name="assessmentStatement" substitutionGroup="causalConnectorFunctionality:assessmentStatement"/>
+
+  <element name="attributeAssessment" substitutionGroup="causalConnectorFunctionality:attributeAssessment"/>
+
+  <element name="valueAssessment" substitutionGroup="causalConnectorFunctionality:valueAssessment"/>
+
+  <element name="compoundStatement" substitutionGroup="causalConnectorFunctionality:compoundStatement"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- ImportBase                                                  -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+  <element name="importBase" substitutionGroup="import:importBase">
+
+</schema>

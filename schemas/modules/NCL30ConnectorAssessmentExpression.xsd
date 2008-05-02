@@ -1,0 +1,94 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2006 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorAssessmentExpression.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Connector Assessment Expression module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:connectorAssessmentExpression="http://www.ncl.org.br/NCL3.0/ConnectorAssessmentExpression"
+  xmlns:connectorCommonPart="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/ConnectorAssessmentExpression"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+<!-- import the definitions in the modules namespaces -->
+<import namespace="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart" 
+    schemaLocation="http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorCommonPart.xsd"/>
+
+<simpleType name="comparatorPrototype">
+  <restriction base="string">
+    <enumeration value="eq" />
+    <enumeration value="ne" />
+    <enumeration value="gt" />
+    <enumeration value="lt" />
+    <enumeration value="gte" />
+    <enumeration value="lte" />
+  </restriction>
+</simpleType>
+
+<simpleType name="attributePrototype">
+  <restriction base="string">
+    <enumeration value="repeat" />
+    <enumeration value="occurrences" />
+    <enumeration value="state" />
+    <enumeration value="nodeProperty" />
+  </restriction>
+</simpleType>
+
+<simpleType name="statePrototype">
+  <restriction base="string">
+    <enumeration value="sleeping" />
+    <enumeration value="occurring" />
+    <enumeration value="paused" />
+  </restriction>
+</simpleType>
+
+<simpleType name="valueUnion">
+  <union memberTypes="string connectorAssessmentExpression:statePrototype"/>
+</simpleType>
+
+<complexType name="assessmentStatementPrototype" >
+  <sequence>
+    <element ref="connectorAssessmentExpression:attributeAssessment"/>
+    <choice>
+      <element ref="connectorAssessmentExpression:attributeAssessment"/>
+      <element ref="connectorAssessmentExpression:valueAssessment"/>
+    </choice>
+  </sequence>
+  <attribute name="comparator" type="connectorAssessmentExpression:comparatorPrototype" use="required"/>
+</complexType>
+
+<complexType name="attributeAssessmentPrototype">
+  <attribute name="role" type="string" use="required"/>
+  <attribute name="eventType" type="connectorCommonPart:eventPrototype" use="required"/>
+  <attribute name="key" type="string" use="optional"/>
+  <attribute name="attributeType" type="connectorAssessmentExpression:attributePrototype" use="optional"/>
+  <attribute name="offset" type="string" use="optional"/>
+</complexType>
+
+<complexType name="valueAssessmentPrototype">
+  <attribute name="value" type="connectorAssessmentExpression:valueUnion" use="required"/>
+</complexType>
+
+<complexType name="compoundStatementPrototype">
+  <choice minOccurs="1" maxOccurs="unbounded">
+    <element ref="connectorAssessmentExpression:assessmentStatement" />
+    <element ref="connectorAssessmentExpression:compoundStatement" />
+  </choice>
+  <attribute name="operator" type="connectorCommonPart:logicalOperatorPrototype" use="required"/>
+  <attribute name="isNegated" type="boolean" use="optional"/>
+</complexType>
+
+  <!-- declare global elements in this module -->
+<element name="assessmentStatement" type="connectorAssessmentExpression:assessmentStatementPrototype" />
+<element name="attributeAssessment" type="connectorAssessmentExpression:attributeAssessmentPrototype" />
+<element name="valueAssessment" type="connectorAssessmentExpression:valueAssessmentPrototype" />
+<element name="compoundStatement" type="connectorAssessmentExpression:compoundStatementPrototype" />
+
+</schema>

@@ -1,0 +1,51 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorCommonPart.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Connector Common Part module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:connectorCommonPart="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+<complexType name="parameterPrototype">
+  <attribute name="name" type="string" use="required"/>
+  <attribute name="type" type="string" use="optional"/>
+</complexType>
+
+<simpleType name="eventPrototype">
+  <restriction base="string">
+    <enumeration value="presentation" />
+    <enumeration value="selection" />
+    <enumeration value="attribution" />
+    <enumeration value="composition" />
+  </restriction>
+</simpleType>
+
+<simpleType name="logicalOperatorPrototype">
+  <restriction base="string">
+    <enumeration value="and" />
+    <enumeration value="or" />
+  </restriction>
+</simpleType>
+
+<simpleType name="transitionPrototype">
+  <restriction base="string">
+    <enumeration value="starts" />
+    <enumeration value="stops" />
+    <enumeration value="pauses" />
+    <enumeration value="resumes" />
+    <enumeration value="aborts" />
+  </restriction>
+</simpleType>
+
+</schema>

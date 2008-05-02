@@ -1,0 +1,58 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30KeyNavigation.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL KeyNavigation module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:keyNavigation="http://www.ncl.org.br/NCL3.0/KeyNavigation"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/KeyNavigation"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+<simpleType name="colorPrototype">
+  <restriction base="string">
+    <enumeration value="white" />
+    <enumeration value="black" />
+    <enumeration value="silver" />
+    <enumeration value="gray" />
+    <enumeration value="red" />
+    <enumeration value="maroon" />
+    <enumeration value="fuchsia" />
+    <enumeration value="purple" />
+    <enumeration value="lime" />
+    <enumeration value="green" />
+    <enumeration value="yellow" />
+    <enumeration value="olive" />
+    <enumeration value="blue" />
+    <enumeration value="navy" />
+    <enumeration value="aqua" />
+    <enumeration value="teal" />
+  </restriction>
+</simpleType>
+
+  <!-- declare global attributes in this module -->
+
+  <!-- define the keyNavigation attribute group -->
+  <attributeGroup name="keyNavigationAttrs">
+    <attribute name="moveLeft" type="IDREF" use="optional"/>
+    <attribute name="moveRight" type="IDREF" use="optional"/>
+    <attribute name="moveUp" type="IDREF" use="optional"/>
+    <attribute name="moveDown" type="IDREF" use="optional"/>
+    <attribute name="focusIndex" type="IDREF" use="optional"/>
+    <attribute name="focusBorderColor" type="keyNavigation:colorPrototype" use="optional"/>
+    <attribute name="focusBorderWidth" type="string" use="optional"/>
+    <attribute name="focusBorderTransparency" type="string" use="optional"/>
+    <attribute name="focusScr" type="string" use="optional"/>
+    <attribute name="focusSelScr" type="string" use="optional"/>
+    <attribute name="selBorderColor" type="keyNavigation:colorPrototype" use="optional"/>
+  </attributeGroup>
+
+
+</schema>

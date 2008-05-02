@@ -1,0 +1,30 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30CompositeNodeInterface.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Composite Node Interface module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:compositeInterface="http://www.ncl.org.br/NCL3.0/CompositeNodeInterface"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/CompositeNodeInterface"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <complexType name="compositeNodePortPrototype">
+    <attribute name="id" type="ID" use="required" />
+    <attribute name="component" type="IDREF" use="required"/>
+    <attribute name="interface" type="string" use="optional" />
+  </complexType>
+
+
+  <!-- declare global elements in this module -->
+  <element name="port" type="compositeInterface:compositeNodePortPrototype" />
+
+</schema>

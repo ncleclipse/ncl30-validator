@@ -1,0 +1,60 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30MediaContentAnchor.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Media Content Anchor module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:mediaAnchor="http://www.ncl.org.br/NCL3.0/MediaContentAnchor"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/MediaContentAnchor"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <!-- define the temporalAnchorAttrs attribute group -->
+  <attributeGroup name="temporalAnchorAttrs">
+    <attribute name="begin" type="string" use="optional"/>
+    <attribute name="end" type="string" use="optional"/>
+  </attributeGroup>
+
+  <!-- define the textAnchorAttrs attribute group -->
+  <attributeGroup name="textAnchorAttrs">
+    <attribute name="text" type="string" use="optional"/>
+    <attribute name="position" type="unsignedLong" use="optional"/>
+  </attributeGroup>
+
+  <!-- define the sampleAnchorAttrs attribute group -->
+  <attributeGroup name="sampleAnchorAttrs">
+    <attribute name="first" type="unsignedLong" use="optional"/>
+    <attribute name="last" type="unsignedLong" use="optional"/>
+  </attributeGroup>
+
+  <!-- define the coordsAnchorAttrs attribute group -->
+  <attributeGroup name="coordsAnchorAttrs">
+    <attribute name="coords" type="string" use="optional"/>
+  </attributeGroup>
+  
+  <!-- define the labelAnchorAttrs attribute group -->
+  <attributeGroup name="labelAnchorAttrs">
+    <attribute name="anchorLabel" type="string" use="optional"/>
+  </attributeGroup>
+
+  <complexType name="componentAnchorPrototype">
+    <attribute name="id" type="ID" use="required"/>
+    <attributeGroup ref="mediaAnchor:coordsAnchorAttrs" />
+    <attributeGroup ref="mediaAnchor:temporalAnchorAttrs" />
+    <attributeGroup ref="mediaAnchor:textAnchorAttrs" />
+    <attributeGroup ref="mediaAnchor:sampleAnchorAttrs" />
+    <attributeGroup ref="mediaAnchor:labelAnchorAttrs" />
+  </complexType>
+
+  <!-- declare global elements in this module -->
+  <element name="area" type="mediaAnchor:componentAnchorPrototype"/>
+
+</schema>

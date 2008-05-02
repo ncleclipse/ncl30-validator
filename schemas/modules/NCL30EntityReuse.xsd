@@ -1,0 +1,24 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30EntityReuse.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL EntityReuse module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:entityReuse="http://www.ncl.org.br/NCL3.0/EntityReuse"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/EntityReuse"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+  
+
+  <attributeGroup name="entityReuseAttrs">
+    <attribute name="refer" type="string" use="optional"/>
+  </attributeGroup>
+  
+</schema>

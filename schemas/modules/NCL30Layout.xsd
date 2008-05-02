@@ -1,0 +1,53 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30Layout.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Layout module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:layout="http://www.ncl.org.br/NCL3.0/Layout"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/Layout"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <complexType name="regionBasePrototype">
+    <attribute name="id" type="ID" use="optional"/>
+    <attribute name="type" type="string" use="optional"/>
+    <attribute name="device" type="string" use="optional"/>
+  </complexType>
+
+  <complexType name="regionPrototype">
+    <sequence minOccurs="0" maxOccurs="unbounded">
+      <element ref="layout:region" />
+    </sequence>
+    <attribute name="id" type="ID" use="required"/>
+    <attribute name="title" type="string" use="optional"/>    
+    <attribute name="height" type="string" use="optional"/>    
+    <attribute name="left" type="string" use="optional"/>    
+    <attribute name="right" type="string" use="optional"/>    
+    <attribute name="top" type="string" use="optional"/>    
+    <attribute name="bottom" type="string" use="optional"/>    
+    <attribute name="width" type="string" use="optional"/>    
+    <attribute name="zIndex" type="integer" use="optional"/> 
+  </complexType>
+  
+
+  <!-- declare global attributes in this module -->
+
+  <!-- define the region attributeGroup -->
+  <attributeGroup name="regionAttrs">
+    <attribute name="region" type="string" use="optional"/>
+  </attributeGroup>
+    
+  <!-- declare global elements in this module -->
+  <element name="regionBase" type="layout:regionBasePrototype"/>
+  <element name="region" type="layout:regionPrototype"/>
+    
+</schema>

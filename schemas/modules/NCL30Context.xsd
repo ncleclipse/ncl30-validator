@@ -1,0 +1,29 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30Context.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Context module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:context="http://www.ncl.org.br/NCL3.0/Context"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/Context"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <!-- define the compositeNode element prototype -->
+  <complexType name="contextPrototype">
+    <attribute name="id" type="ID" use="required"/>
+  </complexType>
+
+
+  <!-- declare global elements in this module -->
+  <element name="context" type="context:contextPrototype"/>
+
+</schema>

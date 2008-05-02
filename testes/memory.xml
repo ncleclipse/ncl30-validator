@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<memories>
+    <memory tapeid="1">
+       <subdate>2001-05-23</subdate>
+       <donor>John Baker</donor>
+       <subject>Fishing with the grandchildren on beautiful day.</subject>
+    </memory>
+    <memory tapeid="2">
+       <subdate>2001-05-18</subdate>
+       <donor>Elizabeth Davison</donor>
+       <subject>Beach volleyball</subject>
+    </memory>
+</memories>

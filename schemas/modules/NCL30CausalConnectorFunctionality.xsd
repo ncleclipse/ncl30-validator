@@ -1,0 +1,100 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/
+NCL30CausalConnectorFunctionality.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL CausalConnectorFunctionality module namespace.
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:connectorCommonPart="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart"
+        xmlns:connectorAssessmentExpression="http://www.ncl.org.br/NCL3.0/ConnectorAssessmentExpression"
+        xmlns:connectorCausalExpression="http://www.ncl.org.br/NCL3.0/ConnectorCausalExpression"
+        xmlns:causalConnector="http://www.ncl.org.br/NCL3.0/CausalConnector"
+        xmlns:causalConnectorFunctionality="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality"
+        targetNamespace="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality"
+        elementFormDefault="qualified" attributeFormDefault="unqualified">
+    
+    <!-- import the definitions in the modules namespaces -->
+
+    <import namespace="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart" 
+    schemaLocation="NCL30ConnectorCommonPart.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL3.0/ConnectorAssessmentExpression" 
+    schemaLocation="NCL30ConnectorAssessmentExpression.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL3.0/ConnectorCausalExpression" 
+    schemaLocation="NCL30ConnectorCausalExpression.xsd"/>
+    <import namespace="http://www.ncl.org.br/NCL3.0/CausalConnector" 
+    schemaLocation="NCL30CausalConnector.xsd"/>
+
+  <!-- =========================================================== -->
+  <!-- CausalConnectorFunctionality                                -->
+  <!-- =========================================================== -->
+   <element name="connectorParam" type="connectorCommonPart:parameterPrototype"/>
+
+    <!-- extends causalConnector element -->
+
+    <complexType name="causalConnectorType">
+      <complexContent>
+        <extension base="causalConnector:causalConnectorPrototype">
+          <sequence>
+            <element ref="causalConnectorFunctionality:connectorParam" minOccurs="0" maxOccurs="unbounded"/>
+            <choice>
+              <element ref="causalConnectorFunctionality:simpleCondition" />
+              <element ref="causalConnectorFunctionality:compoundCondition" />
+            </choice>
+            <choice>
+              <element ref="causalConnectorFunctionality:simpleAction" />
+              <element ref="causalConnectorFunctionality:compoundAction" />
+            </choice>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <!-- extends compoundCondition element -->
+
+    <complexType name="compoundConditionType">
+      <complexContent>
+        <extension base="connectorCausalExpression:compoundConditionPrototype">
+          <sequence>
+            <choice>
+              <element ref="causalConnectorFunctionality:simpleCondition" />
+              <element ref="causalConnectorFunctionality:compoundCondition" />
+            </choice>
+            <choice minOccurs="1" maxOccurs="unbounded">
+              <element ref="causalConnectorFunctionality:simpleCondition" />
+              <element ref="causalConnectorFunctionality:compoundCondition" />
+              <element ref="causalConnectorFunctionality:assessmentStatement" />
+              <element ref="causalConnectorFunctionality:compoundStatement" />
+            </choice>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+
+  <element name="causalConnector" type="causalConnectorFunctionality:causalConnectorType" substitutionGroup="causalConnector:causalConnector"/>
+
+  <element name="simpleCondition" substitutionGroup="connectorCausalExpression:simpleCondition"/>
+
+  <element name="compoundCondition" type="causalConnectorFunctionality:compoundConditionType" substitutionGroup="connectorCausalExpression:compoundCondition"/>
+
+  <element name="simpleAction" substitutionGroup="connectorCausalExpression:simpleAction"/>
+
+  <element name="compoundAction" substitutionGroup="connectorCausalExpression:compoundAction"/>
+
+  <element name="assessmentStatement" substitutionGroup="connectorAssessmentExpression:assessmentStatement"/>
+
+  <element name="attributeAssessment" substitutionGroup="connectorAssessmentExpression:attributeAssessment"/>
+
+  <element name="valueAssessment" substitutionGroup="connectorAssessmentExpression:valueAssessment"/>
+
+  <element name="compoundStatement" substitutionGroup="connectorAssessmentExpression:compoundStatement"/>
+
+</schema>

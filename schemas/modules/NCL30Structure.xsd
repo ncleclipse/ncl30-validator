@@ -1,0 +1,44 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30Structure.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the Structure module namespace,
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:structure="http://www.ncl.org.br/NCL3.0/Structure"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/Structure"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+    
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- define the top-down structure of an NCL language document.          -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+  <complexType name="nclPrototype">
+    <sequence>
+      <element ref="structure:head" minOccurs="0" maxOccurs="1"/>
+      <element ref="structure:body" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+    <attribute name="id" type="ID" use="required"/>
+    <attribute name="title" type="string" use="optional"/>
+  </complexType>
+
+  <complexType name="headPrototype">
+  </complexType>
+
+  <complexType name="bodyPrototype">
+    <attribute name="id" type="ID" use="optional"/>
+  </complexType>
+
+  <!-- declare global elements in this module -->
+  <element name="ncl" type="structure:nclPrototype"/>
+  <element name="head" type="structure:headPrototype"/>
+  <element name="body" type="structure:bodyPrototype"/>
+
+</schema>

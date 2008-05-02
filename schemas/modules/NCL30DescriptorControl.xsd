@@ -1,0 +1,37 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30DescriptorControl.xsd
+Author: TeleMidia Laboratory
+Revision: 19/06/2006
+
+Schema for the NCL DescriptorControl module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:descriptorControl="http://www.ncl.org.br/NCL3.0/DescriptorControl"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/DescriptorControl"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <complexType name="defaultDescriptorPrototype">
+    <attribute name="descriptor" type="IDREF" use="required" />
+  </complexType>
+
+  <!-- define the descriptor switch element prototype -->
+  <complexType name="descriptorSwitchPrototype">
+    <choice>
+    <element ref="descriptorControl:defaultDescriptor" minOccurs="0" maxOccurs="1"/>
+    </choice>
+    <attribute name="id" type="ID" use="required"/> 
+  </complexType>
+
+
+  <!-- declare global elements in this module -->
+  <element name="defaultDescriptor" type="descriptorControl:defaultDescriptorPrototype"/>
+  <element name="descriptorSwitch" type="descriptorControl:descriptorSwitchPrototype"/>    
+
+</schema>

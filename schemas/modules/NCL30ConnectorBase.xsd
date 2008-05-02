@@ -1,0 +1,25 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2006 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorBase.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Connector Base module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:connectorBase="http://www.ncl.org.br/NCL3.0/ConnectorBase"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/ConnectorBase"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+<complexType name="connectorBasePrototype">
+  <attribute name="id" type="ID" use="optional"/>
+</complexType>
+
+  <!-- declare global elements in this module -->
+<element name="connectorBase" type="connectorBase:connectorBasePrototype"/>
+</schema>

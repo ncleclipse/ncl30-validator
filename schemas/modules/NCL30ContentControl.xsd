@@ -1,0 +1,38 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2005 LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30ContentControl.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL ContentControl module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:contentControl="http://www.ncl.org.br/NCL3.0/ContentControl"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/ContentControl"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+
+  <complexType name="defaultComponentPrototype">
+    <attribute name="component" type="IDREF" use="required" />
+  </complexType>
+
+  <!-- define the switch element prototype -->
+
+  <complexType name="switchPrototype">
+    <choice>
+    <element ref="contentControl:defaultComponent" minOccurs="0" maxOccurs="1"/>
+    </choice>
+    <attribute name="id" type="ID" use="required"/>
+  </complexType>
+
+
+  <!-- declare global elements in this module -->
+  <element name="defaultComponent" type="contentControl:defaultComponentPrototype"/>
+  <element name="switch" type="contentControl:switchPrototype"/>    
+
+</schema>

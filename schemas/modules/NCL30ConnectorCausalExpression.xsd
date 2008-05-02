@@ -1,0 +1,114 @@
+<!--
+XML Schema for the NCL modules
+
+This is NCL
+Copyright: 2000-2006 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorCausalExpression.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+
+Schema for the NCL Connector Causal Expression module namespace.
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:connectorCausalExpression="http://www.ncl.org.br/NCL3.0/ConnectorCausalExpression"
+    xmlns:connectorCommonPart="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/ConnectorCausalExpression"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+
+<!-- import the definitions in the modules namespaces -->
+<import namespace="http://www.ncl.org.br/NCL3.0/ConnectorCommonPart" 
+    schemaLocation="http://www.ncl.org.br/NCL3.0/modules/NCL30ConnectorCommonPart.xsd"/>
+
+<simpleType name="conditionRoleUnion">
+  <union memberTypes="string connectorCausalExpression:conditionRolePrototype"/>
+</simpleType>
+
+<simpleType name="conditionRolePrototype">
+  <restriction base="string">
+    <enumeration value="onBegin" />
+    <enumeration value="onEnd" />
+    <enumeration value="onPause" />
+    <enumeration value="onResume" />
+    <enumeration value="onAbort" />
+  </restriction>
+</simpleType>
+
+<simpleType name="maxUnion">
+  <union memberTypes="positiveInteger connectorCausalExpression:unboundedString"/>
+</simpleType>
+
+<simpleType name="unboundedString">
+  <restriction base="string">
+    <pattern value="unbounded"/>
+  </restriction>
+</simpleType>
+
+<complexType name="simpleConditionPrototype">
+  <attribute name="role" type="connectorCausalExpression:conditionRoleUnion" use="required"/>
+  <attribute name="eventType" type="connectorCommonPart:eventPrototype" use="optional"/>
+  <attribute name="key" type="string" use="optional"/>
+  <attribute name="transition" type="connectorCommonPart:transitionPrototype" use="optional"/>
+  <attribute name="delay" type="string" use="optional"/>
+  <attribute name="min" type="positiveInteger" use="optional"/>
+  <attribute name="max" type="connectorCausalExpression:maxUnion" use="optional"/>
+  <attribute name="qualifier" type="connectorCommonPart:logicalOperatorPrototype" use="optional"/>
+</complexType>
+
+<complexType name="compoundConditionPrototype">
+  <attribute name="operator" type="connectorCommonPart:logicalOperatorPrototype" use="required"/>
+  <attribute name="delay" type="string" use="optional"/>
+</complexType>
+
+<simpleType name="actionRoleUnion">
+  <union memberTypes="string connectorCausalExpression:actionNamePrototype"/>
+</simpleType>
+
+<simpleType name="actionNamePrototype">
+  <restriction base="string">
+    <enumeration value="start" />
+    <enumeration value="stop" />
+    <enumeration value="pause" />
+    <enumeration value="resume" />
+    <enumeration value="abort" />
+    <enumeration value="set" />
+  </restriction>
+</simpleType>
+
+<simpleType name="actionOperatorPrototype">
+  <restriction base="string">
+    <enumeration value="par" />
+    <enumeration value="seq" />
+  </restriction>
+</simpleType>
+
+<complexType name="simpleActionPrototype">
+  <attribute name="role" type="connectorCausalExpression:actionRoleUnion" use="required"/>
+  <attribute name="eventType" type="connectorCommonPart:eventPrototype" use="optional"/>
+  <attribute name="actionType" type="connectorCausalExpression:actionNamePrototype" use="optional"/>
+  <attribute name="delay" type="string" use="optional"/>
+  <attribute name="value" type="string" use="optional"/>
+  <attribute name="repeat" type="positiveInteger" use="optional"/>
+  <attribute name="repeatDelay" type="string" use="optional"/>
+  <attribute name="min" type="positiveInteger" use="optional"/>
+  <attribute name="max" type="connectorCausalExpression:maxUnion" use="optional"/>
+  <attribute name="qualifier" type="connectorCausalExpression:actionOperatorPrototype" use="optional"/>
+</complexType>
+
+<complexType name="compoundActionPrototype">
+  <choice minOccurs="2" maxOccurs="unbounded">
+    <element ref="connectorCausalExpression:simpleAction" />
+    <element ref="connectorCausalExpression:compoundAction" />
+  </choice>
+  <attribute name="operator" type="connectorCausalExpression:actionOperatorPrototype" use="required"/>
+  <attribute name="delay" type="string" use="optional"/>
+</complexType>
+
+  <!-- declare global elements in this module -->
+<element name="simpleCondition" type="connectorCausalExpression:simpleConditionPrototype" />
+<element name="compoundCondition" type="connectorCausalExpression:compoundConditionPrototype" />
+<element name="simpleAction" type="connectorCausalExpression:simpleActionPrototype" />
+<element name="compoundAction" type="connectorCausalExpression:compoundActionPrototype" />
+
+</schema>

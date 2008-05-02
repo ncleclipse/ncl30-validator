@@ -1,0 +1,537 @@
+<!--
+XML Schema for the NCL Language
+
+This is NCL
+Copyright: 2000-2005 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+See http://www.telemidia.puc-rio.br
+
+Public URI: http://www.ncl.org.br/NCL3.0/profiles/NCL30BDTV.xsd
+Author: TeleMidia Laboratory
+Revision: 19/09/2006
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+  xmlns:compositeInterface="http://www.ncl.org.br/NCL3.0/CompositeNodeInterface"
+  xmlns:causalConnectorFunctionality="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality"
+  xmlns:connectorBase="http://www.ncl.org.br/NCL3.0/ConnectorBase"
+  xmlns:contentControl="http://www.ncl.org.br/NCL3.0/ContentControl"
+  xmlns:context="http://www.ncl.org.br/NCL3.0/Context"
+  xmlns:descriptor="http://www.ncl.org.br/NCL3.0/Descriptor"
+  xmlns:entityReuse="http://www.ncl.org.br/NCL3.0/EntityReuse"
+  xmlns:extendedEntityReuse="http://www.ncl.org.br/NCL3.0/ExtendedEntityReuse"
+  xmlns:descriptorControl="http://www.ncl.org.br/NCL3.0/DescriptorControl"
+  xmlns:import="http://www.ncl.org.br/NCL3.0/Import"
+  xmlns:keyNavigation="http://www.ncl.org.br/NCL3.0/KeyNavigation"
+  xmlns:layout="http://www.ncl.org.br/NCL3.0/Layout"
+  xmlns:linking="http://www.ncl.org.br/NCL3.0/Linking"
+  xmlns:media="http://www.ncl.org.br/NCL3.0/Media"
+  xmlns:mediaAnchor="http://www.ncl.org.br/NCL3.0/MediaContentAnchor"
+  xmlns:propertyAnchor="http://www.ncl.org.br/NCL3.0/PropertyAnchor"
+  xmlns:structure="http://www.ncl.org.br/NCL3.0/Structure"
+  xmlns:switchInterface="http://www.ncl.org.br/NCL3.0/SwitchInterface"
+  xmlns:testRule="http://www.ncl.org.br/NCL3.0/TestRule"
+  xmlns:testRuleUse="http://www.ncl.org.br/NCL3.0/TestRuleUse"
+  xmlns:timing="http://www.ncl.org.br/NCL3.0/Timing"
+  xmlns:profile="http://www.ncl.org.br/NCL3.0/BDTVProfile"
+  targetNamespace="http://www.ncl.org.br/NCL3.0/BDTVProfile"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" >
+  
+  <!-- import the definitions in the modules namespaces -->
+  <import namespace="http://www.ncl.org.br/NCL3.0/CompositeNodeInterface"
+    schemaLocation="../modules/NCL30CompositeNodeInterface.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/CausalConnectorFunctionality" 
+    schemaLocation="../modules/NCL30CausalConnectorFunctionality.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/ConnectorBase" 
+    schemaLocation="../modules/NCL30ConnectorBase.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/ContentControl" 
+    schemaLocation="../modules/NCL30ContentControl.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Context" 
+    schemaLocation="../modules/NCL30Context.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Descriptor" 
+    schemaLocation="../modules/NCL30Descriptor.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/DescriptorControl" 
+    schemaLocation="../modules/NCL30DescriptorControl.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/EntityReuse" 
+    schemaLocation="../modules/NCL30EntityReuse.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/ExtendedEntityReuse" 
+    schemaLocation="../modules/NCL30ExtendedEntityReuse.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Import" 
+    schemaLocation="../modules/NCL30Import.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/KeyNavigation" 
+    schemaLocation="../modules/NCL30KeyNavigation.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Layout" 
+    schemaLocation="../modules/NCL30Layout.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Linking" 
+    schemaLocation="../modules/NCL30Linking.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Media" 
+    schemaLocation="../modules/NCL30Media.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/MediaContentAnchor" 
+    schemaLocation="../modules/NCL30MediaContentAnchor.xsd"/>   
+  <import namespace="http://www.ncl.org.br/NCL3.0/PropertyAnchor" 
+    schemaLocation="../modules/NCL30PropertyAnchor.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Structure" 
+    schemaLocation="../modules/NCL30Structure.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/SwitchInterface" 
+    schemaLocation="../modules/NCL30SwitchInterface.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/TestRule" 
+    schemaLocation="../modules/NCL30TestRule.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/TestRuleUse" 
+    schemaLocation="../modules/NCL30TestRuleUse.xsd"/>
+  <import namespace="http://www.ncl.org.br/NCL3.0/Timing" 
+    schemaLocation="../modules/NCL30Timing.xsd"/>
+    
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Structure                                                   -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends ncl element -->
+  
+  <element name="ncl" substitutionGroup="structure:ncl" />
+
+  <!-- extends head element -->
+
+  <complexType name="headType">
+    <complexContent>
+      <extension base="structure:headPrototype">
+        <sequence>
+          <element ref="profile:importedDocumentBase" minOccurs="0" maxOccurs="1"/>
+          <element ref="profile:ruleBase" minOccurs="0" maxOccurs="1"/>
+          <element ref="profile:regionBase" minOccurs="0" maxOccurs="unbounded"/>
+          <element ref="profile:descriptorBase" minOccurs="0" maxOccurs="1"/>
+          <element ref="profile:connectorBase" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="head" type="profile:headType" substitutionGroup="structure:head"/>
+
+  <!-- extends body element -->
+
+  <complexType name="bodyType">
+    <complexContent>
+      <extension base="structure:bodyPrototype">
+        <choice minOccurs="0" maxOccurs="unbounded">
+          <group ref="profile:contextInterfaceElementGroup"/>
+          <element ref="profile:media"/>
+          <element ref="profile:context"/>
+          <element ref="profile:switch"/>
+          <element ref="profile:link"/>
+        </choice>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="body" type="profile:bodyType" substitutionGroup="structure:body"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Layout                                                      -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends regionBase element -->
+  
+  <complexType name="regionBaseType">
+    <complexContent>
+      <extension base="layout:regionBasePrototype">
+        <choice minOccurs="1" maxOccurs="unbounded">
+          <element ref="profile:region"/>
+          <element ref="profile:importBase"/>
+        </choice>
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <complexType name="regionType">
+    <complexContent>
+      <extension base="layout:regionPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="regionBase" type="profile:regionBaseType" substitutionGroup="layout:regionBase"/>
+  <element name="region" type="profile:regionType" substitutionGroup="layout:region"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Media                                                       -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends Media elements -->
+
+  <!-- media interface element groups -->
+  <group name="mediaInterfaceElementGroup">
+    <choice>
+      <element ref="profile:area"/>
+      <element ref="profile:property"/>
+    </choice>
+  </group>
+
+  <complexType name="mediaType">
+    <complexContent>
+      <extension base="media:mediaPrototype">
+        <choice minOccurs="0" maxOccurs="unbounded">
+          <group ref="profile:mediaInterfaceElementGroup"/>
+        </choice>            
+        <attributeGroup ref="descriptor:descriptorAttrs"/> 
+        <attributeGroup ref="entityReuse:entityReuseAttrs"/>       
+        <attributeGroup ref="extendedEntityReuse:extendedEntityReuseAttrs"/>  
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="media" type="profile:mediaType" substitutionGroup="media:media"/>
+  
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Context                                                     -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends context element -->
+
+  <!-- composite node interface element groups -->
+  <group name="contextInterfaceElementGroup">
+    <choice>
+      <element ref="profile:port"/>
+      <element ref="profile:property"/>
+    </choice>
+  </group>
+
+  <complexType name="contextType">
+    <complexContent>
+      <extension base="context:contextPrototype">
+        <choice minOccurs="0" maxOccurs="unbounded">
+          <group ref="profile:contextInterfaceElementGroup"/>
+          <element ref="profile:media"/>
+          <element ref="profile:context"/>
+          <element ref="profile:link"/>
+          <element ref="profile:switch"/>
+        </choice>
+        <attributeGroup ref="entityReuse:entityReuseAttrs"/>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="context" type="profile:contextType" substitutionGroup="context:context"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- MediaContentAnchor                                          -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends area element -->
+
+  <complexType name="componentAnchorType">
+    <complexContent>
+      <extension base="mediaAnchor:componentAnchorPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="area" type="profile:componentAnchorType" substitutionGroup="mediaAnchor:area"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- CompositeNodeInterface                                      -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends port element -->
+
+  <complexType name="compositeNodePortType">
+    <complexContent>
+      <extension base="compositeInterface:compositeNodePortPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="port" type="profile:compositeNodePortType" substitutionGroup="compositeInterface:port"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- PropertyAnchor                                              -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends property element -->
+
+  <complexType name="propertyAnchorType">
+    <complexContent>
+      <extension base="propertyAnchor:propertyAnchorPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="property" type="profile:propertyAnchorType" substitutionGroup="propertyAnchor:property"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- SwitchInterface                                             -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends switchPort element -->
+
+  <complexType name="switchPortType">
+    <complexContent>
+      <extension base="switchInterface:switchPortPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="mapping" substitutionGroup="switchInterface:mapping"/>
+  <element name="switchPort" type="profile:switchPortType" substitutionGroup="switchInterface:switchPort"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Descriptor                                                  -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+  <!-- substitutes descriptorParam element -->
+
+  <element name="descriptorParam" substitutionGroup="descriptor:descriptorParam"/>
+
+
+  <!-- extends descriptor element -->
+
+  <complexType name="descriptorType">
+    <complexContent>
+      <extension base="descriptor:descriptorPrototype">
+        <attributeGroup ref="layout:regionAttrs"/>              
+        <attributeGroup ref="timing:explicitDurAttrs"/>   
+        <attributeGroup ref="timing:freezeAttrs"/>    
+        <attributeGroup ref="keyNavigation:keyNavigationAttrs"/>    
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="descriptor" type="profile:descriptorType" substitutionGroup="descriptor:descriptor"/>
+
+  <!-- extends descriptorBase element -->
+  <complexType name="descriptorBaseType">
+    <complexContent>
+      <extension base="descriptor:descriptorBasePrototype">
+        <choice minOccurs="1" maxOccurs="unbounded">
+          <element ref="profile:importBase"/>
+          <element ref="profile:descriptor"/>
+          <element ref="profile:descriptorSwitch"/>
+        </choice>
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="descriptorBase" type="profile:descriptorBaseType" substitutionGroup="descriptor:descriptorBase"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Linking                                                     -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- substitutes linkParam and bindParam elements -->
+  <element name="linkParam" substitutionGroup="linking:linkParam"/>
+  <element name="bindParam" substitutionGroup="linking:bindParam"/>
+  
+  <!-- extends bind element and link element, as a consequence-->
+
+  <complexType name="bindType">
+    <complexContent>
+      <extension base="linking:bindPrototype">
+        <attributeGroup ref="descriptor:descriptorAttrs"/>              
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="bind" type="profile:bindType" substitutionGroup="linking:bind"/>
+  
+  <!-- extends link element -->
+  <complexType name="linkType">
+    <complexContent>
+      <extension base="linking:linkPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="link" type="profile:linkType" substitutionGroup="linking:link"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Connector                                                   -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends connectorBase element -->
+
+    <complexType name="connectorBaseType">
+        <complexContent>
+            <extension base="connectorBase:connectorBasePrototype">
+              <choice minOccurs="0" maxOccurs="unbounded">
+                 <element ref="profile:importBase"/> 
+           <element ref="profile:causalConnector" />
+              </choice>
+            </extension>
+        </complexContent>
+    </complexType>
+
+  <element name="connectorBase" type="profile:connectorBaseType" substitutionGroup="connectorBase:connectorBase"/>
+
+  <element name="causalConnector" substitutionGroup="causalConnectorFunctionality:causalConnector"/>
+
+  <element name="connectorParam" substitutionGroup="causalConnectorFunctionality:connectorParam"/>
+
+  <element name="simpleCondition" substitutionGroup="causalConnectorFunctionality:simpleCondition"/>
+
+  <element name="compoundCondition" substitutionGroup="causalConnectorFunctionality:compoundCondition"/>
+
+  <element name="simpleAction" substitutionGroup="causalConnectorFunctionality:simpleAction"/>
+
+  <element name="compoundAction" substitutionGroup="causalConnectorFunctionality:compoundAction"/>
+
+  <element name="assessmentStatement" substitutionGroup="causalConnectorFunctionality:assessmentStatement"/>
+
+  <element name="attributeAssessment" substitutionGroup="causalConnectorFunctionality:attributeAssessment"/>
+
+  <element name="valueAssessment" substitutionGroup="causalConnectorFunctionality:valueAssessment"/>
+
+  <element name="compoundStatement" substitutionGroup="causalConnectorFunctionality:compoundStatement"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- TestRule                                                    -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends rule element -->
+  <complexType name="ruleType">
+    <complexContent>
+      <extension base="testRule:rulePrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="rule" type="profile:ruleType" substitutionGroup="testRule:rule"/>
+  
+  <!-- extends compositeRule element -->
+  <complexType name="compositeRuleType">
+    <complexContent>
+      <extension base="testRule:compositeRulePrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="compositeRule" type="profile:compositeRuleType" substitutionGroup="testRule:compositeRule"/>
+  
+  <!-- extends ruleBase element -->
+  <complexType name="ruleBaseType">
+    <complexContent>
+      <extension base="testRule:ruleBasePrototype">
+        <choice minOccurs="1" maxOccurs="unbounded">
+          <element ref="profile:importBase"/>
+          <element ref="profile:rule"/>
+          <element ref="profile:compositeRule"/>
+        </choice>
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="ruleBase" type="profile:ruleBaseType" substitutionGroup="testRule:ruleBase"/>
+    
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- TestRuleUse                                                    -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends bindRule element -->
+  <complexType name="bindRuleType">
+    <complexContent>
+      <extension base="testRuleUse:bindRulePrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="bindRule" type="profile:bindRuleType" substitutionGroup="testRuleUse:bindRule"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- ContentControl                                              -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends switch element -->
+
+  <!-- switch interface element groups -->
+  <group name="switchInterfaceElementGroup">
+    <choice>
+      <element ref="profile:switchPort"/>
+    </choice>
+  </group>
+
+  <!-- extends defaultComponent element -->
+  <complexType name="defaultComponentType">
+    <complexContent>
+      <extension base="contentControl:defaultComponentPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="defaultComponent" type="profile:defaultComponentType" substitutionGroup="contentControl:defaultComponent"/>
+
+  <complexType name="switchType">
+    <complexContent>
+      <extension base="contentControl:switchPrototype">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <group ref="profile:switchInterfaceElementGroup"/>
+            <element ref="profile:bindRule"/>
+            <element ref="profile:switch"/>
+            <element ref="profile:media"/>
+            <element ref="profile:context"/>
+          </choice>
+        <attributeGroup ref="entityReuse:entityReuseAttrs"/> 
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="switch" type="profile:switchType" substitutionGroup="contentControl:switch"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- DescriptorControl                                           -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- extends defaultDescriptor element -->
+  <complexType name="defaultDescriptorType">
+    <complexContent>
+      <extension base="descriptorControl:defaultDescriptorPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="defaultDescriptor" type="profile:defaultDescriptorType" substitutionGroup="descriptorControl:defaultDescriptor"/>
+
+  <!-- extends descriptorSwitch element -->
+
+  <complexType name="descriptorSwitchType">
+    <complexContent>
+      <extension base="descriptorControl:descriptorSwitchPrototype">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element ref="profile:descriptor"/>
+            <element ref="profile:bindRule"/>
+          </choice>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="descriptorSwitch" type="profile:descriptorSwitchType" substitutionGroup="descriptorControl:descriptorSwitch"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Timing                                                      -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- Import                                                      -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <complexType name="importBaseType">
+    <complexContent>
+      <extension base="import:importBasePrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <complexType name="importNCLType">
+    <complexContent>
+      <extension base="import:importNCLPrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <complexType name="importedDocumentBaseType">
+    <complexContent>
+      <extension base="import:importedDocumentBasePrototype">
+      </extension>
+    </complexContent>
+  </complexType>
+  
+  <element name="importBase" type="profile:importBaseType" substitutionGroup="import:importBase"/>
+
+  <element name="importNCL" type="profile:importNCLType" substitutionGroup="import:importNCL"/>
+  <element name="importedDocumentBase" type="profile:importedDocumentBaseType" substitutionGroup="import:importedDocumentBase"/>
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- EntityReuse                                                 -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- ExtendedEntityReuse                                         -->
+    <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+  <!-- KeyNavigation                                               -->
+  <!-- = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = -->
+
+</schema>
