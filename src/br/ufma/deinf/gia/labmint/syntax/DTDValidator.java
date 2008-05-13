@@ -77,8 +77,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import br.ufma.deinf.gia.labmint.message.MessageList;
-import br.ufma.deinf.gia.labmint.ncl.DataType;
-import br.ufma.deinf.gia.labmint.ncl.NCLStructure;
+import br.ufma.deinf.laws.ncl.DataType;
+import br.ufma.deinf.laws.ncl.NCLStructure;
 
 /**
  * Classe responsável pela validaçao Sintática do documento NCL.
