@@ -90,9 +90,7 @@ public class DefaultDescriptor extends ElementValidation{
     }
 
     private boolean hasValidDefaultDescriptorDescriptorAttribute(Element eDefaultDescriptor){
-    	
-    	//Obrigado a ter um atibuto 'descriptor' - Verificação feita no Sintatico.
-				
+    	if(!eDefaultDescriptor.hasAttribute("descriptor")) return false;
 		String idDescriptor = eDefaultDescriptor.getAttribute("descriptor");
 		Element element = doc.getElement( idDescriptor ); 
 		if(element==null) {

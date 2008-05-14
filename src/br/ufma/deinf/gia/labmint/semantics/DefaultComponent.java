@@ -90,7 +90,7 @@ public class DefaultComponent extends ElementValidation{
     }
 
     private boolean hasValidDefaultComponentComponentAttribute(Element eDefaultComponent){
-    	//Obrigado ter um atibuto 'component' - Verificacao feita no Sintatico.
+    	if(!eDefaultComponent.hasAttribute("component")) return false;
     	//TODO: verificar apenas como filho do <switch>
 		String idComponent = eDefaultComponent.getAttribute("component");  
 		if( doc.getElement(idComponent)==null ) {

@@ -88,7 +88,7 @@ public class Link extends ElementValidation{
 	
     public boolean validate(Element eLink){
         boolean resultado = true;
-
+        if(!eLink.hasAttribute("id")) return false;
         idLink = eLink.getAttribute("id");
         
         //Verifica se o atributo 'xconnector' da <link> aponta para um <causalConnerctor> .
@@ -107,6 +107,7 @@ public class Link extends ElementValidation{
 
     private boolean hasValidXConnectorStructure(Element eLink) {
 		// Verifica se a estrutura do link "Bate" com a estrutura do XConnector definido
+    	if(!eLink.hasAttribute("xconnector")) return false; //msg gerada pelo DTD
     	String idXConnector = eLink.getAttribute("xconnector");
     	Element eCausalConnector = doc.getElement(idXConnector);
     	conditions = new HashMap<String, Element>();
@@ -122,6 +123,7 @@ public class Link extends ElementValidation{
     		if(node.getNodeType() == Node.ELEMENT_NODE){
     			Element element = (Element) node;
     			if(!element.getTagName().equals("bind")) continue;
+    			if(!element.hasAttribute("role")) return false; //msg gerada pelo DTD
     			String strRole = element.getAttribute("role");
     			if(qtdeRoles.containsKey(strRole)) {
     				Integer v = (Integer) qtdeRoles.get(strRole);
@@ -199,7 +201,7 @@ public class Link extends ElementValidation{
     }
 
 	private boolean hasValidLinkXConnectorAttribute(Element eLink){
-    	//Obrigado ter um atributo 'xconnector' - Verificacao feita no Sintatico.
+		if(!eLink.hasAttribute("xconnector")) return false; //msg gerada pelo DTD
 		String idXConnector = eLink.getAttribute("xconnector");
 		Element element = doc.getElement(idXConnector); 
 		if( element==null ) {

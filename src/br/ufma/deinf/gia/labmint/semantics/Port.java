@@ -108,7 +108,8 @@ public class Port extends ElementValidation{
 					return  false;    			 
 			 }
 			
-			String idComponent = ePort.getAttribute("component");
+			if(!ePort.hasAttribute("component")) return false;//msg gerada pelo DTD
+		    String idComponent = ePort.getAttribute("component");
 	     	String idInterface = ePort.getAttribute("interface");
 	     	Element element = doc.getElement(idComponent);
 	     	if(element==null) {
@@ -152,6 +153,7 @@ public class Port extends ElementValidation{
     }
 
     private boolean hasValidPortComponentAttribute(Element ePort){
+    	if(!ePort.hasAttribute("component")) return false; //msg gerada pelo DTD
     	String idComponent = ePort.getAttribute("component");
     	Element element = doc.getElement(idComponent);
     	if( element==null) {
@@ -178,9 +180,11 @@ public class Port extends ElementValidation{
    				Node node = nodeList.item(i);
    	     		if(node.getNodeType() == Node.ELEMENT_NODE) {
    	     			child = (Element)node;
-   	     			if(child.getAttribute("id").equals(idComponent)){
+   	     			if(child.hasAttribute("id")) {  //msg gerada pelo DTD
+   	     				if(child.getAttribute("id").equals(idComponent)){
     	     				ok = true;
    	     					break;
+   	     				}
    	     			}
     	     	}
     		}

@@ -94,7 +94,7 @@ public class Switch extends ElementValidation{
 
     private boolean hasValidSwitchReferAttribute(Element eSwitch){
 		if( eSwitch.hasAttribute("refer") ) {
-			
+			if(!eSwitch.hasAttribute("id")) return false;//msg gerada pelo DTD
 			String idSwitch = eSwitch.getAttribute("id");
 			String idRefer = eSwitch.getAttribute("refer");
 			Element element = doc.getElement(idRefer);

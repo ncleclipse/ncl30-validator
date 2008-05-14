@@ -137,7 +137,7 @@ public class Mapping extends ElementValidation{
     private boolean hasValidMappingComponentAttribute(Element eMapping){
         
     	//Obrigado ter um atributo 'component' - Verificacao feita no Sintatico.
-    	
+    	if(!eMapping.hasAttribute("component")) return false;
     	String idComponent = eMapping.getAttribute("component");
     	Element element = doc.getElement(idComponent);
     	if( element==null ) {

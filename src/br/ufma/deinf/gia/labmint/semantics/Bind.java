@@ -179,6 +179,7 @@ public class Bind extends ElementValidation{
     private boolean hasValidBindComponentAttribute(Element eBind){
     	
     	//Obrigado a ter um atributo 'component' - Verificacao feita no Sintatico.
+    	if(!eBind.hasAttribute("component")) return false;
     	String idComponent = eBind.getAttribute("component");
     	Element element = doc.getElement(idComponent); 
     	if( element==null ) {

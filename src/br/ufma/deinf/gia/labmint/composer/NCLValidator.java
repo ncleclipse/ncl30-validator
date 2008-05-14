@@ -99,9 +99,9 @@ public class NCLValidator {
 			}
 		}
     	
-		if (!dtdOk){
+		/*if (!dtdOk){
 			return false;
-		}
+		}*/
 
 		it = docs.iterator();
 		boolean docsOk = true;
