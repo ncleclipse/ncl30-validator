@@ -39,12 +39,14 @@ http://www.ncl.org.br/NCL3.0/profiles/NCL30CausalConnector.xsd">
 <!-- OnBegin -->
 
 <causalConnector id="onBeginStart">
+  <!-- <simpleCondition role="onBegin" qualifier="erro"/> --> 
   <simpleCondition role="onBegin"/>
-  <simpleAction role="onBegin"/>
+  <simpleAction role="start" max="unbounded" qualifier="par"/>
+  <!-- <simpleAction role="start" qualifier="erro"/> -->
 </causalConnector>
 
 <causalConnector id="onBeginStop">
-  <simpleCondition role="onBegin"/>
+  <simpleCondition role="onBegin" max="unbounded" qualifier="and"/>
   <simpleAction role="stop"/>
 </causalConnector>
 

@@ -8,7 +8,11 @@ xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
 
    <head>
 
-
+      <ruleBase>
+         <rule id="rEn" var="idioma" comparator="eq" value="en" />
+         <rule id="rPt" var="idioma" comparator="eq" value="pt" />
+      </ruleBase>
+      	
       <regionBase>
          <region id="rgTV" width="1920" height="1080">
             <region id="rgVideo1" left="200" top="168" width="320" height="240" />
@@ -17,8 +21,6 @@ xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
             <region id="rgBotaoVerde" left="200" top="470" width="25" height="25" />
          </region>
       </regionBase>
-
-
 
       <descriptorBase>
          <descriptor id="dVideo1" region="rgVideo1" />
@@ -32,12 +34,6 @@ xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
          <descriptor id="dBotaoVerde" region="rgBotaoVerde" />
       </descriptorBase>
 
-
-
-      <ruleBase>
-         <rule id="rEn" var="idioma" comparator="eq" value="en" />
-         <rule id="rPt" var="idioma" comparator="eq" value="pt" />
-      </ruleBase>
 
       <connectorBase>
          <importBase alias="connectors" documentURI="connectorBaseComponentContext.ncl"/>
