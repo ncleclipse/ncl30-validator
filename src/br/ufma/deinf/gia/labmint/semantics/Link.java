@@ -88,8 +88,6 @@ public class Link extends ElementValidation{
 	
     public boolean validate(Element eLink){
         boolean resultado = true;
-        if(!eLink.hasAttribute("id")) return false;
-        idLink = eLink.getAttribute("id");
         
         //Verifica se o atributo 'xconnector' da <link> aponta para um <causalConnerctor> .
         //Verifica se o link usado realmente exite!
@@ -154,7 +152,7 @@ public class Link extends ElementValidation{
 							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
 							eLink, MessageList.ENGLISH);
 					MessageList.addError(doc.getId(), 
-							"Existem problemas com a quantidade de elmentos que possuem role='"+strRole+"'. Verifique a quantidade mínima e máxima no xconnector.",
+							"Existem problemas com a quantidade de elementos que possuem role='"+strRole+"'. Verifique a quantidade mínima e máxima no xconnector.",
 							eLink, MessageList.PORTUGUESE);
 					ok = false; 
 				}
@@ -218,9 +216,10 @@ public class Link extends ElementValidation{
 			MessageList.addError(doc.getId(), 
 				"There is not a <causalConnector> element with id '" + idXConnector + "'.",
 			   	eLink, MessageList.ENGLISH);
+				
 			MessageList.addError(doc.getId(), 
-					"O atributo xconnector ('" + idXConnector + "') referencia um elemento que não existe.",
-				   	eLink, MessageList.PORTUGUESE);
+				"O atributo xconnector ('" + idXConnector + "') referencia um elemento que não existe.",
+			   	eLink, MessageList.PORTUGUESE);
 			return false;
 		}
 		else if( element.getTagName().compareTo("causalConnector")!=0 ) {
