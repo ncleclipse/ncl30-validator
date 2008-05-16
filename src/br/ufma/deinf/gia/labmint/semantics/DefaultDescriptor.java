@@ -96,13 +96,19 @@ public class DefaultDescriptor extends ElementValidation{
 		if(element==null) {
 			MessageList.addError(doc.getId(), 
 					"There is not a <descriptor> element with id '" + idDescriptor + "'.",
-			   		eDefaultDescriptor);
+			   		eDefaultDescriptor, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"Não existe um elemento <descriptor> com identificador '" + idDescriptor + "'.",
+			   		eDefaultDescriptor, MessageList.PORTUGUESE);
 			return false;
 		}
 		else if(element.getTagName().compareTo("descriptor")!=0) {
 			MessageList.addError(doc.getId(), 
 					"The element with id '" + idDescriptor + "' is not a <descriptor> element.",
-			   		eDefaultDescriptor);
+			   		eDefaultDescriptor, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O elemento pelo atributo descriptor ('" + idDescriptor + "') não é um elemento <descriptor>.",
+			   		eDefaultDescriptor, MessageList.PORTUGUESE);			
 			return false;			
 		}
         return true;

@@ -96,7 +96,10 @@ public class DefaultComponent extends ElementValidation{
 		if( doc.getElement(idComponent)==null ) {
 			MessageList.addError(doc.getId(), 
 					"There is not a <media>, <context> or <switch> element with id '" + idComponent + "'.",
-			   		eDefaultComponent);
+			   		eDefaultComponent, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"Não existe um elemento <media>, <context> ou <switch> com identificador '" + idComponent + "'.",
+			   		eDefaultComponent, MessageList.PORTUGUESE);			
 			return false;
 		}
         return true;

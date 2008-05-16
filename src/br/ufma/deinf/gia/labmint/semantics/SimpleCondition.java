@@ -125,8 +125,11 @@ public class SimpleCondition extends ElementValidation{
     		if(attMax.equals("unbounded") || (maxValue > 1) ){
     			if(!eSimpleCondition.hasAttribute("qualifier")){
     				MessageList.addError(doc.getId(), 
-    						"The attribute 'qualifier' is mandatory when the value of attribute 'max' is longer than 1 or 'unbounded'",
-    						eSimpleCondition);
+    						"The attribute 'qualifier' is mandatory when the value of attribute 'max' is longer than 1 or 'unbounded'.",
+    						eSimpleCondition, MessageList.ENGLISH);
+    				MessageList.addError(doc.getId(), 
+    						"O atributo 'qualifier' é obrigatório quando o valor do atributo 'max' é maior do que 1 ou 'unbounded'.",
+    						eSimpleCondition, MessageList.PORTUGUESE);
     			}
     		}
     	}

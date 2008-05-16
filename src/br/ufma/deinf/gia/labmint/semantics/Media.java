@@ -116,13 +116,15 @@ public class Media extends ElementValidation{
         	//Atributo type Ã© obrigatÃ³rio se src nÃ£o for definido        	
         	if(!eMedia.hasAttribute("src")){
         		if(!eMedia.hasAttribute("type")){
-        			MessageList.addError(doc.getId(), "Attribute type is required if src is not defined.", eMedia);
+        			MessageList.addError(doc.getId(), "Attribute type is required if src is not defined.", eMedia, MessageList.ENGLISH);
+        			MessageList.addError(doc.getId(), "Atributo 'type' é necessário se 'src' não é definido.", eMedia, MessageList.PORTUGUESE);
         			resultado = false;
         		}
         	}
         }
         else if(eMedia.hasAttribute("src")){
-        	MessageList.addError(doc.getId(), "Attribute refer is not usefull with attribute src.", eMedia);
+        	MessageList.addWarning(doc.getId(), "Attribute refer is not usefull with attribute src.", eMedia, MessageList.ENGLISH);
+        	MessageList.addWarning(doc.getId(), "Atributo 'refer' não é útil se atributo 'src' é definido.", eMedia, MessageList.PORTUGUESE);
     		resultado = false;
         }
         	
@@ -137,14 +139,21 @@ public class Media extends ElementValidation{
 			if( element==null ) {
 				MessageList.addError(doc.getId(), 
 						"There is not an element pointed by attribute descriptor with value '" + idDescriptor + "'.",
-				   		eMedia);
+				   		eMedia, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo descriptor ('" + idDescriptor + "') não é um elemento válido.",
+				   		eMedia, MessageList.PORTUGUESE);
 				return false;
 			}
 			else if( element.getTagName().compareTo("descriptor")!=0 ) {
 				MessageList.addError(doc.getId(), 
 						"The element pointed by attributte descriptor in " +
 						"the element '" + idMedia + "' must be a <descriptor>.",
-				   		eMedia);				
+				   		eMedia, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo descriptor ('" +idDescriptor + "')" +
+						"deve ser um elemento <descriptor>.",
+				   		eMedia, MessageList.PORTUGUESE);
 				return false;				
 			}
 		}
@@ -157,15 +166,21 @@ public class Media extends ElementValidation{
     		String type = eMedia.getAttribute("type");
     		
     		if (!types.containsKey(type)){
-    			MessageList.addError(doc.getId(), 
+    			MessageList.addWarning(doc.getId(), 
 						"Invalid value for attribute type in <media> " + idMedia + ".",
-				   		eMedia);	
+				   		eMedia, MessageList.ENGLISH);
+    			MessageList.addWarning(doc.getId(), 
+						"Valor do atributo type ('"+type+"') é inválido.",
+				   		eMedia, MessageList.PORTUGUESE);
     			return false;
     		}
     	}else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer")){
     		MessageList.addError(doc.getId(), 
 					"The attribute type is mandatory when the attribute src is not present at media element.",
-			   		eMedia);	
+			   		eMedia, MessageList.ENGLISH);
+    		MessageList.addError(doc.getId(), 
+					"O atributo 'type' é obrigatório quando o atributo 'src' não está presente.",
+			   		eMedia, MessageList.PORTUGUESE);
 			return false;
     	}
         return true;
@@ -183,17 +198,24 @@ public class Media extends ElementValidation{
 					fMedia = new File(uri);
 				else{
 					uri = new URI(doc.getDir()+src);
-					if(!uri.isAbsolute())
+					if(!uri.isAbsolute()){
 						MessageList.addWarning(doc.getId(), 
 		    					"Invalid path for attribute src in <media> " + idMedia + ".",
-		    			   		eMedia);
+		    			   		eMedia, MessageList.ENGLISH);
+						MessageList.addWarning(doc.getId(), 
+		    					"Atributo src ('"+src+"') é um caminho de arquivo inválido.",
+		    			   		eMedia, MessageList.PORTUGUESE);
+					}
 				}
 				//System.out.println(doc.getDir()+src);
 	        					
 			} catch (Exception e) {
 				MessageList.addWarning(doc.getId(), 
     					"Invalid path for attribute src in <media> " + idMedia + ".",
-    			   		eMedia);
+    			   		eMedia, MessageList.ENGLISH);
+				MessageList.addWarning(doc.getId(), 
+    					"Atributo src ('"+src+"') é um caminho de arquivo inválido.",
+    			   		eMedia, MessageList.PORTUGUESE);
 			}
         }
 		return true;
@@ -212,13 +234,19 @@ public class Media extends ElementValidation{
 			if(element==null) {
 				MessageList.addError(doc.getId(), 
 						"The refer attribute does not point to an element.",
-						eMedia);
+						eMedia, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O atributo refer aponta para um elemento que não existe.",
+						eMedia, MessageList.PORTUGUESE);				
 				return false;				
 			}
 			else if(element.getTagName().compareTo("media")!=0) {
 				MessageList.addError(doc.getId(), 
 						"There is not a <media> element with id "+ idRefer + ".",
-						eMedia);
+						eMedia, MessageList.PORTUGUESE);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo refer ('"+idRefer+"') deve ser um elemento <media>.",
+						eMedia, MessageList.PORTUGUESE);				
 				return false;
 			}
 		}		
@@ -260,7 +288,10 @@ public class Media extends ElementValidation{
     		if (!types.containsKey(type) || !types.get(type).contains(extension)){
     			MessageList.addWarning(doc.getId(), 
 						"Invalid extension for the type "+type+" defined in <media> " + idMedia + ".",
-						eMedia);
+						eMedia, MessageList.ENGLISH);
+    			MessageList.addWarning(doc.getId(), 
+						"Extensão inválida para o tipo MIME "+type+" definido na <media> ('" + idMedia + "').",
+						eMedia, MessageList.PORTUGUESE);
     		}
     	}    	
     	return true;

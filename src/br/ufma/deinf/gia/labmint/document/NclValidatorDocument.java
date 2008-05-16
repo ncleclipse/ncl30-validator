@@ -17,6 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.sun.swing.internal.plaf.metal.resources.metal;
+
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
 public class NclValidatorDocument{
@@ -96,10 +98,14 @@ public class NclValidatorDocument{
 			if(!elements.containsKey(id)){
 				elements.put(id, root);
 			}
-			else
+			else{
 				MessageList.addError(this.id, 
 						"Exists more than one element with id '"+id+"'.", 
-						root);
+						root, MessageList.ENGLISH);
+				MessageList.addError(this.id, 
+						"Existe mais de um elemento com identificador '"+id+"'.", 
+						root, MessageList.PORTUGUESE);
+			}
 		}
 		if(root.getTagName().equals("importBase")){
 			if(root.hasAttribute("alias")){
@@ -115,14 +121,20 @@ public class NclValidatorDocument{
 					else {
 						doc = db.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
 					}
-	        		if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc)))
-	        			MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root);
+	        		if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
+	        			MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root, MessageList.ENGLISH);
+	        			MessageList.addError(this.path, "Existem dois elementos com mesmo atributo alias <"+root.getAttribute("alias")+"> ", root, MessageList.PORTUGUESE);
+	        		}
 				}
-				else
-					MessageList.addError(this.getPath(), "Element <importBase> must to have a <documentUri> Attribute.", root);
+				else{
+					MessageList.addError(this.getPath(), "Element <importBase> must to have a <documentUri> Attribute.", root, MessageList.ENGLISH);
+					MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'documentUri'.", root, MessageList.PORTUGUESE);
+				}
 			}
-			else
-				MessageList.addError(this.getPath(), "Element <importBase> must to have a <alias> Attribute.", root);
+			else{
+				MessageList.addError(this.getPath(), "Element <importBase> must to have a <alias> Attribute.", root, MessageList.ENGLISH);
+				MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'alias'.", root, MessageList.PORTUGUESE);
+			}
 		}
 
 		NodeList nodeList = root.getChildNodes();

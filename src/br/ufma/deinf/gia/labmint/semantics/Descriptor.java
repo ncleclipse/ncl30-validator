@@ -193,13 +193,19 @@ public class Descriptor extends ElementValidation{
 			if( element==null ) {
 				MessageList.addError(doc.getId(), 
 						"There is not a <region> element with id '" + idRegion + "'.",
-				   		eDescriptor);
+				   		eDescriptor, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"Não existe um elemento <region> com identificador '" + idRegion + "'.",
+				   		eDescriptor, MessageList.PORTUGUESE);
 				return false;
 			}
 			else if( element.getTagName().compareTo("region")!=0 ) {
 				MessageList.addError(doc.getId(), 
 						"The element with id '" + idRegion + "' is not a <region> element.",
-				   		eDescriptor);
+				   		eDescriptor, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo region ('" + idRegion + "') não é um elemento <region>.",
+				   		eDescriptor, MessageList.PORTUGUESE);
 				return false;
 			}
 		}

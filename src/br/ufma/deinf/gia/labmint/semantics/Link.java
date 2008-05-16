@@ -142,7 +142,8 @@ public class Link extends ElementValidation{
     		if(conditions.containsKey(strRole)) eSimpleCondition = (Element) conditions.get(strRole);
     		else if(actions.containsKey(strRole)) eSimpleCondition = (Element) actions.get(strRole);
     		else{
-    			MessageList.addError(doc.getId(), "Role <"+strRole+"> is not appearing at XConnector element. ", eLink);
+    			MessageList.addError(doc.getId(), "Role <"+strRole+"> is not appearing at XConnector element. ", eLink, MessageList.ENGLISH);
+    			MessageList.addError(doc.getId(), "Papel <"+strRole+"> não definido no elemento xconnector ('"+eLink.getAttribute("xconnector")+"').", eLink, MessageList.PORTUGUESE);
     			return false;
     		}
 			
@@ -150,8 +151,11 @@ public class Link extends ElementValidation{
 				Integer min = new Integer(eSimpleCondition.getAttribute("min"));
 				if(qtde.intValue() < min.intValue()){
 					MessageList.addError(doc.getId(), 
-							"It has a problem with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
-							eLink);
+							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
+							eLink, MessageList.ENGLISH);
+					MessageList.addError(doc.getId(), 
+							"Existem problemas com a quantidade de elmentos que possuem role='"+strRole+"'. Verifique a quantidade mínima e máxima no xconnector.",
+							eLink, MessageList.PORTUGUESE);
 					ok = false; 
 				}
 			}
@@ -159,8 +163,11 @@ public class Link extends ElementValidation{
 				Integer max = new Integer(eSimpleCondition.getAttribute("max"));
 				if(qtde.intValue() > max.intValue()){
 					MessageList.addError(doc.getId(), 
-							"It has a problem with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
-							eLink);
+							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
+							eLink, MessageList.ENGLISH);
+					MessageList.addError(doc.getId(), 
+							"Existem problemas com a quantidade de elementos que possuem role = '"+strRole+"'. Verifique a quantidade mínima e máxima no xconnector.",
+							eLink, MessageList.PORTUGUESE);					
 					ok = false;
 				}
 			}			
@@ -176,7 +183,10 @@ public class Link extends ElementValidation{
     				if(!qtdeRoles.containsKey(strRole)){
     					MessageList.addError(doc.getId(), 
     							"Bind element with role '"+strRole+"' must appear at least "+min.intValue()+" time(s).",
-    							eLink);    					
+    							eLink, MessageList.ENGLISH);
+    					MessageList.addError(doc.getId(), 
+    							"Elemento <bind> com atributo role ='"+strRole+"' deve aparecer pelo menos "+min.intValue()+" veze(s).",
+    							eLink, MessageList.PORTUGUESE);
     					ok = false;
     				}
     			}
@@ -207,14 +217,20 @@ public class Link extends ElementValidation{
 		if( element==null ) {
 			MessageList.addError(doc.getId(), 
 				"There is not a <causalConnector> element with id '" + idXConnector + "'.",
-			   	eLink);
+			   	eLink, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O atributo xconnector ('" + idXConnector + "') referencia um elemento que não existe.",
+				   	eLink, MessageList.PORTUGUESE);
 			return false;
 		}
 		else if( element.getTagName().compareTo("causalConnector")!=0 ) {
 			MessageList.addError(doc.getId(), 
 					"The element with id '" + idXConnector + "' is not a <causalConnector> element.",
-				   	eLink);
-				return false;			
+				   	eLink, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O valor do atributo xconnector ('" + idXConnector + "') não é um elemento <causalConnector>.",
+				   	eLink, MessageList.PORTUGUESE);			
+			return false;			
 		}
         return true;
     }

@@ -1,5 +1,4 @@
 /******************************************************************************
-Este arquivo eh uma extensao do ambiente declarativo do middleware 
 Ginga (Ginga-NCL).
 
 Direitos Autorais Reservados (c)2007 LabMint, Laboratorio de Midias Interativas 
@@ -105,7 +104,10 @@ public class Bind extends ElementValidation{
     	if( !eBind.hasAttribute("component") ) {
 			MessageList.addError(doc.getId(), 
 					"The bind element has an interface attribute but does not have a component attribute",
-			   		eBind);
+			   		eBind, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O elemento <bind> possui um atributo 'interface', mas não tem um atributo 'component'.",
+			   		eBind, MessageList.PORTUGUESE);
 			return  false;
     	}
     	
@@ -146,7 +148,11 @@ public class Bind extends ElementValidation{
     	MessageList.addError(doc.getId(), 
     			"The element pointed by attributte interface in " +
     			"the bind element must be an <area>, <property>, <port> or <switchPort> element.",
-    			eBind);
+    			eBind, MessageList.ENGLISH);
+    	MessageList.addError(doc.getId(), 
+    			"O elemento apontado pelo atributo interface no elemento <bind> " +
+    			"deve ser uma elemento <area>, <property>, <port> ou <switchPort>",
+    			eBind, MessageList.PORTUGUESE);
     	return false;
     }
 
@@ -157,14 +163,21 @@ public class Bind extends ElementValidation{
 			if (element==null ) {				
 				MessageList.addError(doc.getId(), 
 						"There is not a <descriptor> element with id '" + idDescriptor + "'.",
-				   		eBind);
+				   		eBind, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"Não existe um elemento <descriptor> com identificador '" + idDescriptor + "'.",
+				   		eBind, MessageList.PORTUGUESE);				
 				return false;
 			}
 			else if(element.getTagName().compareTo("descriptor")!=0){
 				MessageList.addError(doc.getId(), 
 						"The element pointed by descriptor attribute ('" + idDescriptor + 
 						"' is not a <descriptor> element.",
-				   		eBind);
+				   		eBind, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo descritor ('" + idDescriptor + 
+						"' não é um elemento <descriptor>.",
+				   		eBind, MessageList.PORTUGUESE);				
 				return false;
 			}
 		}
@@ -185,7 +198,10 @@ public class Bind extends ElementValidation{
     	if( element==null ) {
 			MessageList.addError(doc.getId(), 
 						"There is not an element with id '" + idComponent + "'.",
-				   		eBind);
+				   		eBind, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"Não existe um elemento com identificador '" + idComponent + "'.",
+			   		eBind, MessageList.PORTUGUESE);			
 			return false;
 		}
     	else if( element.getTagName().compareTo("media") != 0 
@@ -194,7 +210,10 @@ public class Bind extends ElementValidation{
     			if(!componentIsMyContext(eBind)){
     				MessageList.addError(doc.getId(), 
     						"The element with id '" + idComponent + "' is not a valid <media>, <context>, <body> or <switch> element.",
-    						eBind);
+    						eBind, MessageList.ENGLISH);
+    				MessageList.addError(doc.getId(), 
+    						"O elemento com identificador '" + idComponent + "' não é um elemento <media>, <context>, <body> ou <switch> válido.",
+    						eBind, MessageList.PORTUGUESE);    				
     				return false;
     			}
     	}

@@ -115,8 +115,11 @@ public class Head extends ElementValidation{
 				else {
 					if( p < lastP) {
 						MessageList.addError(doc.getId(),
-								"Element <"+child.getTagName()+"> must appear before <"+lastEl.getTagName()+">",
-								child);
+								"Element <"+child.getTagName()+"> must appear before <"+lastEl.getTagName()+">.",
+								child, MessageList.ENGLISH);
+						MessageList.addError(doc.getId(),
+								"O elemento <"+child.getTagName()+"> deve aparecer antes do elemento <"+lastEl.getTagName()+">.",
+								child, MessageList.PORTUGUESE);
 						ret = false;
 					}
 						

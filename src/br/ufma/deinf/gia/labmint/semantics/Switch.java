@@ -96,20 +96,28 @@ public class Switch extends ElementValidation{
 		if( eSwitch.hasAttribute("refer") ) {
 			if(!eSwitch.hasAttribute("id")) return false;//msg gerada pelo DTD
 			String idSwitch = eSwitch.getAttribute("id");
+			if(!eSwitch.hasAttribute("refer")) return false;//msg gerada pelo DTD
 			String idRefer = eSwitch.getAttribute("refer");
 			Element element = doc.getElement(idRefer);
 
 			if(element==null){
 				MessageList.addError(doc.getId(), 
 						"There is not a <switch> element with id '" + idRefer + "'.",
-						eSwitch);
+						eSwitch, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O atributo refer ('" + idRefer + "') aponta para um elemento que não existe.",
+						eSwitch, MessageList.PORTUGUESE);
 				return false;
 			}
 			else if(element.getTagName().compareTo("switch")!=0 ) {
-				MessageList.addError(doc.getId(), 
+				MessageList.addError(doc.getId(),
 						"The element pointed by attributte refer in " +
 						"the element '" + idSwitch + "' must be a <switch>.",
-				   		eSwitch);				
+				   		eSwitch, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento apontado pelo atributo refer ('" +idRefer + "')" + 
+						"deve ser um elemento <switch>.",
+				   		eSwitch, MessageList.PORTUGUESE);				
 				return  false;
 			}
 		}		

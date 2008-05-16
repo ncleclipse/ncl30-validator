@@ -107,14 +107,20 @@ public class Context extends ElementValidation{
 			if(element==null) {
 				MessageList.addError(doc.getId(),
 						"There isn't an element with id '" + idRefer + "' to refer.",
-						eContext);
+						eContext, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(),
+						"O atributo refer com valor ('" + idRefer + "'), referencia um elemento que não existe.",
+						eContext, MessageList.PORTUGUESE);				
 				return false;
 			}
 			
 			if( element.getTagName().compareTo("context")!=0 ) {
 				MessageList.addError(doc.getId(), 
 						"There isn't an <context> element with id '" + idRefer + "' to refer.",
-				   		eContext);
+				   		eContext, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O atributo refer ('" + idRefer + "') referencia um elemento que não é um <context>.",
+				   		eContext, MessageList.PORTUGUESE);
 				return false;
 			}
 		}

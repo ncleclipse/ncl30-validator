@@ -19,19 +19,25 @@ public class NclParseErrorHandler implements ErrorHandler{
 	@Override
 	public void error(SAXParseException arg0) throws SAXException {
 		// TODO Setar a linha e a coluna
-		MessageList.addError(file, arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage(), null);
+		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
+		MessageList.addError(file, message, null, MessageList.ENGLISH);
+		MessageList.addError(file, "Erro no XML ("+message+")", null, MessageList.PORTUGUESE);
 	}
 
 	@Override
 	public void fatalError(SAXParseException arg0) throws SAXException {
 		// TODO Auto-generated method stub
-		MessageList.addError(file, arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage(), null);
+		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
+		MessageList.addError(file, message, null, MessageList.ENGLISH);
+		MessageList.addError(file, "Erro no XML ("+message+")", null, MessageList.PORTUGUESE);
 	}
 
 	@Override
 	public void warning(SAXParseException arg0) throws SAXException {
 		// TODO Auto-generated method stub
-		MessageList.addWarning(file, arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage(), null);		
+		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
+		MessageList.addWarning(file, message, null, MessageList.ENGLISH);
+		MessageList.addWarning(file, "Alerta do XML ("+message+")", null, MessageList.PORTUGUESE);		
 	}
 
 }

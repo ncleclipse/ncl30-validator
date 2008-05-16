@@ -19,9 +19,11 @@ public class NclValidatorMain {
 		//File docFile = new File("testes/causalconnector/simple_action_qualifier_erro.conn");
 		File docFile = new File("testes/bind/bind_component_body_erro.ncl");
 		//File docFile = new File("testes/head/dois_regionBase_ok.ncl");
+		//File docFile = new File("testes/multilingueTest.ncl");
 		
 		Document doc = null;
 		MessageList.clear();
+		MessageList.setLanguage(MessageList.PORTUGUESE);
         try {
         		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -34,14 +36,13 @@ public class NclValidatorMain {
         		//NclDocumentManager.resetDocumentManager();
         		NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(doc);
         		documents.add(nclValidatorDocument);
-        		       		
         		NCLValidator.validate(documents);
        		        		
         } 
         catch (Exception e) {
         	//TODO Alguma coisa
-        	e.printStackTrace();
-        	MessageList.addError(docFile.getAbsolutePath(), e.getMessage(), null);
+        	MessageList.addError(docFile.getAbsolutePath(), e.getMessage(), null, MessageList.ENGLISH);
+        	MessageList.addError(docFile.getAbsolutePath(), "Problemas ao tentar fazer o parse do documento", null, MessageList.PORTUGUESE);
         }
         
 		Vector <Message> warnings = NCLValidator.getWarnings();

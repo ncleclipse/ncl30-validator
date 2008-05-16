@@ -104,7 +104,10 @@ public class Port extends ElementValidation{
 			 if(!ePort.hasAttribute("component")) {
 	  			MessageList.addError(doc.getId(), 
 							"The element has an interface attribute but does not have a component attribute.",
-							ePort);
+							ePort, MessageList.ENGLISH);
+				MessageList.addError(doc.getId(), 
+						"O elemento <port> possui um atributo 'interface', mas não tem um atributo 'component'.",
+				   		ePort, MessageList.PORTUGUESE);
 					return  false;    			 
 			 }
 			
@@ -131,7 +134,11 @@ public class Port extends ElementValidation{
 	     		     		MessageList.addError(doc.getId(),
 	    							"The element pointed by attributte interface in " +
 	    							"the element '"+idPort+"' must be a <area>, <property>, <port> or <switchPort> element.",
-	    							ePort);
+	    							ePort, MessageList.ENGLISH);
+	     		     		MessageList.addError(doc.getId(),
+	    							"O elemento apontado pelo atributo interface " +
+	    							"do elemento <port> ('"+idPort+"') deve ser um elemento <area>, <property>, <port> ou <switchPort>.",
+	    							ePort, MessageList.PORTUGUESE);
 	     		     		return  false;
 	     				}
 	     				return true;
@@ -141,7 +148,12 @@ public class Port extends ElementValidation{
      		MessageList.addError(doc.getId(),
 						"The element pointed by attributte interface in " +
 						"the element '"+idPort+"' must be a child of the component element.",
-						ePort);				
+						ePort, MessageList.ENGLISH);
+     		MessageList.addError(doc.getId(),
+					"O elemento apontado pelo atributo interface " +
+					"do elemento <port> ('"+idPort+"') deve ser um elemento filho do componente" +
+					"('"+ idComponent +"')",
+					ePort, MessageList.PORTUGUESE);     		
 			return  false;
     	 }
     	 return true;
@@ -159,7 +171,10 @@ public class Port extends ElementValidation{
     	if( element==null) {
     		MessageList.addError(doc.getId(), 
 					"There is not an element with id '" + idComponent + "'.",
-					ePort);
+					ePort, MessageList.ENGLISH);
+    		MessageList.addError(doc.getId(), 
+					"Não existe um elemento com identificador '" + idComponent + "'.",
+					ePort, MessageList.PORTUGUESE);    		
     		return false;
     	}
     	else if( element.getTagName().compareTo("media") != 0 
@@ -167,7 +182,12 @@ public class Port extends ElementValidation{
     			&& element.getTagName().compareTo("switch") != 0 ) {
     		MessageList.addError(doc.getId(), 
 					"The element pointed by attribute component is not a <media>, <context> or <switch> element.",
-					ePort);
+					ePort, MessageList.ENGLISH);
+    		MessageList.addError(doc.getId(), 
+					"O elemento apontado pelo atributo component ('" + idComponent + 
+					"' não é um elemento <media>, <context> ou <switch>.",
+					ePort,
+					MessageList.PORTUGUESE);
     		return false;
     	}
     	else {
@@ -191,7 +211,10 @@ public class Port extends ElementValidation{
     		if(!ok){
     			MessageList.addError(doc.getId(),
     					"The element pointed by attribute component must to be in the same context of element <port>", 
-    					element);
+    					element, MessageList.ENGLISH);
+    			MessageList.addError(doc.getId(),
+    					"O elemento apontado pelo atributo component deve estar no mesmo contexto do elemento <port> ('"+idPort+"')", 
+    					element, MessageList.PORTUGUESE);
     			return false;
     		}
     		/*
@@ -207,3 +230,4 @@ public class Port extends ElementValidation{
     }
 
 }
+

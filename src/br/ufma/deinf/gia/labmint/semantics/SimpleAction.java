@@ -158,7 +158,10 @@ public class SimpleAction extends ElementValidation{
     			if(!eSimpleAction.hasAttribute("qualifier")){
     				MessageList.addError(doc.getId(), 
     						"The attribute 'qualifier' is mandatory when the value of attribute 'max' is longer than 1 or 'unbounded'",
-    						eSimpleAction);
+    						eSimpleAction, MessageList.ENGLISH);
+    				MessageList.addError(doc.getId(), 
+    						"O atributo 'qualifier' é obrigatório quando o valor do atributo 'max' é maior que 1 ou 'unbounded'",
+    						eSimpleAction, MessageList.PORTUGUESE);
     			}
     		}
     	}

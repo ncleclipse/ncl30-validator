@@ -97,7 +97,10 @@ public class Mapping extends ElementValidation{
     			MessageList.addError(doc.getId(), 
 						"The element <mapping> has an interface attribute but does not have a " +
 						"component attribute.",
-						eMapping);				
+						eMapping, MessageList.ENGLISH);
+    			MessageList.addError(doc.getId(), 
+						"O elemento <mapping> possui um atributo 'interface', mas não possui um atributo 'component'.",
+						eMapping, MessageList.PORTUGUESE);    			
 				return  false;    			
     		}
         	
@@ -118,7 +121,11 @@ public class Mapping extends ElementValidation{
         					MessageList.addError(doc.getId(), 
         							"The element pointed by attributte interface in " +
         							"the <mapping> element must be an interface child of the component with id '" + idComponent + "'.",
-        							eMapping);
+        							eMapping, MessageList.ENGLISH);
+        					MessageList.addError(doc.getId(), 
+        							"O elemento apontado pelo atributo interface no elemento " +
+        							"<mapping> deve ser o identificador de um elemento filho do nó ('" + idComponent + "').",
+        							eMapping, MessageList.PORTUGUESE);
         					return  false;
         				}
         				return true;
@@ -128,7 +135,11 @@ public class Mapping extends ElementValidation{
 			MessageList.addError(doc.getId(), 
 					"The element pointed by attributte interface in " +
 					"the <mapping> element must be an interface child of the component with id '" + idComponent + "'.",
-					eMapping);
+					eMapping, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O elemento apontado pelo atributo interface no elemento " +
+					"<mapping> deve ser o identificador de um elemento filho do nó ('" + idComponent + "').",
+					eMapping, MessageList.PORTUGUESE);
 			return  false;
     	}
     	return true;
@@ -143,7 +154,10 @@ public class Mapping extends ElementValidation{
     	if( element==null ) {
 			MessageList.addError(doc.getId(), 
 					"There is not an element with id '" + idComponent + "'.",
-					eMapping);				
+					eMapping, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O elemento apontado pelo atributo component ('" + idComponent + "') não existe.",
+					eMapping, MessageList.PORTUGUESE);
 			return false;
 		}
     	else if( element.getTagName().compareTo("context")!=0 
@@ -152,7 +166,11 @@ public class Mapping extends ElementValidation{
 			MessageList.addError(doc.getId(), 
 					"The element pointed by attributte component in " +
 					"the mapping element must be a <context>, <media> or <switch>.",
-					eMapping);				
+					eMapping, MessageList.ENGLISH);
+			MessageList.addError(doc.getId(), 
+					"O elemento apontado pelo atributo component ('" + idComponent + "')" +
+					"deve ser um elemento <context>, <media> ou <switch>.",
+					eMapping, MessageList.PORTUGUESE);
 			return false;
     		
     	}

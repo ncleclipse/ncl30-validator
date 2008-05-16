@@ -68,27 +68,32 @@ import java.util.Vector;
 import org.w3c.dom.Element;
 
 public class MessageList {
-//	private static Vector<Message> errors = new Vector<Message>();
-//	private static Vector<Message> warnings = new Vector<Message>();
+	public static final int PORTUGUESE = 0;
+	public static final int ENGLISH = 1;
+	
 	private static Vector<Message> errors = new Vector<Message>();
 	private static Vector<Message> warnings = new Vector<Message>();
+	private static int atualLanguage = ENGLISH;
 	
 	private MessageList() {
-	
+		
 	}
 	
 	public static void addError(String file, String text, Element element) {
 //		int row = 0, col = 0;
 		String id = "";
 		if(element!=null && element.hasAttribute("id")) id = element.getAttribute("id");
-		
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, 
 			      null, element, id);
-		
 		//new ReportMessage()
-		
 		//Message msg = new Message(file, text, element, row, col);
 		errors.add(msg);
+	}
+	
+	public static void addError(String file, String text, Element element, int language) {
+		if(atualLanguage == language){
+			addError(file, text, element);
+		}
 	}
 
 	public static void addWarning(String file, String text, Element element){
@@ -101,7 +106,15 @@ public class MessageList {
 		//Message msg = new Message(file, text, element, row, col);
 		warnings.add(msg);
 	}
-
+	
+	public static void addWarning(String file, String text, Element element, int language) {
+		if(atualLanguage == language){
+			addWarning(file, text, element);
+		}
+	}
+	public static void setLanguage(int language){
+		atualLanguage = language;
+	}
 	public static int getErrorSize() {return (int)errors.size();}
 	public static int getWarningSize() {return (int)warnings.size();}
 	

@@ -96,7 +96,8 @@ public class DTDValidator {
 		NCLStructure nclStructure = NCLStructure.getInstance();
 		
 		if(!nclStructure.isElement(tagName)) {  
-			MessageList.addError(fileName, "Unknown element '" + tagName + "'. This program does not check its child elements.", root); 
+			MessageList.addError(fileName, "Unknown element '" + tagName + "'. This program does not check its child elements.", root, MessageList.ENGLISH); 
+			MessageList.addError(fileName, "Elemento desconhecido '" + tagName + "'. Este programa não checa estes tipo de elementos filho.", root, MessageList.PORTUGUESE);			
 			return false;
 		}
 
@@ -113,7 +114,8 @@ public class DTDValidator {
 			if( node.getNodeType() == Node.ATTRIBUTE_NODE) {		
 				if(!nclStructure.isAttribute(tagName, node.getNodeName())) {
 					String strName = node.getNodeName();
-					MessageList.addError(fileName, "Invalid attribute '" + strName + "' at '" + tagName + "' element.", root);
+					MessageList.addError(fileName, "Invalid attribute '" + strName + "' at <" + tagName + "> element.", root, MessageList.ENGLISH);
+					MessageList.addError(fileName, "Atributo inválido '" + strName + "' no elemento '" + tagName + "'.", root, MessageList.PORTUGUESE);
 					ret = false;
 				}
 				attSet.add(node.getNodeName());
@@ -125,7 +127,8 @@ public class DTDValidator {
 		while(it.hasNext()){
 			Map.Entry<String, Boolean> entry = (Entry<String, Boolean>) it.next();
 			if(entry.getValue().booleanValue() && !attSet.contains(entry.getKey())){
-				MessageList.addError(fileName, "The attribute '" + entry.getKey() + "' is mandatory but is not present at '" + tagName + "' element.", root);
+				MessageList.addError(fileName, "The attribute '" + entry.getKey() + "' is mandatory but is not present at <" + tagName + "> element.", root, MessageList.ENGLISH);
+				MessageList.addError(fileName, "O atributo '" + entry.getKey() + "' é obrigatório mas não está presente no elemento <" + tagName + ">.", root, MessageList.PORTUGUESE);
 				ret = false;
 			}
 		}
@@ -144,7 +147,8 @@ public class DTDValidator {
 				
 				if(!DataType.isDataType(mdt.intValue(), value)) {
 					String strName = node.getNodeName();
-					MessageList.addError(fileName, "Invalid data type of attribute '" + strName + "' at '" + tagName + "' element. Id = "+root.getAttribute("id")+".", root);
+					MessageList.addError(fileName, "Invalid data type of attribute '" + strName + "' at <" + tagName + "> element. Id = "+root.getAttribute("id")+".", root, MessageList.ENGLISH);
+					MessageList.addError(fileName, "Tipo de dado inválido para o atributo '" + strName + "' do elemento <" + tagName + ">. Identificador = "+root.getAttribute("id")+".", root, MessageList.PORTUGUESE);
 					ret = false;
 				}
 			}
@@ -166,7 +170,8 @@ public class DTDValidator {
 					else childSet.put(childTagName, 1);
 				}
 				else {
-					MessageList.addError(fileName, "The element '" + childTagName + "' is an invalid child of '" + tagName + "' element.", child);
+					MessageList.addError(fileName, "The element '" + childTagName + "' is an invalid child of '" + tagName + "' element.", child, MessageList.ENGLISH);
+					MessageList.addError(fileName, "O elemento <" + childTagName + "> não é um filho válido do elemento <'" + tagName + ">.", child, MessageList.PORTUGUESE);
 					ret = false;
 				}
 			}
@@ -194,19 +199,22 @@ public class DTDValidator {
 			switch(ch) {
 				case '?':
 					if( childSet.containsKey(entry.getKey()) && childSet.get(entry.getKey())>1 ) {
-						MessageList.addError(fileName, "The <" + tagName + "> element has more than one <" + entry.getKey() + "> child element that is optional (0 or 1 occurence).", root);
+						MessageList.addError(fileName, "The <" + tagName + "> element has more than one <" + entry.getKey() + "> child element that is optional (0 or 1 occurence).", root, MessageList.ENGLISH);
+						MessageList.addError(fileName, "O elemento <" + tagName + "> possui mas de um filho <" + entry.getKey() + "> cuja cardinalidade é opcional (0 ou 1 ocorrências).", root, MessageList.PORTUGUESE);
 						ret = false; 
 					}
 				break;
 				case '+':
 					if( !childSet.containsKey(entry.getKey()) ) {
-						MessageList.addError(fileName, "The <" + tagName + "> element must have at least one <" + entry.getKey() + "> child element.", root);
+						MessageList.addError(fileName, "The <" + tagName + "> element must have at least one <" + entry.getKey() + "> child element.", root, MessageList.ENGLISH);
+						MessageList.addError(fileName, "O elemento <" + tagName + "> deve possuir pelo menos um filho <" + entry.getKey() + ">.", root, MessageList.PORTUGUESE);
 						ret = false;
 					}
 				break;
 				case '1':
 					if( !childSet.containsKey(entry.getKey()) || childSet.get(entry.getKey())!=1 ) {
-						MessageList.addError(fileName, "The <" + tagName + "> element must have exactly one <" + entry.getKey() + "> child element.", root);
+						MessageList.addError(fileName, "The <" + tagName + "> element must have exactly one <" + entry.getKey() + "> child element.", root, MessageList.ENGLISH);
+						MessageList.addError(fileName, "O elemento <" + tagName + "> deve possuir exatamente um filho <" + entry.getKey() + ">.", root, MessageList.PORTUGUESE);
 						ret = false;
 					}					
 				break;
@@ -236,17 +244,20 @@ public class DTDValidator {
 		
 		//check the special cardinality cases
 		if(checkAtLeastOne && !flagAtLeastOne) {
-			MessageList.addError(fileName, "The element <" + tagName + "> must have at least one child element (cardinality #).", root);
+			MessageList.addError(fileName, "The <" + tagName + "> element must have at least one child element (cardinality #).", root, MessageList.ENGLISH);
+			MessageList.addError(fileName, "O elemento <" + tagName + "> deve possuir pelo menos um elemento filho (cardinalidade #).", root, MessageList.PORTUGUESE);
 			ret = false;
 		}
 
 		if(checkAtLeastA && !flagAtLeastA) {
-			MessageList.addError(fileName, "The element <" + tagName + "> must have one child element (cardinality a).", root);
+			MessageList.addError(fileName, "The <" + tagName + "> element must have one child element (cardinality a).", root, MessageList.ENGLISH);
+			MessageList.addError(fileName, "O elemento <" + tagName + "> deve possuir um elemento filho (cardinalidade a).", root, MessageList.PORTUGUESE);
 			ret = false;
 		}
 
 		if(checkAtLeastB && !flagAtLeastB) {
-			MessageList.addError(fileName, "The element <" + tagName + "> must have one child element (cardinality b).", root);
+			MessageList.addError(fileName, "The <" + tagName + "> element must have one child element (cardinality b).", root, MessageList.ENGLISH);
+			MessageList.addError(fileName, "O elemento <" + tagName + "> deve possuir um elemento filho (cardinalidade b).", root, MessageList.PORTUGUESE);
 			ret = false;
 		}
 		
@@ -265,8 +276,12 @@ public class DTDValidator {
 				value = childSet.get("valueAssessment");
 			}
 			if(!((attribute==2&&value==0) || (attribute==1&&value==1) ) ) { 
-				MessageList.addError(fileName, "The element <assessmentStatement> must have two children <attributeAssessment> elements or"
-						+ " an <attributeAssessment> and a <valueAssessment> children elements.", root);
+				MessageList.addError(fileName, "The <assessmentStatement> element must have two children <attributeAssessment> elements or"
+						+ " an <attributeAssessment> and a <valueAssessment> children elements.", root, MessageList.ENGLISH);
+				
+				MessageList.addError(fileName, "O elemento <assessmentStatement> deve possuir dois elementos filho <attributeAssessment> ou"
+						+ " um elemento filho <attributeAssessment> e outro <valueAssessment>.", root, MessageList.PORTUGUESE);
+				
 				ret = false;
 			}
 		}

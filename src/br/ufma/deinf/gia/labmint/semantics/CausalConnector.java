@@ -107,7 +107,11 @@ public class CausalConnector extends ElementValidation{
     					MessageList.addError(doc.getId(), 
     							"The value of attribute role '"+strRole+"' must be unique in the causalConnector <"+
     							eCausalConnector.getAttribute("id")+">",
-    							childElement);
+    							childElement, MessageList.ENGLISH);
+    					MessageList.addError(doc.getId(), 
+    							"O valor do atributo role '"+strRole+"' deve ser único no causalConnector causalConnector <"+
+    							eCausalConnector.getAttribute("id")+">",
+    							childElement, MessageList.PORTUGUESE);
     					ret = false; 
     				}
     				else this.roles.put(strRole, childElement);
