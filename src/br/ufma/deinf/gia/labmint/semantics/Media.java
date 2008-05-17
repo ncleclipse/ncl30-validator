@@ -236,7 +236,7 @@ public class Media extends ElementValidation{
 						"The refer attribute does not point to an element.",
 						eMedia, MessageList.ENGLISH);
 				MessageList.addError(doc.getId(), 
-						"O atributo refer aponta para um elemento que não existe.",
+						"O elemento apontado pelo atributo refer ('"+idRefer+"') não existe.",
 						eMedia, MessageList.PORTUGUESE);				
 				return false;				
 			}

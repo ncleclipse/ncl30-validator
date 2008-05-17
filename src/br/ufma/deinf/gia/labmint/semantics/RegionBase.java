@@ -90,11 +90,6 @@ public class RegionBase extends ElementValidation{
     }
 
     private boolean hasValidRegionBaseDeviceAttribute(Element eRegionBase){
-        //TODO: All!
-        return true;
-    }
-
-    private boolean hasValidRegionBaseIDAttribute(Element eRegionBase){
         //Atributo device deve ser da forma systemScreen(i) ou systemAudio(i)
     	if(eRegionBase.hasAttribute("device")){
     		String attString = eRegionBase.getAttribute("device");
@@ -104,10 +99,15 @@ public class RegionBase extends ElementValidation{
     			p = Pattern.compile("systemAudio\\(([0-9])+\\)");;
     			m = p.matcher(attString);
     			if(!m.matches()){
-    				MessageList.addWarning(doc.getId(), "Attribute device must be like as systemScreen(i) or systemAudio(i).", eRegionBase);
+    				MessageList.addWarning(doc.getId(), "Attribute device must be like as systemScreen(i) or systemAudio(i).", eRegionBase, MessageList.ENGLISH);
+    				MessageList.addWarning(doc.getId(), "Atributo 'device' deve ser do formato systemScreen(i) ou systemAudio(i).", eRegionBase, MessageList.PORTUGUESE);
     			}
     		}
     	}
+        return true;
+    }
+
+    private boolean hasValidRegionBaseIDAttribute(Element eRegionBase){
         return true;
     }
 

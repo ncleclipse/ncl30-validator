@@ -185,7 +185,7 @@ public class Port extends ElementValidation{
 					ePort, MessageList.ENGLISH);
     		MessageList.addError(doc.getId(), 
 					"O elemento apontado pelo atributo component ('" + idComponent + 
-					"' não é um elemento <media>, <context> ou <switch>.",
+					"') não é um elemento <media>, <context> ou <switch>.",
 					ePort,
 					MessageList.PORTUGUESE);
     		return false;
