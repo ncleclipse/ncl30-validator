@@ -25,7 +25,7 @@ public class NclValidatorDocumentComposer extends NclValidatorDocument{
 		super(doc);
 	}
 	
-	protected void parse(Element root) throws ParserConfigurationException, URISyntaxException, SAXException, IOException{
+	protected void parse(Element root){
 		if(root.hasAttribute("id")) {
 			String id = root.getAttribute("id");
 			elements.put(id, root);

@@ -92,7 +92,7 @@ public class NclValidatorDocument{
 		return doc.getElement(docId);
 	}
 	
-	protected void parse(Element root) throws ParserConfigurationException, URISyntaxException, SAXException, IOException{
+	protected void parse(Element root){
 		if(root.hasAttribute("id")) {
 			String id = root.getAttribute("id");
 			if(!elements.containsKey(id)){
@@ -109,26 +109,33 @@ public class NclValidatorDocument{
 		}
 		if(root.getTagName().equals("importBase")){
 			if(root.hasAttribute("alias")){
-				if(root.hasAttribute("documentURI")){
-					DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	        		DocumentBuilder db = dbf.newDocumentBuilder();
-					Document doc = null;
-					URI uri = new URI(root.getAttribute("documentURI"));
-//					Se documentUri é absoluto					
-					if(uri.isAbsolute()) {
-						doc = db.parse(new File(uri));
+				if(root.hasAttribute("documentURI") && !root.getAttribute("documentURI").equals("")){
+					try{
+						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		        		DocumentBuilder db = dbf.newDocumentBuilder();
+						Document doc = null;
+						URI uri = new URI(root.getAttribute("documentURI"));
+//						Se documentUri é absoluto					
+						if(uri.isAbsolute()) {
+							doc = db.parse(new File(uri));
+						}
+						else {
+							doc = db.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
+						}
+						if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
+							MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root, MessageList.ENGLISH);
+							MessageList.addError(this.path, "Existem dois elementos com mesmo atributo alias <"+root.getAttribute("alias")+"> ", root, MessageList.PORTUGUESE);
+						}
 					}
-					else {
-						doc = db.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
+					catch (Exception e) {
+						// TODO: handle exception
+						MessageList.addError(this.getPath(), "Erro ao tentar incluir arquivo ('"+e.getMessage()+"').", root, MessageList.PORTUGUESE);
+						MessageList.addError(this.getPath(), "Problems with included file ('"+e.getMessage()+"').", root, MessageList.ENGLISH);
 					}
-	        		if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
-	        			MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root, MessageList.ENGLISH);
-	        			MessageList.addError(this.path, "Existem dois elementos com mesmo atributo alias <"+root.getAttribute("alias")+"> ", root, MessageList.PORTUGUESE);
-	        		}
 				}
 				else{
-					MessageList.addError(this.getPath(), "Element <importBase> must to have a <documentUri> Attribute.", root, MessageList.ENGLISH);
-					MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'documentUri'.", root, MessageList.PORTUGUESE);
+					MessageList.addError(this.getPath(), "Element <importBase> must to have a 'documentUri' Attribute.", root, MessageList.ENGLISH);
+					MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'documentURI' v�lido.", root, MessageList.PORTUGUESE);
 				}
 			}
 			else{

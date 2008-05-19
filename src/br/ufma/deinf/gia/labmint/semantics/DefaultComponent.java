@@ -102,6 +102,7 @@ public class DefaultComponent extends ElementValidation{
 			   		eDefaultComponent, MessageList.PORTUGUESE);			
 			return false;
 		}
+		//TODO: verificar se está no mesmo contexto
         return true;
     }
 
