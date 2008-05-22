@@ -15,15 +15,20 @@ import org.w3c.dom.Document;
 
 public class NclValidatorMain {
 	public static void main(String[] args) {
-		//File docFile = new File("../../workspace/composer-java/files/connectors/composerConnectorBase.conn");
-		//File docFile = new File("testes/causalconnector/simple_action_qualifier_erro.conn");
-		File docFile = new File("testes/bind/bind_component_body_erro.ncl");
-		//File docFile = new File("testes/head/dois_regionBase_ok.ncl");
-		//File docFile = new File("testes/multilingueTest.ncl");
-		
+		if(args.length == 0) {
+			System.out.println("Format 'java -jar ncl30-validator filename language");
+			return;
+		}
+		File docFile = new File(args[0]);
+	
 		Document doc = null;
 		MessageList.clear();
-		MessageList.setLanguage(MessageList.PORTUGUESE);
+		if(args.length == 2){
+			if(args[1].equals("pt") || args[1].equals("portugues") || args[1].equals("portuguese"))
+				MessageList.setLanguage(MessageList.PORTUGUESE);
+			else MessageList.setLanguage(MessageList.ENGLISH);
+		}
+		else MessageList.setLanguage(MessageList.ENGLISH);
         try {
         		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -33,7 +38,6 @@ public class NclValidatorMain {
         		doc = db.parse(docFile);
         		
         		Vector <NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
-        		//NclDocumentManager.resetDocumentManager();
         		NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(doc);
         		documents.add(nclValidatorDocument);
         		NCLValidator.validate(documents);
@@ -42,7 +46,7 @@ public class NclValidatorMain {
         catch (Exception e) {
         	//TODO Alguma coisa
         	MessageList.addError(docFile.getAbsolutePath(), e.getMessage(), null, MessageList.ENGLISH);
-        	MessageList.addError(docFile.getAbsolutePath(), "Problemas ao tentar fazer o parse do documento", null, MessageList.PORTUGUESE);
+        	MessageList.addError(docFile.getAbsolutePath(), "Problemas ao tentar fazer o parse do documento ('"+e.getMessage()+"')", null, MessageList.PORTUGUESE);
         }
         
 		Vector <Message> warnings = NCLValidator.getWarnings();
@@ -56,7 +60,7 @@ public class NclValidatorMain {
 		}
 		System.out.println("\n\n");
 		//Imprime os erros
-		System.out.println("### Erros ###");        		
+		System.out.println("### Errors ###");        		
 		for(int i = 0; i < erros.size(); i++){
 				if(erros.get(i).getElement() != null)			
 					System.out.println("Element:'"+erros.get(i).getElement().getTagName()+"' id:'"+erros.get(i).getId()+"'");
