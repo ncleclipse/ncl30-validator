@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 public class NclValidatorMain {
 	public static void main(String[] args) {
 		if(args.length == 0) {
-			System.out.println("Format 'java -jar ncl30-validator filename language");
+			System.out.println("use: 'java -jar ncl30-validator filename language");
 			return;
 		}
 		File docFile = new File(args[0]);
