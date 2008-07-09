@@ -1,7 +1,8 @@
 # Tipos de Dados #################################################
 	- porcentagem (não to tratando .) 10.00 dá pau!
-	
+
 # Validações Pendentes ############################################
+ 	- Quando o papel é de set, vc deveria validar que o <bind> deveria ser component/interface apontando para um <property>
 	- switchPort
 	- descriptorSwitch
 	- defaultDescriptor
