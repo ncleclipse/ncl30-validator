@@ -115,6 +115,12 @@ public class Port extends ElementValidation{
 		    String idComponent = ePort.getAttribute("component");
 	     	String idInterface = ePort.getAttribute("interface");
 	     	Element element = doc.getElement(idComponent);
+
+	     	while(element.hasAttribute("refer")){
+	    		idComponent = element.getAttribute("refer");
+	    		element = doc.getElement(idComponent);
+	    	}
+	    	
 	     	if(element==null) {
 	     		return false;
 	     	}

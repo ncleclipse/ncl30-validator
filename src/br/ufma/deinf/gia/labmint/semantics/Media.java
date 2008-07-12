@@ -133,7 +133,6 @@ public class Media extends ElementValidation{
 
     private boolean hasValidMediaDescriptorAttribute(Element eMedia){
     	if( eMedia.hasAttribute("descriptor") ) {
-			
 			String idDescriptor = eMedia.getAttribute("descriptor");
 			Element element = doc.getElement(idDescriptor);
 			if( element==null ) {
