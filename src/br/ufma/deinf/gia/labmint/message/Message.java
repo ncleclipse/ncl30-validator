@@ -51,13 +51,7 @@ package br.ufma.deinf.gia.labmint.message;
 
 import java.io.Serializable;
 
-import org.w3c.dom.DOMLocator;
 import org.w3c.dom.Element;
-
-/**
- * This class is in charge of reporting an error to the author.
- *
- */
 public class Message implements Serializable {
 
   /**
@@ -194,5 +188,4 @@ public class Message implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
 }

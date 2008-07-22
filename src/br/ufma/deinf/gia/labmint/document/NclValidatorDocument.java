@@ -11,15 +11,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.xerces.xni.parser.XMLInputSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.sun.swing.internal.plaf.metal.resources.metal;
-
 import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 
 public class NclValidatorDocument{
 	protected Map<String, Element> elements;
@@ -28,6 +28,7 @@ public class NclValidatorDocument{
 	protected String id;
 	protected String path;
 	
+
 	public NclValidatorDocument(Document doc) throws ParserConfigurationException, URISyntaxException, SAXException, IOException{		
 		this.elements = new HashMap<String, Element>();
 		this.aliases = new HashMap<String, NclValidatorDocument>();
@@ -56,6 +57,7 @@ public class NclValidatorDocument{
 			}
 		}
 		parse( this.root );
+		//XMLStaticElementPosition.calculatePositions(this);
 	}
 
 	public String getId() {
@@ -111,16 +113,17 @@ public class NclValidatorDocument{
 			if(root.hasAttribute("alias")){
 				if(root.hasAttribute("documentURI") && !root.getAttribute("documentURI").equals("")){
 					try{
-						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		        		DocumentBuilder db = dbf.newDocumentBuilder();
+						XMLParserExtend parser = new XMLParserExtend();
 						Document doc = null;
 						URI uri = new URI(root.getAttribute("documentURI"));
 //						Se documentUri é absoluto					
 						if(uri.isAbsolute()) {
-							doc = db.parse(new File(uri));
+							parser.parse(uri.getPath());
+							doc = parser.getDocument();
 						}
 						else {
-							doc = db.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
+							parser.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
+							doc = parser.getDocument();
 						}
 						if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
 							MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root, MessageList.ENGLISH);

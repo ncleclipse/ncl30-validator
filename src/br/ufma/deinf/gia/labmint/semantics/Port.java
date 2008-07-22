@@ -98,7 +98,7 @@ public class Port extends ElementValidation{
     }
 
     private boolean hasValidPortInterfaceAttribute(Element ePort){
-    	
+    	 if(!hasValidPortComponentAttribute(ePort)) return false;
     	 if (ePort.hasAttribute("interface")){
          	
 			 if(!ePort.hasAttribute("component")) {
