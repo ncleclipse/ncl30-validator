@@ -113,9 +113,11 @@ public class Bind extends ElementValidation{
     	
     	String idComponent = eBind.getAttribute("component");
     	Element element = doc.getElement(idComponent);
+    	if(element == null) return false;
     	while(element.hasAttribute("refer")){
     		idComponent = element.getAttribute("refer");
     		element = doc.getElement(idComponent);
+    		if(element == null) return false;
     	}
     	
     	if(element==null) {
