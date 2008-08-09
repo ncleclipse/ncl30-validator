@@ -11,6 +11,10 @@
 	- bindRule
 ###################################################################
 
+# FALSO NEGATIVO ############################################
+Gerando erro quando o elemento está declarado no elemento
+e este se referencia a outro.
+
 ###################################################################
 2008-05-16
 Validação Multilíngue(Português/Inglês)!
