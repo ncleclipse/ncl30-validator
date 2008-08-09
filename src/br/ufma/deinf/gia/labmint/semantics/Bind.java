@@ -115,15 +115,41 @@ public class Bind extends ElementValidation{
     	Element element = doc.getElement(idComponent);
     	if(element == null) return false;
     	while(element.hasAttribute("refer")){
-    		idComponent = element.getAttribute("refer");
+        	NodeList nodeList = element.getChildNodes();
+        	for(int i=0; i<nodeList.getLength(); i++) {
+        		Node node = nodeList.item(i);
+        		if( node.getNodeType() == Node.ELEMENT_NODE ) {
+        			Element childElement = (Element)node; 
+        	    	String tagName = childElement.getTagName(); 
+        	    	if(tagName.compareTo("area")==0 && childElement.hasAttribute("id")) {
+        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
+        	    			return true;
+        	    		}
+        	    	}
+        	    	if(tagName.compareTo("property")==0 && childElement.hasAttribute("name")) {
+        	    		if(childElement.getAttribute("name").compareTo(idInterface)==0) {
+        	    			return true;
+        	    		}
+        	    	}
+        	    	if(tagName.compareTo("port")==0 && childElement.hasAttribute("id")) {
+        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
+        	    			return true;
+        	    		}
+        	    	}
+        	    	if(tagName.compareTo("switchPort")==0 && childElement.hasAttribute("id")) {
+        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
+        	    			return true;
+        	    		}    	    		
+        	    	}
+        		}
+        	}
+        	idComponent = element.getAttribute("refer");
     		element = doc.getElement(idComponent);
     		if(element == null) return false;
     	}
-    	
     	if(element==null) {
     		return false;
     	}
-
     	NodeList nodeList = element.getChildNodes();
     	for(int i=0; i<nodeList.getLength(); i++) {
     		Node node = nodeList.item(i);

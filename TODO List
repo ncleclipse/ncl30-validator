@@ -2,6 +2,7 @@
 	- porcentagem (não to tratando .) 10.00 dá pau!
 
 # Validações Pendentes ############################################
+ 	- Component de Bind!
  	- Quando o papel é de set, vc deveria validar que o <bind> deveria ser component/interface apontando para um <property>
 	- switchPort
 	- descriptorSwitch
@@ -12,10 +13,16 @@
 ###################################################################
 
 # FALSO NEGATIVO ############################################
+??
+
+2008-08-09 - Ok
 Gerando erro quando o elemento está declarado no elemento
 e este se referencia a outro.
 
 ###################################################################
+Novidades
+??
+
 2008-05-16
 Validação Multilíngue(Português/Inglês)!
 	- Pensar em um mecanismo que o usuário possa escolher a linguagem
