@@ -99,7 +99,7 @@ public class Mapping extends ElementValidation{
 						"component attribute.",
 						eMapping, MessageList.ENGLISH);
     			MessageList.addError(doc.getId(), 
-						"O elemento <mapping> possui um atributo 'interface', mas não possui um atributo 'component'.",
+						"O elemento <mapping> possui um atributo 'interface', mas nï¿½o possui um atributo 'component'.",
 						eMapping, MessageList.PORTUGUESE);    			
 				return  false;    			
     		}
@@ -117,14 +117,15 @@ public class Mapping extends ElementValidation{
         		if(node.getNodeType() == Node.ELEMENT_NODE) {
         			Element child = (Element)node;
         			if(child.hasAttribute("id") && child.getAttribute("id").compareTo(idInterface)==0 ) {
-        				if( child.getTagName().compareTo("anchor")!=0 && child.getTagName().compareTo("property")!=0 ) {
+        				if( child.getTagName().compareTo("area")!=0 && child.getTagName().compareTo("property")!=0 
+        						&& child.getTagName().compareTo("port")!=0 && child.getTagName().compareTo("switchPort")!=0) {
         					MessageList.addError(doc.getId(), 
         							"The element pointed by attributte interface in " +
         							"the <mapping> element must be an interface child of the component with id '" + idComponent + "'.",
         							eMapping, MessageList.ENGLISH);
         					MessageList.addError(doc.getId(), 
         							"O elemento apontado pelo atributo interface no elemento " +
-        							"<mapping> deve ser o identificador de um elemento filho do nó ('" + idComponent + "').",
+        							"<mapping> deve ser o identificador de um elemento filho do nï¿½ ('" + idComponent + "').",
         							eMapping, MessageList.PORTUGUESE);
         					return  false;
         				}
@@ -138,7 +139,7 @@ public class Mapping extends ElementValidation{
 					eMapping, MessageList.ENGLISH);
 			MessageList.addError(doc.getId(), 
 					"O elemento apontado pelo atributo interface no elemento " +
-					"<mapping> deve ser o identificador de um elemento filho do nó ('" + idComponent + "').",
+					"<mapping> deve ser o identificador de um elemento filho do nï¿½ ('" + idComponent + "').",
 					eMapping, MessageList.PORTUGUESE);
 			return  false;
     	}
@@ -156,7 +157,7 @@ public class Mapping extends ElementValidation{
 					"There is not an element with id '" + idComponent + "'.",
 					eMapping, MessageList.ENGLISH);
 			MessageList.addError(doc.getId(), 
-					"O elemento apontado pelo atributo component ('" + idComponent + "') não existe.",
+					"O elemento apontado pelo atributo component ('" + idComponent + "') nï¿½o existe.",
 					eMapping, MessageList.PORTUGUESE);
 			return false;
 		}
