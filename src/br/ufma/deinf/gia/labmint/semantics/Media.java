@@ -65,10 +65,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 
 import org.w3c.dom.Element;
 
@@ -121,14 +118,14 @@ public class Media extends ElementValidation{
         	if(!eMedia.hasAttribute("src")){
         		if(!eMedia.hasAttribute("type")){
         			MessageList.addError(doc.getId(), "Attribute type is required if src is not defined.", eMedia, MessageList.ENGLISH);
-        			MessageList.addError(doc.getId(), "Atributo 'type' é necessário se 'src' não é definido.", eMedia, MessageList.PORTUGUESE);
+        			MessageList.addError(doc.getId(), "Atributo 'type' ï¿½ necessï¿½rio se 'src' nï¿½o ï¿½ definido.", eMedia, MessageList.PORTUGUESE);
         			resultado = false;
         		}
         	}
         }
         else if(eMedia.hasAttribute("src")){
         	MessageList.addWarning(doc.getId(), "Attribute refer is not usefull with attribute src.", eMedia, MessageList.ENGLISH);
-        	MessageList.addWarning(doc.getId(), "Atributo 'refer' não é útil se atributo 'src' é definido.", eMedia, MessageList.PORTUGUESE);
+        	MessageList.addWarning(doc.getId(), "Atributo 'refer' nï¿½o ï¿½ ï¿½til se atributo 'src' ï¿½ definido.", eMedia, MessageList.PORTUGUESE);
     		resultado = false;
         }
         	
@@ -144,7 +141,7 @@ public class Media extends ElementValidation{
 						"There is not an element pointed by attribute descriptor with value '" + idDescriptor + "'.",
 				   		eMedia, MessageList.ENGLISH);
 				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo descriptor ('" + idDescriptor + "') não é um elemento válido.",
+						"O elemento apontado pelo atributo descriptor ('" + idDescriptor + "') nï¿½o ï¿½ um elemento vï¿½lido.",
 				   		eMedia, MessageList.PORTUGUESE);
 				return false;
 			}
@@ -173,7 +170,7 @@ public class Media extends ElementValidation{
 						"Invalid value for attribute type in <media> " + idMedia + ".",
 				   		eMedia, MessageList.ENGLISH);
     			MessageList.addWarning(doc.getId(), 
-						"Valor do atributo type ('"+type+"') é inválido.",
+						"Valor do atributo type ('"+type+"') ï¿½ invï¿½lido.",
 				   		eMedia, MessageList.PORTUGUESE);
     			return false;
     		}
@@ -182,7 +179,7 @@ public class Media extends ElementValidation{
 					"The attribute type is mandatory when the attribute src is not present at media element.",
 			   		eMedia, MessageList.ENGLISH);
     		MessageList.addError(doc.getId(), 
-					"O atributo 'type' é obrigatório quando o atributo 'src' não está presente.",
+					"O atributo 'type' ï¿½ obrigatï¿½rio quando o atributo 'src' nï¿½o estï¿½ presente.",
 			   		eMedia, MessageList.PORTUGUESE);
 			return false;
     	}
@@ -208,7 +205,7 @@ public class Media extends ElementValidation{
 		    					"Invalid path for attribute src in <media> " + idMedia + ".",
 		    			   		eMedia, MessageList.ENGLISH);
 						MessageList.addWarning(doc.getId(), 
-		    					"Atributo src ('"+src+"') é um caminho de arquivo inválido.",
+		    					"Atributo src ('"+src+"') ï¿½ um caminho de arquivo invï¿½lido.",
 		    			   		eMedia, MessageList.PORTUGUESE);
 					}
 				}
@@ -219,7 +216,7 @@ public class Media extends ElementValidation{
     					"Invalid path for attribute src in <media> " + idMedia + ".",
     			   		eMedia, MessageList.ENGLISH);
 				MessageList.addWarning(doc.getId(), 
-    					"Atributo src ('"+src+"') é um caminho de arquivo inválido.",
+    					"Atributo src ('"+src+"') ï¿½ um caminho de arquivo invï¿½lido.",
     			   		eMedia, MessageList.PORTUGUESE);
 			}
         }
@@ -241,7 +238,7 @@ public class Media extends ElementValidation{
 						"The refer attribute does not point to an element.",
 						eMedia, MessageList.ENGLISH);
 				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo refer ('"+idRefer+"') não existe.",
+						"O elemento apontado pelo atributo refer ('"+idRefer+"') nï¿½o existe.",
 						eMedia, MessageList.PORTUGUESE);				
 				return false;				
 			}
@@ -295,7 +292,7 @@ public class Media extends ElementValidation{
 						"Invalid extension for the type "+type+" defined in <media> " + idMedia + ".",
 						eMedia, MessageList.ENGLISH);
     			MessageList.addWarning(doc.getId(), 
-						"Extensão inválida para o tipo MIME "+type+" definido na <media> ('" + idMedia + "').",
+						"Extensï¿½o invï¿½lida para o tipo MIME "+type+" definido na <media> ('" + idMedia + "').",
 						eMedia, MessageList.PORTUGUESE);
     		}
     	}    	
