@@ -65,6 +65,10 @@ package br.ufma.deinf.gia.labmint.semantics;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 
 import org.w3c.dom.Element;
 
@@ -192,11 +196,13 @@ public class Media extends ElementValidation{
         	
         	File fMedia;
 			try {
-				URI uri = new URI(src);
+				URI uri = new URI(URLEncoder.encode(src, "UTF-8"));
+				System.out.println(uri);
 				if(uri.isAbsolute())
 					fMedia = new File(uri);
 				else{
-					uri = new URI(doc.getDir()+src);
+					uri = new URI(URLEncoder.encode(doc.getDir()+src,"US-ASCII"));
+					System.out.println(uri);
 					if(!uri.isAbsolute()){
 						MessageList.addWarning(doc.getId(), 
 		    					"Invalid path for attribute src in <media> " + idMedia + ".",
