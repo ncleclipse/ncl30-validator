@@ -94,8 +94,9 @@ public class CausalConnector extends ElementValidation{
     }
 
     private boolean hasChildrenValidRoleAttribute(Element element) {
-		// TODO O atributo role deve ser único no connector
+		// TODO O atributo role deve ser ï¿½nico no connector
     	boolean ret = true;
+    	
     	NodeList nodeList = element.getChildNodes();
     	for(int i=0; i<nodeList.getLength(); i++) {
     		Node node = nodeList.item(i);
@@ -103,21 +104,23 @@ public class CausalConnector extends ElementValidation{
     			Element childElement = (Element)node;
     			if(childElement.hasAttribute("role")){
     				String strRole = childElement.getAttribute("role");
+    				System.out.println(strRole);
     				if(this.roles.containsKey(strRole)){
+    					
     					MessageList.addError(doc.getId(), 
     							"The value of attribute role '"+strRole+"' must be unique in the causalConnector <"+
     							eCausalConnector.getAttribute("id")+">",
     							childElement, MessageList.ENGLISH);
     					MessageList.addError(doc.getId(), 
-    							"O valor do atributo role '"+strRole+"' deve ser único no causalConnector causalConnector <"+
+    							"O valor do atributo role '"+strRole+"' deve ser ï¿½nico no causalConnector causalConnector <"+
     							eCausalConnector.getAttribute("id")+">",
     							childElement, MessageList.PORTUGUESE);
     					ret = false; 
     				}
     				else this.roles.put(strRole, childElement);
-    				// Recursive
-    				ret = ret && hasChildrenValidRoleAttribute(childElement);
     			}
+    			// Recursive
+    			ret = hasChildrenValidRoleAttribute(childElement) && ret;
     		}
     	}
 		return ret;

@@ -1,9 +1,13 @@
-# Tipos de Dados #################################################
-	- porcentagem (não to tratando .) 10.00 dá pau!
+2008-09-05
+	- BUG validaÃ§Ã£o de role Ãºnico no conector estava com erro.
+		Ok!
 
-# Validações Pendentes ############################################
+# Tipos de Dados #################################################
+	- porcentagem (nï¿½o to tratando .) 10.00 dï¿½ pau!
+
+# Validaï¿½ï¿½es Pendentes ############################################
  	- Component de Bind!
- 	- Quando o papel é de set, vc deveria validar que o <bind> deveria ser component/interface apontando para um <property>
+ 	- Quando o papel ï¿½ de set, vc deveria validar que o <bind> deveria ser component/interface apontando para um <property>
 	- switchPort
 	- descriptorSwitch
 	- defaultDescriptor
@@ -16,7 +20,7 @@
 ??
 
 2008-08-09 - Ok
-Gerando erro quando o elemento está declarado no elemento
+Gerando erro quando o elemento estï¿½ declarado no elemento
 e este se referencia a outro.
 
 ###################################################################
@@ -24,7 +28,7 @@ Novidades
 ??
 
 2008-05-16
-Validação Multilíngue(Português/Inglês)!
-	- Pensar em um mecanismo que o usuário possa escolher a linguagem
-	  que as mensagens de erro serão reportadas. (OK)
+Validaï¿½ï¿½o Multilï¿½ngue(Portuguï¿½s/Inglï¿½s)!
+	- Pensar em um mecanismo que o usuï¿½rio possa escolher a linguagem
+	  que as mensagens de erro serï¿½o reportadas. (OK)
 ###################################################################
