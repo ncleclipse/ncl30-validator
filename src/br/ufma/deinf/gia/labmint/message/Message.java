@@ -1,31 +1,32 @@
 /******************************************************************************
-Este arquivo � parte da implementa��o ferramenta de autoria Composer para 
-documentos NCL.
+Este arquivo é parte da implementação do ambiente de autoria em Nested Context
+Language - NCL Eclipse.
 
-Direitos Autorais Reservados (c) 1989-2007 PUC-Rio/Laborat�rio TeleM�dia
+Direitos Autorais Reservados (c) 2007-2008 UFMA/LAWS (Laboratório de Sistemas Avançados da Web) 
 
-Este programa � software livre; voc� pode redistribu�-lo e/ou modific�-lo sob 
-os termos da Licen�a P�blica Geral GNU vers�o 2 conforme publicada pela Free 
+Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo sob 
+os termos da Licença Pública Geral GNU versão 2 conforme publicada pela Free 
 Software Foundation.
 
-Este programa � distribu�do na expectativa de que seja �til, por�m, SEM 
-NENHUMA GARANTIA; nem mesmo a garantia impl�cita de COMERCIABILIDADE OU 
-ADEQUA��O A UMA FINALIDADE ESPEC�FICA. Consulte a Licen�a P�blica Geral do 
-GNU vers�o 2 para mais detalhes. 
+Este programa é distribuído na expectativa de que seja útil, porém, SEM 
+NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU 
+ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral do 
+GNU versão 2 para mais detalhes. 
 
-Voc� deve ter recebido uma c�pia da Licen�a P�blica Geral do GNU vers�o 2 junto 
-com este programa; se n�o, escreva para a Free Software Foundation, Inc., no 
-endere�o 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
+Você deve ter recebido uma cópia da Licença Pública Geral do GNU versão 2 junto 
+com este programa; se não, escreva para a Free Software Foundation, Inc., no 
+endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
 
-Para maiores informa��es:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.telemidia.puc-rio.br
+Para maiores informações:
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
+
 ******************************************************************************
-This file is part of the Composer authoring tool implementation for NCL documents.
+This file is part of the authoring environment in Nested Context Language -
+NCL Eclipse.
 
-Copyright: 1989-2007 PUC-RIO/LABORATORIO TELEMIDIA, All Rights Reserved.
+Copyright: 2007-2008 UFMA/LAWS (Laboratory of Advanced Web Systems), All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it under 
 the terms of the GNU General Public License version 2 as published by
@@ -41,10 +42,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 For further information contact:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.telemidia.puc-rio.br
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
+
 *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.message;

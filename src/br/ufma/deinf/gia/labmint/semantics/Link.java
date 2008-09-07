@@ -1,40 +1,32 @@
 /******************************************************************************
-Este arquivo eh uma extensao do ambiente declarativo do middleware 
-Ginga (Ginga-NCL).
+Este arquivo é parte da implementação do ambiente de autoria em Nested Context
+Language - NCL Eclipse.
 
-Direitos Autorais Reservados (c)2007 LabMint, Laboratorio de Midias Interativas 
-Departamento de Informatica, UFMA - Universidade Federal do Maranhao
+Direitos Autorais Reservados (c) 2007-2008 UFMA/LAWS (Laboratório de Sistemas Avançados da Web) 
 
-Este programa eh software livre; voce pode redistribui-lo e/ou modifica-lo sob 
-os termos da Licenca Publica Geral GNU versao 2 conforme publicada pela Free 
+Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo sob 
+os termos da Licença Pública Geral GNU versão 2 conforme publicada pela Free 
 Software Foundation.
 
-Este programa eh distribu�do na expectativa de que seja util, porem, SEM 
-NENHUMA GARANTIA; nem mesmo a garantia implicita de COMERCIABILIDADE OU 
-ADEQUACAO A UMA FINALIDADE ESPECIFICA. Consulte a Licenca Publica Geral do 
-GNU versao 2 para mais detalhes. 
+Este programa é distribuído na expectativa de que seja útil, porém, SEM 
+NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU 
+ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral do 
+GNU versão 2 para mais detalhes. 
 
-Voce deve ter recebido uma copia da Licenca Publica Geral do GNU versao 2 junto 
-com este programa; se nao, escreva para a Free Software Foundation, Inc., no 
-endereco 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
+Você deve ter recebido uma cópia da Licença Pública Geral do GNU versão 2 junto 
+com este programa; se não, escreva para a Free Software Foundation, Inc., no 
+endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
 
-Para maiores informacoes:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.softwarepublico.gov.br
-
-Sobre o Validador NCL:
-labmint @ gia.deinf.ufma.br
-http://www.gia.deinf.ufma.br/~labmint/
-
+Para maiores informações:
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
 
 ******************************************************************************
-This file is an extension of the declarative environment of 
-middleware Ginga (Ginga-NCL)
+This file is part of the authoring environment in Nested Context Language -
+NCL Eclipse.
 
-Copyright: 2007 LabMint - Laboratory of Interactive Medias, Science Computing
-           Department, Federal University of Maranhao, All Rights Reserved.
+Copyright: 2007-2008 UFMA/LAWS (Laboratory of Advanced Web Systems), All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it under 
 the terms of the GNU General Public License version 2 as published by
@@ -50,14 +42,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 For further information contact:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.softwarepublico.gov.br
-
-About NCL Validator:
-labmint @ gia.deinf.ufma.br
-http://www.gia.deinf.ufma.br/~labmint/
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
 
 *******************************************************************************/
 
@@ -141,7 +128,7 @@ public class Link extends ElementValidation{
     		else if(actions.containsKey(strRole)) eSimpleCondition = (Element) actions.get(strRole);
     		else{
     			MessageList.addError(doc.getId(), "Role <"+strRole+"> is not appearing at XConnector element. ", eLink, MessageList.ENGLISH);
-    			MessageList.addError(doc.getId(), "Papel <"+strRole+"> n�o definido no elemento xconnector ('"+eLink.getAttribute("xconnector")+"').", eLink, MessageList.PORTUGUESE);
+    			MessageList.addError(doc.getId(), "Papel <"+strRole+"> n�o definido no elemento xconnector ('"+eLink.getAttribute("xconnector")+"').", eLink, MessageList.PORTUGUESE);
     			return false;
     		}
 			
@@ -152,7 +139,7 @@ public class Link extends ElementValidation{
 							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
 							eLink, MessageList.ENGLISH);
 					MessageList.addError(doc.getId(), 
-							"Existem problemas com a quantidade de elementos que possuem role='"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
+							"Existem problemas com a quantidade de elementos que possuem role='"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
 							eLink, MessageList.PORTUGUESE);
 					ok = false; 
 				}
@@ -164,7 +151,7 @@ public class Link extends ElementValidation{
 							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
 							eLink, MessageList.ENGLISH);
 					MessageList.addError(doc.getId(), 
-							"Existem problemas com a quantidade de elementos que possuem role = '"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
+							"Existem problemas com a quantidade de elementos que possuem role = '"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
 							eLink, MessageList.PORTUGUESE);					
 					ok = false;
 				}
@@ -218,7 +205,7 @@ public class Link extends ElementValidation{
 			   	eLink, MessageList.ENGLISH);
 				
 			MessageList.addError(doc.getId(), 
-				"O atributo xconnector ('" + idXConnector + "') referencia um elemento que n�o existe.",
+				"O atributo xconnector ('" + idXConnector + "') referencia um elemento que n�o existe.",
 			   	eLink, MessageList.PORTUGUESE);
 			return false;
 		}
@@ -227,7 +214,7 @@ public class Link extends ElementValidation{
 					"The element with id '" + idXConnector + "' is not a <causalConnector> element.",
 				   	eLink, MessageList.ENGLISH);
 			MessageList.addError(doc.getId(), 
-					"O valor do atributo xconnector ('" + idXConnector + "') n�o � um elemento <causalConnector>.",
+					"O valor do atributo xconnector ('" + idXConnector + "') n�o � um elemento <causalConnector>.",
 				   	eLink, MessageList.PORTUGUESE);			
 			return false;			
 		}

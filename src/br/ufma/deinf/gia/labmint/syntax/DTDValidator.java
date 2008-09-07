@@ -1,40 +1,32 @@
 /******************************************************************************
-Este arquivo eh uma extensao do ambiente declarativo do middleware 
-Ginga (Ginga-NCL).
+Este arquivo é parte da implementação do ambiente de autoria em Nested Context
+Language - NCL Eclipse.
 
-Direitos Autorais Reservados (c)2007 LabMint, Laboratorio de Midias Interativas 
-Departamento de Informatica, UFMA - Universidade Federal do Maranhao
+Direitos Autorais Reservados (c) 2007-2008 UFMA/LAWS (Laboratório de Sistemas Avançados da Web) 
 
-Este programa eh software livre; voce pode redistribui-lo e/ou modifica-lo sob 
-os termos da Licenca Publica Geral GNU versao 2 conforme publicada pela Free 
+Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo sob 
+os termos da Licença Pública Geral GNU versão 2 conforme publicada pela Free 
 Software Foundation.
 
-Este programa eh distribu�do na expectativa de que seja util, porem, SEM 
-NENHUMA GARANTIA; nem mesmo a garantia implicita de COMERCIABILIDADE OU 
-ADEQUACAO A UMA FINALIDADE ESPECIFICA. Consulte a Licenca Publica Geral do 
-GNU versao 2 para mais detalhes. 
+Este programa é distribuído na expectativa de que seja útil, porém, SEM 
+NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU 
+ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral do 
+GNU versão 2 para mais detalhes. 
 
-Voce deve ter recebido uma copia da Licenca Publica Geral do GNU versao 2 junto 
-com este programa; se nao, escreva para a Free Software Foundation, Inc., no 
-endereco 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
+Você deve ter recebido uma cópia da Licença Pública Geral do GNU versão 2 junto 
+com este programa; se não, escreva para a Free Software Foundation, Inc., no 
+endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA. 
 
-Para maiores informacoes:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.softwarepublico.gov.br
-
-Sobre o Validador NCL:
-labmint @ gia.deinf.ufma.br
-http://www.gia.deinf.ufma.br/~labmint/
-
+Para maiores informações:
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
 
 ******************************************************************************
-This file is an extension of the declarative environment of 
-middleware Ginga (Ginga-NCL)
+This file is part of the authoring environment in Nested Context Language -
+NCL Eclipse.
 
-Copyright: 2007 LabMint - Laboratory of Interactive Medias, Science Computing
-           Department, Federal University of Maranhao, All Rights Reserved.
+Copyright: 2007-2008 UFMA/LAWS (Laboratory of Advanced Web Systems), All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it under 
 the terms of the GNU General Public License version 2 as published by
@@ -50,14 +42,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 For further information contact:
-ncl @ telemidia.puc-rio.br
-http://www.ncl.org.br
-http://www.ginga.org.br
-http://www.softwarepublico.gov.br
-
-About NCL Validator:
-labmint @ gia.deinf.ufma.br
-http://www.gia.deinf.ufma.br/~labmint/
+ncleclipse@laws.deinf.ufma.br
+http://www.laws.deinf.ufma.br/ncleclipse
+http://www.laws.deinf.ufma.br
 
 *******************************************************************************/
 
@@ -97,7 +84,7 @@ public class DTDValidator {
 		
 		if(!nclStructure.isElement(tagName)) {  
 			MessageList.addError(fileName, "Unknown element '" + tagName + "'. This program does not check its child elements.", root, MessageList.ENGLISH); 
-			MessageList.addError(fileName, "Elemento desconhecido '" + tagName + "'. Este programa n�o checa estes tipo de elementos filho.", root, MessageList.PORTUGUESE);			
+			MessageList.addError(fileName, "Elemento desconhecido '" + tagName + "'. Este programa n�o checa estes tipo de elementos filho.", root, MessageList.PORTUGUESE);			
 			return false;
 		}
 
@@ -115,7 +102,7 @@ public class DTDValidator {
 				if(!nclStructure.isAttribute(tagName, node.getNodeName())) {
 					String strName = node.getNodeName();
 					MessageList.addError(fileName, "Invalid attribute '" + strName + "' at <" + tagName + "> element.", root, MessageList.ENGLISH);
-					MessageList.addError(fileName, "Atributo inv�lido '" + strName + "' no elemento '" + tagName + "'.", root, MessageList.PORTUGUESE);
+					MessageList.addError(fileName, "Atributo inv�lido '" + strName + "' no elemento '" + tagName + "'.", root, MessageList.PORTUGUESE);
 					ret = false;
 				}
 				attSet.add(node.getNodeName());
@@ -128,7 +115,7 @@ public class DTDValidator {
 			Map.Entry<String, Boolean> entry = (Entry<String, Boolean>) it.next();
 			if(entry.getValue().booleanValue() && !attSet.contains(entry.getKey())){
 				MessageList.addError(fileName, "The attribute '" + entry.getKey() + "' is mandatory but is not present at <" + tagName + "> element.", root, MessageList.ENGLISH);
-				MessageList.addError(fileName, "O atributo '" + entry.getKey() + "' � obrigat�rio mas n�o est� presente no elemento <" + tagName + ">.", root, MessageList.PORTUGUESE);
+				MessageList.addError(fileName, "O atributo '" + entry.getKey() + "' � obrigat�rio mas n�o est� presente no elemento <" + tagName + ">.", root, MessageList.PORTUGUESE);
 				ret = false;
 			}
 		}
@@ -148,7 +135,7 @@ public class DTDValidator {
 				if(!DataType.isDataType(mdt.intValue(), value)) {
 					String strName = node.getNodeName();
 					MessageList.addError(fileName, "Invalid data type of attribute '" + strName + "' at <" + tagName + "> element. Id = "+root.getAttribute("id")+".", root, MessageList.ENGLISH);
-					MessageList.addError(fileName, "Tipo de dado inv�lido para o atributo '" + strName + "' do elemento <" + tagName + ">. Identificador = "+root.getAttribute("id")+".", root, MessageList.PORTUGUESE);
+					MessageList.addError(fileName, "Tipo de dado inv�lido para o atributo '" + strName + "' do elemento <" + tagName + ">. Identificador = "+root.getAttribute("id")+".", root, MessageList.PORTUGUESE);
 					ret = false;
 				}
 			}
@@ -171,7 +158,7 @@ public class DTDValidator {
 				}
 				else {
 					MessageList.addError(fileName, "The element '" + childTagName + "' is an invalid child of '" + tagName + "' element.", child, MessageList.ENGLISH);
-					MessageList.addError(fileName, "O elemento <" + childTagName + "> n�o � um filho v�lido do elemento <'" + tagName + ">.", child, MessageList.PORTUGUESE);
+					MessageList.addError(fileName, "O elemento <" + childTagName + "> n�o � um filho v�lido do elemento <'" + tagName + ">.", child, MessageList.PORTUGUESE);
 					ret = false;
 				}
 			}
@@ -200,7 +187,7 @@ public class DTDValidator {
 				case '?':
 					if( childSet.containsKey(entry.getKey()) && childSet.get(entry.getKey())>1 ) {
 						MessageList.addError(fileName, "The <" + tagName + "> element has more than one <" + entry.getKey() + "> child element that is optional (0 or 1 occurence).", root, MessageList.ENGLISH);
-						MessageList.addError(fileName, "O elemento <" + tagName + "> possui mas de um filho <" + entry.getKey() + "> cuja cardinalidade � opcional (0 ou 1 ocorr�ncias).", root, MessageList.PORTUGUESE);
+						MessageList.addError(fileName, "O elemento <" + tagName + "> possui mas de um filho <" + entry.getKey() + "> cuja cardinalidade � opcional (0 ou 1 ocorr�ncias).", root, MessageList.PORTUGUESE);
 						ret = false; 
 					}
 				break;
