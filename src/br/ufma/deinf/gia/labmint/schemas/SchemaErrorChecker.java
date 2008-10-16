@@ -50,9 +50,8 @@ http://www.laws.deinf.ufma.br
 
 package br.ufma.deinf.gia.labmint.schemas;
 
-import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.SAXParseException;
-import br.ufma.deinf.gia.labmint.message.*;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class SchemaErrorChecker extends DefaultHandler
 {
