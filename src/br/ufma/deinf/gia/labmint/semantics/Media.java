@@ -58,7 +58,7 @@ import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
-import br.ufma.deinf.gia.labmint.util.MultiHashMap;
+import br.ufma.deinf.laws.util.MultiHashMap;
 
 public class Media extends ElementValidation{
 
