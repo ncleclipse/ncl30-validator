@@ -18,7 +18,7 @@
 		<link>
 			<name>ncl30-common</name>
 			<type>2</type>
-			<location>D:/workspace/ncl30-common/src</location>
+			<location>/home/roberto/workspace/ncl30-common/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
