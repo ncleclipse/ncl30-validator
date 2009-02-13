@@ -102,6 +102,7 @@ public class Link extends ElementValidation{
     	//Valida o Máximo e Mínimo dos Links 
     	HashMap qtdeRoles = new HashMap<String, Integer>();
     	NodeList list = eLink.getChildNodes();
+    	
     	//Computa as quantidades
     	for(int i = 0; i < list.getLength(); i++){
     		Node node = list.item(i);
@@ -190,6 +191,9 @@ public class Link extends ElementValidation{
     				conditions.put(element.getAttribute("role"), element);
     			else if(element.getTagName().equals("simpleAction") && element.hasAttribute("role"))
     				actions.put(element.getAttribute("role"), element);
+    			else if(element.getTagName().equals("attributeAssessment") && element.hasAttribute("role")){
+    				conditions.put(element.getAttribute("role"), element);
+    			}
     			parseCausalConnector(element);
     		}
     	}
