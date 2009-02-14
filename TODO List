@@ -1,3 +1,7 @@
+2009-02-13
+	- Validação do role quando fazia parte de um attributeAssessment dava falso erro.
+		Ok
+	 
 2008-09-05
 	- BUG validação de role único no conector estava com erro.
 		Ok!
