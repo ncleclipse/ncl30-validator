@@ -97,6 +97,7 @@ public class Head extends ElementValidation{
 			Node node = nodes.item(i);
 			if(node.getNodeType() == Node.ELEMENT_NODE){
 				Element child = (Element)node;
+				if(!childPos.containsKey(child.getTagName())) continue;
 				int p = childPos.get(child.getTagName());
 				if(first) { first = false; lastP = p; lastEl = child;} 
 				else {

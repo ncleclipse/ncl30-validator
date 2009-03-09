@@ -132,7 +132,8 @@ public class Media extends ElementValidation{
 				   		eMedia, MessageList.PORTUGUESE);
 				return false;
 			}
-			else if( element.getTagName().compareTo("descriptor")!=0 ) {
+			else if( element.getTagName().compareTo("descriptor")!=0 &&
+					element.getTagName().compareTo("descriptorSwitch")!=0) {
 				MessageList.addError(doc.getId(), 
 						"The element pointed by attributte descriptor in " +
 						"the element '" + idMedia + "' must be a <descriptor>.",
@@ -181,12 +182,12 @@ public class Media extends ElementValidation{
         	File fMedia;
 			try {
 				URI uri = new URI(URLEncoder.encode(src, "UTF-8"));
-				System.out.println(uri);
+				//System.out.println(uri);
 				if(uri.isAbsolute())
 					fMedia = new File(uri);
 				else{
 					uri = new URI(URLEncoder.encode(doc.getDir()+src,"US-ASCII"));
-					System.out.println(uri);
+					//System.out.println(uri);
 					if(!uri.isAbsolute()){
 						MessageList.addWarning(doc.getId(), 
 		    					"Invalid path for attribute src in <media> " + idMedia + ".",
