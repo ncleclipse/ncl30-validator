@@ -91,7 +91,7 @@ public class CausalConnector extends ElementValidation{
     			Element childElement = (Element)node;
     			if(childElement.hasAttribute("role")){
     				String strRole = childElement.getAttribute("role");
-    				System.out.println(strRole);
+    				//System.out.println(strRole);
     				if(this.roles.containsKey(strRole)){
     					
     					MessageList.addError(doc.getId(), 
