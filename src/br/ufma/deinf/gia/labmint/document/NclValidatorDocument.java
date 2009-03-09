@@ -51,18 +51,15 @@ http://www.laws.deinf.ufma.br
 
 package br.ufma.deinf.gia.labmint.document;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xerces.xni.parser.XMLInputSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -152,12 +149,9 @@ public class NclValidatorDocument{
 				elements.put(id, root);
 			}
 			else{
-				MessageList.addError(this.id, 
-						"Exists more than one element with id '"+id+"'.", 
-						root, MessageList.ENGLISH);
-				MessageList.addError(this.id, 
-						"Existe mais de um elemento com identificador '"+id+"'.", 
-						root, MessageList.PORTUGUESE);
+				Vector <String> args = new Vector <String>();
+				args.add(id);
+				MessageList.addError(this.id, 3001, root, args);
 			}
 		}
 		if(root.getTagName().equals("importBase")){
@@ -177,24 +171,23 @@ public class NclValidatorDocument{
 							doc = parser.getDocument();
 						}
 						if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
-							MessageList.addError(this.path, "Two Element with same alias <"+root.getAttribute("alias")+"> ", root, MessageList.ENGLISH);
-							MessageList.addError(this.path, "Existem dois elementos com mesmo atributo alias <"+root.getAttribute("alias")+"> ", root, MessageList.PORTUGUESE);
+							Vector <String> args = new Vector <String>();
+							args.add(root.getAttribute("alias"));
+							MessageList.addError(this.id, 3002, root, args);
 						}
 					}
 					catch (Exception e) {
-						// TODO: handle exception
-						MessageList.addError(this.getPath(), "Erro ao tentar incluir arquivo ('"+e.getMessage()+"').", root, MessageList.PORTUGUESE);
-						MessageList.addError(this.getPath(), "Problems with included file ('"+e.getMessage()+"').", root, MessageList.ENGLISH);
+						Vector <String> args = new Vector <String>();
+						args.add(e.getMessage());
+						MessageList.addError(this.id, 1003, root, args);
 					}
 				}
 				else{
-					MessageList.addError(this.getPath(), "Element <importBase> must to have a 'documentUri' Attribute.", root, MessageList.ENGLISH);
-					MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'documentURI' v�lido.", root, MessageList.PORTUGUESE);
+					MessageList.addError(this.getPath(), 3101, root);
 				}
 			}
 			else{
-				MessageList.addError(this.getPath(), "Element <importBase> must to have a <alias> Attribute.", root, MessageList.ENGLISH);
-				MessageList.addError(this.getPath(), "O elemento <importBase> deve possuir um atributo 'alias'.", root, MessageList.PORTUGUESE);
+				MessageList.addError(this.getPath(), 3102, root);
 			}
 		}
 

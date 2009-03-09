@@ -167,7 +167,7 @@ public class DTDValidator {
 					Vector <String> args = new Vector<String>();
 					args.add(childTagName);
 					args.add(tagName);
-					MessageList.addError(fileName, 2005, child, MessageList.PORTUGUESE);
+					MessageList.addError(fileName, 2005, child);
 					ret = false;
 				}
 			}

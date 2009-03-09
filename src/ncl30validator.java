@@ -95,8 +95,7 @@ public class ncl30validator {
 	        } 
 	        catch (Exception e) {
 	        	//TODO Alguma coisa
-	        	MessageList.addError(docFile.getAbsolutePath(), e.getMessage(), null, MessageList.ENGLISH);
-	        	MessageList.addError(docFile.getAbsolutePath(), 1001, null, MessageList.PORTUGUESE);
+	        	MessageList.addError(docFile.getAbsolutePath(), 1001, null);
 	        }
 	        
 			Vector <Message> warnings = NCLValidator.getWarnings();
