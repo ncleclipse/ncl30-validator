@@ -50,6 +50,8 @@ http://www.laws.deinf.ufma.br
 
 package br.ufma.deinf.gia.labmint.main;
 
+import java.util.Vector;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -70,24 +72,27 @@ public class NclParseErrorHandler implements ErrorHandler{
 	public void error(SAXParseException arg0) throws SAXException {
 		// TODO Setar a linha e a coluna
 		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
-		MessageList.addError(file, message, null, MessageList.ENGLISH);
-		MessageList.addError(file, "Erro no XML ("+message+")", null, MessageList.PORTUGUESE);
+		Vector <String> args = new Vector <String>();
+		args.add(message);
+		MessageList.addError(file, 1002, null, args);
 	}
 
 	@Override
 	public void fatalError(SAXParseException arg0) throws SAXException {
 		// TODO Auto-generated method stub
 		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
-		MessageList.addError(file, message, null, MessageList.ENGLISH);
-		MessageList.addError(file, "Erro no XML ("+message+")", null, MessageList.PORTUGUESE);
+		Vector <String> args = new Vector <String>();
+		args.add(message);
+		MessageList.addError(file, 1002, null, args);
 	}
 
 	@Override
 	public void warning(SAXParseException arg0) throws SAXException {
 		// TODO Auto-generated method stub
 		String message = arg0.getLineNumber()+":"+arg0.getColumnNumber()+" "+ arg0.getMessage();
-		MessageList.addWarning(file, message, null, MessageList.ENGLISH);
-		MessageList.addWarning(file, "Alerta do XML ("+message+")", null, MessageList.PORTUGUESE);		
+		Vector <String> args = new Vector <String>();
+		args.add(message);
+		MessageList.addError(file, 1101, null, args);		
 	}
 
 }
