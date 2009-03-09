@@ -87,7 +87,7 @@ public class MessageList {
 		String text = MessageHandler.getMessage(idTextMsg);
 
 		for (int i = 0; i < args.size(); i++)
-			text = text.replace("_", args.get(i));
+			text = text.replace("%s", args.get(i));
 
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
 				element, id);

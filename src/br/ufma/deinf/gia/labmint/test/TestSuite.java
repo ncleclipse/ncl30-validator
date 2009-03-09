@@ -43,6 +43,7 @@ public class TestSuite {
 			System.out.println("\n\n");
 			System.out.println("######################################");
 			System.out.println("# Test "+(t+1)+" from "+ files.size());
+			System.out.println("# File = " + docFile.getAbsolutePath());
 			System.out.println("######################################");
 			
 

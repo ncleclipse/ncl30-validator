@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -89,14 +91,9 @@ public class Bind extends ElementValidation{
         }
 
         String idInterface = eBind.getAttribute("interface");
-    	if( !eBind.hasAttribute("component") ) {
-			MessageList.addError(doc.getId(), 
-					"The bind element has an interface attribute but does not have a component attribute",
-			   		eBind, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O elemento <bind> possui um atributo 'interface', mas n�o tem um atributo 'component'.",
-			   		eBind, MessageList.PORTUGUESE);
-			return  false;
+    	if( !eBind.hasAttribute("component") ) {			
+			MessageList.addError(doc.getId(), 3201, eBind);
+			return false;
     	}
     	
     	String idComponent = eBind.getAttribute("component");
@@ -166,14 +163,7 @@ public class Bind extends ElementValidation{
     	    	}
     		}
     	}
-    	MessageList.addError(doc.getId(), 
-    			"The element pointed by attributte interface in " +
-    			"the bind element must be an <area>, <property>, <port> or <switchPort> element.",
-    			eBind, MessageList.ENGLISH);
-    	MessageList.addError(doc.getId(), 
-    			"O elemento apontado pelo atributo interface no elemento <bind> " +
-    			"deve ser uma elemento <area>, <property>, <port> ou <switchPort>",
-    			eBind, MessageList.PORTUGUESE);
+    	MessageList.addError(doc.getId(), 3202, eBind);
     	return false;
     }
 
@@ -181,24 +171,16 @@ public class Bind extends ElementValidation{
     	if( eBind.hasAttribute("descriptor") ) {			
 			String idDescriptor = eBind.getAttribute("descriptor");
 			Element element = doc.getElement(idDescriptor); 
-			if (element==null ) {				
-				MessageList.addError(doc.getId(), 
-						"There is not a <descriptor> element with id '" + idDescriptor + "'.",
-				   		eBind, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"N�o existe um elemento <descriptor> com identificador '" + idDescriptor + "'.",
-				   		eBind, MessageList.PORTUGUESE);				
+			if (element==null ) {
+				Vector <String> args = new Vector<String>();
+				args.add(idDescriptor);
+				MessageList.addError(doc.getId(), 3203, eBind, args);
 				return false;
 			}
 			else if(element.getTagName().compareTo("descriptor")!=0){
-				MessageList.addError(doc.getId(), 
-						"The element pointed by descriptor attribute ('" + idDescriptor + 
-						"' is not a <descriptor> element.",
-				   		eBind, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo descritor ('" + idDescriptor + 
-						"' n�o � um elemento <descriptor>.",
-				   		eBind, MessageList.PORTUGUESE);				
+				Vector <String> args = new Vector<String>();
+				args.add(idDescriptor);
+				MessageList.addError(doc.getId(), 3203, eBind, args);
 				return false;
 			}
 		}
@@ -217,24 +199,18 @@ public class Bind extends ElementValidation{
     	String idComponent = eBind.getAttribute("component");
     	Element element = doc.getElement(idComponent); 
     	if( element==null ) {
-			MessageList.addError(doc.getId(), 
-						"There is not an element with id '" + idComponent + "'.",
-				   		eBind, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"N�o existe um elemento com identificador '" + idComponent + "'.",
-			   		eBind, MessageList.PORTUGUESE);			
+    		Vector <String> args = new Vector<String>();
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 3204, eBind, args);
 			return false;
 		}
     	else if( element.getTagName().compareTo("media") != 0 
     			&& element.getTagName().compareTo("context") != 0
     			&& element.getTagName().compareTo("switch") != 0) {
     			if(!componentIsMyContext(eBind)){
-    				MessageList.addError(doc.getId(), 
-    						"The element with id '" + idComponent + "' is not a valid <media>, <context>, <body> or <switch> element.",
-    						eBind, MessageList.ENGLISH);
-    				MessageList.addError(doc.getId(), 
-    						"O elemento com identificador '" + idComponent + "' n�o � um elemento <media>, <context>, <body> ou <switch> v�lido.",
-    						eBind, MessageList.PORTUGUESE);    				
+    				Vector <String> args = new Vector<String>();
+    				args.add(idComponent);
+    				MessageList.addError(doc.getId(), 3204, eBind, args);    				
     				return false;
     			}
     	}
