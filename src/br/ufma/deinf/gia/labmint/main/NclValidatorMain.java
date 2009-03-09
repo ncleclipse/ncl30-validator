@@ -63,6 +63,7 @@ import org.w3c.dom.Node;
 import br.ufma.deinf.gia.labmint.composer.NCLValidator;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.Message;
+import br.ufma.deinf.gia.labmint.message.MessageHandler;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 
@@ -95,9 +96,9 @@ public class NclValidatorMain {
        		        		
         } 
         catch (Exception e) {
-        	//TODO Alguma coisa
-        	MessageList.addError(docFile.getAbsolutePath(), e.getMessage(), null, MessageList.ENGLISH);
-        	MessageList.addError(docFile.getAbsolutePath(), "Problemas ao tentar fazer o parse do documento", null, MessageList.PORTUGUESE);
+        	Vector<String> description = new Vector<String>();
+        	description.add(e.getMessage());
+        	MessageList.addError(docFile.getAbsolutePath(), 1001, null, description);
         }
         
 		Vector <Message> warnings = NCLValidator.getWarnings();
