@@ -48,7 +48,7 @@ public class TestSuite {
 
 			Document doc = null;
 			MessageList.clear();
-			MessageList.setLanguage(MessageList.PORTUGUESE);
+			MessageList.setLanguage(MessageList.ENGLISH);
 			try {
 				XMLParserExtend parser = new XMLParserExtend();
 
