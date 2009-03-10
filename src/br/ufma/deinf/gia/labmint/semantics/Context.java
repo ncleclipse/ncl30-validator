@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
@@ -92,22 +94,20 @@ public class Context extends ElementValidation{
 			Element element = doc.getElement(idRefer);
 			
 			if(element==null) {
+				Vector <String> args = new Vector<String>();
+				args.add(idRefer);
+
 				MessageList.addError(doc.getId(),
-						"There isn't an element with id '" + idRefer + "' to refer.",
-						eContext, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(),
-						"O atributo refer com valor ('" + idRefer + "'), referencia um elemento que n�o existe.",
-						eContext, MessageList.PORTUGUESE);				
+						3401, eContext, args);				
 				return false;
 			}
 			
 			if( element.getTagName().compareTo("context")!=0 ) {
-				MessageList.addError(doc.getId(), 
-						"There isn't an <context> element with id '" + idRefer + "' to refer.",
-				   		eContext, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O atributo refer ('" + idRefer + "') referencia um elemento que n�o � um <context>.",
-				   		eContext, MessageList.PORTUGUESE);
+				Vector <String> args = new Vector<String>();
+				args.add(idRefer);
+
+				MessageList.addError(doc.getId(),
+						3401, eContext, args);
 				return false;
 			}
 		}

@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
@@ -79,23 +81,19 @@ public class DefaultDescriptor extends ElementValidation{
     private boolean hasValidDefaultDescriptorDescriptorAttribute(Element eDefaultDescriptor){
     	if(!eDefaultDescriptor.hasAttribute("descriptor")) return false;
 		String idDescriptor = eDefaultDescriptor.getAttribute("descriptor");
-		Element element = doc.getElement( idDescriptor ); 
+		Element element = doc.getElement( idDescriptor );
+		Vector <String> args = new Vector <String>();
+		args.add(idDescriptor);
 		if(element==null) {
 			MessageList.addError(doc.getId(), 
-					"There is not a <descriptor> element with id '" + idDescriptor + "'.",
-			   		eDefaultDescriptor, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"N�o existe um elemento <descriptor> com identificador '" + idDescriptor + "'.",
-			   		eDefaultDescriptor, MessageList.PORTUGUESE);
+					3601,
+			   		eDefaultDescriptor, args);
 			return false;
 		}
 		else if(element.getTagName().compareTo("descriptor")!=0) {
 			MessageList.addError(doc.getId(), 
-					"The element with id '" + idDescriptor + "' is not a <descriptor> element.",
-			   		eDefaultDescriptor, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O elemento pelo atributo descriptor ('" + idDescriptor + "') n�o � um elemento <descriptor>.",
-			   		eDefaultDescriptor, MessageList.PORTUGUESE);			
+					3601,
+			   		eDefaultDescriptor, args);			
 			return false;			
 		}
         return true;

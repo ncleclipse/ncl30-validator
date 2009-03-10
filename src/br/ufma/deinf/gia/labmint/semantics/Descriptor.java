@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
@@ -177,22 +179,18 @@ public class Descriptor extends ElementValidation{
     	if (eDescriptor.hasAttribute("region")){
 			String idRegion = eDescriptor.getAttribute("region");
 			Element element = doc.getElement(idRegion);
+			Vector <String> args = new Vector <String>();
+			args.add(idRegion);
 			if( element==null ) {
 				MessageList.addError(doc.getId(), 
-						"There is not a <region> element with id '" + idRegion + "'.",
-				   		eDescriptor, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"N�o existe um elemento <region> com identificador '" + idRegion + "'.",
-				   		eDescriptor, MessageList.PORTUGUESE);
+						3701,
+				   		eDescriptor, args);
 				return false;
 			}
 			else if( element.getTagName().compareTo("region")!=0 ) {
 				MessageList.addError(doc.getId(), 
-						"The element with id '" + idRegion + "' is not a <region> element.",
-				   		eDescriptor, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo region ('" + idRegion + "') n�o � um elemento <region>.",
-				   		eDescriptor, MessageList.PORTUGUESE);
+						3701,
+				   		eDescriptor, args);
 				return false;
 			}
 		}

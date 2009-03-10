@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
@@ -81,12 +83,12 @@ public class DefaultComponent extends ElementValidation{
     	//TODO: verificar apenas como filho do <switch>
 		String idComponent = eDefaultComponent.getAttribute("component");  
 		if( doc.getElement(idComponent)==null ) {
+			Vector <String> args = new Vector <String>();
+			args.add(idComponent);
+			
 			MessageList.addError(doc.getId(), 
-					"There is not a <media>, <context> or <switch> element with id '" + idComponent + "'.",
-			   		eDefaultComponent, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"N�o existe um elemento <media>, <context> ou <switch> com identificador '" + idComponent + "'.",
-			   		eDefaultComponent, MessageList.PORTUGUESE);			
+					3501,
+			   		eDefaultComponent, args);			
 			return false;
 		}
 		//TODO: verificar se est� no mesmo contexto
