@@ -16,13 +16,17 @@ public class MessageHandler {
 		if (instance == null) {
 			instance = new MessageHandler();
 			// Read properties file.
-			properties = new Properties();
-			try {
-				java.net.URL url = ClassLoader
-						.getSystemResource("messages.properties");
-				properties.load(url.openStream());
+			if (properties == null) {
+				properties = new Properties();
 
-			} catch (IOException e) {
+				try {
+					java.net.URL url = ClassLoader
+							.getSystemResource("messages.properties");
+					properties.load(url.openStream());
+
+				} catch (IOException e) {
+				}
+
 			}
 		}
 		return instance;
@@ -36,6 +40,10 @@ public class MessageHandler {
 		getInstance();
 		String str = MessageHandler.getMessageTemplate(msg);
 		return str;
+	}
+	
+	public void setProperties(Properties prop){
+		properties = prop;
 	}
 
 }
