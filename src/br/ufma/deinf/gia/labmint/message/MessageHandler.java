@@ -42,7 +42,7 @@ public class MessageHandler {
 		return str;
 	}
 	
-	public void setProperties(Properties prop){
+	public static void setProperties(Properties prop){
 		properties = prop;
 	}
 
