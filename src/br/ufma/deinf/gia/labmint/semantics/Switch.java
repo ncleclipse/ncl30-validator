@@ -89,22 +89,14 @@ public class Switch extends ElementValidation{
 
 			if(element==null){
 				MessageList.addError(doc.getId(), 
-						"There is not a <switch> element with id '" + idRefer + "'.",
-						eSwitch, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O atributo refer ('" + idRefer + "') aponta para um elemento que n�o existe.",
-						eSwitch, MessageList.PORTUGUESE);
+						4501,
+				   		eSwitch);
 				return false;
 			}
 			else if(element.getTagName().compareTo("switch")!=0 ) {
-				MessageList.addError(doc.getId(),
-						"The element pointed by attributte refer in " +
-						"the element '" + idSwitch + "' must be a <switch>.",
-				   		eSwitch, MessageList.ENGLISH);
 				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo refer ('" +idRefer + "')" + 
-						"deve ser um elemento <switch>.",
-				   		eSwitch, MessageList.PORTUGUESE);				
+						4501,
+				   		eSwitch);				
 				return  false;
 			}
 		}		

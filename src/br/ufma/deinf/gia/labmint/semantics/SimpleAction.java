@@ -144,11 +144,8 @@ public class SimpleAction extends ElementValidation{
     		if(attMax.equals("unbounded") || (maxValue > 1) ){
     			if(!eSimpleAction.hasAttribute("qualifier")){
     				MessageList.addError(doc.getId(), 
-    						"The attribute 'qualifier' is mandatory when the value of attribute 'max' is longer than 1 or 'unbounded'",
-    						eSimpleAction, MessageList.ENGLISH);
-    				MessageList.addError(doc.getId(), 
-    						"O atributo 'qualifier' � obrigat�rio quando o valor do atributo 'max' � maior que 1 ou 'unbounded'",
-    						eSimpleAction, MessageList.PORTUGUESE);
+    						4401,
+    						eSimpleAction);
     			}
     		}
     	}

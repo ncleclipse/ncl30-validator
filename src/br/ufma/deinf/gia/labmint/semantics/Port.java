@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,10 +46,11 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -58,169 +59,154 @@ import org.w3c.dom.NodeList;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
-
-public class Port extends ElementValidation{
+public class Port extends ElementValidation {
 
 	public Port(NclValidatorDocument doc) {
 		super(doc);
 	}
 
 	private String idPort = null;
-	
-    public boolean validate(Element ePort){
-        boolean resultado = true;
 
-        idPort = ePort.getAttribute("id");
-        
-        //Verifica se o atributo 'interface' de <port> aponta para um elemento <area>.
-        if(!hasValidPortInterfaceAttribute(ePort)) resultado = false;
+	public boolean validate(Element ePort) {
+		boolean resultado = true;
 
-        //
-        if(!hasValidPortIDAttribute(ePort)) resultado = false;
+		idPort = ePort.getAttribute("id");
 
-        //Verifica se o atributo 'component' de <port> aponta para um elemento <media>.
-        if(!hasValidPortComponentAttribute(ePort)) resultado = false;
-        
-        return resultado;
-    }
+		// Verifica se o atributo 'interface' de <port> aponta para um elemento
+		// <area>.
+		if (!hasValidPortInterfaceAttribute(ePort))
+			resultado = false;
 
-    private boolean hasValidPortInterfaceAttribute(Element ePort){
-    	 if(!hasValidPortComponentAttribute(ePort)) return false;
-    	 if (ePort.hasAttribute("interface")){
-         	
-			 if(!ePort.hasAttribute("component")) {
-	  			MessageList.addError(doc.getId(), 
-							"The element has an interface attribute but does not have a component attribute.",
-							ePort, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento <port> possui um atributo 'interface', mas n�o tem um atributo 'component'.",
-				   		ePort, MessageList.PORTUGUESE);
-					return  false;    			 
-			 }
-			
-			if(!ePort.hasAttribute("component")) return false;//msg gerada pelo DTD
-		    String idComponent = ePort.getAttribute("component");
-	     	String idInterface = ePort.getAttribute("interface");
-	     	Element element = doc.getElement(idComponent);
+		//
+		if (!hasValidPortIDAttribute(ePort))
+			resultado = false;
 
-	     	while(element.hasAttribute("refer")){
-	    		idComponent = element.getAttribute("refer");
-	    		element = doc.getElement(idComponent);
-	    	}
-	    	
-	     	if(element==null) {
-	     		return false;
-	     	}
+		// Verifica se o atributo 'component' de <port> aponta para um elemento
+		// <media>.
+		if (!hasValidPortComponentAttribute(ePort))
+			resultado = false;
 
-	     	NodeList nodeList = element.getChildNodes();
-	     	for(int i=0; i<nodeList.getLength(); i++) {
-	     		Node node = nodeList.item(i);
-	     		if(node.getNodeType() == Node.ELEMENT_NODE) {
-	     			Element child = (Element)node;
-	     			String tag = child.getTagName();
-	     			String id = null;
-	     			if(child.hasAttribute("id")) id = child.getAttribute("id");
-	     			else if(child.hasAttribute("name")) id = child.getAttribute("name");
-	     			if(id!=null && id.compareTo(idInterface)==0 ) {
-	     				if(tag.compareTo("area")!=0 && tag.compareTo("property")!=0 
-	     					&& tag.compareTo("port")!=0 && tag.compareTo("switchPort")!=0) {
-	     		     		MessageList.addError(doc.getId(),
-	    							"The element pointed by attributte interface in " +
-	    							"the element '"+idPort+"' must be a <area>, <property>, <port> or <switchPort> element.",
-	    							ePort, MessageList.ENGLISH);
-	     		     		MessageList.addError(doc.getId(),
-	    							"O elemento apontado pelo atributo interface " +
-	    							"do elemento <port> ('"+idPort+"') deve ser um elemento <area>, <property>, <port> ou <switchPort>.",
-	    							ePort, MessageList.PORTUGUESE);
-	     		     		return  false;
-	     				}
-	     				return true;
-	     			}
-	     		}
-	     	}
-     		MessageList.addError(doc.getId(),
-						"The element pointed by attributte interface in " +
-						"the element '"+idPort+"' must be a child of the component element.",
-						ePort, MessageList.ENGLISH);
-     		MessageList.addError(doc.getId(),
-					"O elemento apontado pelo atributo interface " +
-					"do elemento <port> ('"+idPort+"') deve ser um elemento filho do componente" +
-					"('"+ idComponent +"')",
-					ePort, MessageList.PORTUGUESE);     		
-			return  false;
-    	 }
-    	 return true;
-    }
+		return resultado;
+	}
 
-    private boolean hasValidPortIDAttribute(Element ePort){
-        //TODO: All!
-        return true;
-    }
+	private boolean hasValidPortInterfaceAttribute(Element ePort) {
+		if (!hasValidPortComponentAttribute(ePort))
+			return false;
+		if (ePort.hasAttribute("interface")) {
 
-    private boolean hasValidPortComponentAttribute(Element ePort){
-    	if(!ePort.hasAttribute("component")) return false; //msg gerada pelo DTD
-    	String idComponent = ePort.getAttribute("component");
-    	Element element = doc.getElement(idComponent);
-    	if( element==null) {
-    		MessageList.addError(doc.getId(), 
-					"There is not an element with id '" + idComponent + "'.",
-					ePort, MessageList.ENGLISH);
-    		MessageList.addError(doc.getId(), 
-					"N�o existe um elemento com identificador '" + idComponent + "'.",
-					ePort, MessageList.PORTUGUESE);    		
-    		return false;
-    	}
-    	else if( element.getTagName().compareTo("media") != 0 
-    			&& element.getTagName().compareTo("context") != 0
-    			&& element.getTagName().compareTo("switch") != 0 ) {
-    		MessageList.addError(doc.getId(), 
-					"The element pointed by attribute component is not a <media>, <context> or <switch> element.",
-					ePort, MessageList.ENGLISH);
-    		MessageList.addError(doc.getId(), 
-					"O elemento apontado pelo atributo component ('" + idComponent + 
-					"') n�o � um elemento <media>, <context> ou <switch>.",
-					ePort,
-					MessageList.PORTUGUESE);
-    		return false;
-    	}
-    	else {
-    		// Verifica se o atributo referenciado por component está no mesmo contexto
-    		Node parent = ePort.getParentNode();
-   			NodeList nodeList = parent.getChildNodes();
-   			boolean ok = false;
-   			Element child = null;
-   			for(int i = 0; i < nodeList.getLength(); i++){
-   				Node node = nodeList.item(i);
-   	     		if(node.getNodeType() == Node.ELEMENT_NODE) {
-   	     			child = (Element)node;
-   	     			if(child.hasAttribute("id")) {  //msg gerada pelo DTD
-   	     				if(child.getAttribute("id").equals(idComponent)){
-    	     				ok = true;
-   	     					break;
-   	     				}
-   	     			}
-    	     	}
-    		}
-    		if(!ok){
-    			MessageList.addError(doc.getId(),
-    					"The element pointed by attribute component must to be in the same context of element <port>", 
-    					element, MessageList.ENGLISH);
-    			MessageList.addError(doc.getId(),
-    					"O elemento apontado pelo atributo component deve estar no mesmo contexto do elemento <port> ('"+idPort+"')", 
-    					element, MessageList.PORTUGUESE);
-    			return false;
-    		}
-    		/*
-    		//TODO Atributo interface é obrigatório se elemento apontado é um context (Acho que isso não é verdade)
-    		if(element.getTagName().equals("context") && !ePort.hasAttribute("interface")){
-    			MessageList.addError(doc.getId(),
-    					"The Element pointed by attribute component is a Context, so the attribute interface is mandatory.",
-    					element);
-    		} 
-    		*/   		
-    	}    		
-        return true;
-    }
+			if (!ePort.hasAttribute("component")) {
+				MessageList.addError(doc.getId(), 4203, ePort);
+				return false;
+			}
+
+			if (!ePort.hasAttribute("component"))
+				return false;// msg gerada pelo DTD
+			String idComponent = ePort.getAttribute("component");
+			String idInterface = ePort.getAttribute("interface");
+			Element element = doc.getElement(idComponent);
+
+			while (element.hasAttribute("refer")) {
+				idComponent = element.getAttribute("refer");
+				element = doc.getElement(idComponent);
+			}
+
+			if (element == null) {
+				return false;
+			}
+
+			NodeList nodeList = element.getChildNodes();
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element child = (Element) node;
+					String tag = child.getTagName();
+					String id = null;
+					if (child.hasAttribute("id"))
+						id = child.getAttribute("id");
+					else if (child.hasAttribute("name"))
+						id = child.getAttribute("name");
+					if (id != null && id.compareTo(idInterface) == 0) {
+						if (tag.compareTo("area") != 0
+								&& tag.compareTo("property") != 0
+								&& tag.compareTo("port") != 0
+								&& tag.compareTo("switchPort") != 0) {
+							Vector<String> args = new Vector<String>();
+							args.add(idPort);
+							MessageList
+									.addError(doc.getId(), 4204, ePort, args);
+							return false;
+						}
+						return true;
+					}
+				}
+			}
+			Vector<String> args = new Vector<String>();
+			args.add(idPort);
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 4205, ePort, args);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean hasValidPortIDAttribute(Element ePort) {
+		// TODO: All!
+		return true;
+	}
+
+	private boolean hasValidPortComponentAttribute(Element ePort) {
+		if (!ePort.hasAttribute("component"))
+			return false; // msg gerada pelo DTD
+		String idComponent = ePort.getAttribute("component");
+		Element element = doc.getElement(idComponent);
+		if (element == null) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 4201, ePort, args);
+			return false;
+		} else if (element.getTagName().compareTo("media") != 0
+				&& element.getTagName().compareTo("context") != 0
+				&& element.getTagName().compareTo("switch") != 0) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 4201, ePort, args);
+			return false;
+		} else {
+			// Verifica se o atributo referenciado por component está no mesmo
+			// contexto
+			Node parent = ePort.getParentNode();
+			NodeList nodeList = parent.getChildNodes();
+			boolean ok = false;
+			Element child = null;
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					child = (Element) node;
+					if (child.hasAttribute("id")) { // msg gerada pelo DTD
+						if (child.getAttribute("id").equals(idComponent)) {
+							ok = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!ok) {
+				Vector<String> args = new Vector<String>();
+				args.add(idComponent);
+				MessageList.addError(doc.getId(), 4202, ePort, args);
+				return false;
+			}
+			/*
+			 * //TODO Atributo interface é obrigatório se elemento apontado é um
+			 * context (Acho que isso não é verdade)
+			 * if(element.getTagName().equals("context") &&
+			 * !ePort.hasAttribute("interface")){
+			 * MessageList.addError(doc.getId(),
+			 * "The Element pointed by attribute component is a Context, so the attribute interface is mandatory."
+			 * , element); }
+			 */
+		}
+		return true;
+	}
 
 }
-

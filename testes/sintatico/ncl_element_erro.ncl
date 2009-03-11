@@ -1,4 +1,0 @@
-<ncl>
-	<body/>
-    </body>
-</ncl>

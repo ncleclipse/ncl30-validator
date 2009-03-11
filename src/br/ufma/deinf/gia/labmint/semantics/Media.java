@@ -53,6 +53,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 import java.io.File;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 
@@ -104,15 +105,13 @@ public class Media extends ElementValidation{
         	//Atributo type é obrigatório se src não for definido        	
         	if(!eMedia.hasAttribute("src")){
         		if(!eMedia.hasAttribute("type")){
-        			MessageList.addError(doc.getId(), "Attribute type is required if src is not defined.", eMedia, MessageList.ENGLISH);
-        			MessageList.addError(doc.getId(), "Atributo 'type' � necess�rio se 'src' n�o � definido.", eMedia, MessageList.PORTUGUESE);
+        			MessageList.addError(doc.getId(), 4108, eMedia);
         			resultado = false;
         		}
         	}
         }
         else if(eMedia.hasAttribute("src")){
-        	MessageList.addWarning(doc.getId(), "Attribute refer is not usefull with attribute src.", eMedia, MessageList.ENGLISH);
-        	MessageList.addWarning(doc.getId(), "Atributo 'refer' n�o � �til se atributo 'src' � definido.", eMedia, MessageList.PORTUGUESE);
+        	MessageList.addWarning(doc.getId(), 4107, eMedia);
     		resultado = false;
         }
         	
@@ -124,24 +123,20 @@ public class Media extends ElementValidation{
 			String idDescriptor = eMedia.getAttribute("descriptor");
 			Element element = doc.getElement(idDescriptor);
 			if( element==null ) {
+				Vector <String> args = new Vector <String>();
+    			args.add(idMedia);
 				MessageList.addError(doc.getId(), 
-						"There is not an element pointed by attribute descriptor with value '" + idDescriptor + "'.",
-				   		eMedia, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo descriptor ('" + idDescriptor + "') n�o � um elemento v�lido.",
-				   		eMedia, MessageList.PORTUGUESE);
+						4106,
+				   		eMedia, args);
 				return false;
 			}
 			else if( element.getTagName().compareTo("descriptor")!=0 &&
 					element.getTagName().compareTo("descriptorSwitch")!=0) {
+				Vector <String> args = new Vector <String>();
+    			args.add(idMedia);
 				MessageList.addError(doc.getId(), 
-						"The element pointed by attributte descriptor in " +
-						"the element '" + idMedia + "' must be a <descriptor>.",
-				   		eMedia, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo descriptor ('" +idDescriptor + "')" +
-						"deve ser um elemento <descriptor>.",
-				   		eMedia, MessageList.PORTUGUESE);
+						4106,
+				   		eMedia, args);
 				return false;				
 			}
 		}
@@ -154,21 +149,17 @@ public class Media extends ElementValidation{
     		String type = eMedia.getAttribute("type");
     		
     		if (!types.containsKey(type)){
+    			Vector <String> args = new Vector <String>();
+    			args.add(type);
     			MessageList.addWarning(doc.getId(), 
-						"Invalid value for attribute type in <media> " + idMedia + ".",
-				   		eMedia, MessageList.ENGLISH);
-    			MessageList.addWarning(doc.getId(), 
-						"Valor do atributo type ('"+type+"') � inv�lido.",
-				   		eMedia, MessageList.PORTUGUESE);
+						4105,
+				   		eMedia, args);
     			return false;
     		}
     	}else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer")){
     		MessageList.addError(doc.getId(), 
-					"The attribute type is mandatory when the attribute src is not present at media element.",
-			   		eMedia, MessageList.ENGLISH);
-    		MessageList.addError(doc.getId(), 
-					"O atributo 'type' � obrigat�rio quando o atributo 'src' n�o est� presente.",
-			   		eMedia, MessageList.PORTUGUESE);
+					4104,
+			   		eMedia);
 			return false;
     	}
         return true;
@@ -189,23 +180,21 @@ public class Media extends ElementValidation{
 					uri = new URI(URLEncoder.encode(doc.getDir()+src,"US-ASCII"));
 					//System.out.println(uri);
 					if(!uri.isAbsolute()){
-						MessageList.addWarning(doc.getId(), 
-		    					"Invalid path for attribute src in <media> " + idMedia + ".",
-		    			   		eMedia, MessageList.ENGLISH);
-						MessageList.addWarning(doc.getId(), 
-		    					"Atributo src ('"+src+"') � um caminho de arquivo inv�lido.",
-		    			   		eMedia, MessageList.PORTUGUESE);
+						Vector <String> args = new Vector <String>();
+		    			args.add(src);
+		    			MessageList.addWarning(doc.getId(), 
+								4103,
+								eMedia, args);
 					}
 				}
 				//System.out.println(doc.getDir()+src);
 	        					
 			} catch (Exception e) {
-				MessageList.addWarning(doc.getId(), 
-    					"Invalid path for attribute src in <media> " + idMedia + ".",
-    			   		eMedia, MessageList.ENGLISH);
-				MessageList.addWarning(doc.getId(), 
-    					"Atributo src ('"+src+"') � um caminho de arquivo inv�lido.",
-    			   		eMedia, MessageList.PORTUGUESE);
+				Vector <String> args = new Vector <String>();
+    			args.add(src);
+    			MessageList.addWarning(doc.getId(), 
+						4103,
+						eMedia, args);
 			}
         }
 		return true;
@@ -222,21 +211,19 @@ public class Media extends ElementValidation{
 			String idRefer = eMedia.getAttribute("refer");
 			Element element = doc.getElement(idRefer);
 			if(element==null) {
-				MessageList.addError(doc.getId(), 
-						"The refer attribute does not point to an element.",
-						eMedia, MessageList.ENGLISH);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo refer ('"+idRefer+"') n�o existe.",
-						eMedia, MessageList.PORTUGUESE);				
+				Vector <String> args = new Vector <String>();
+    			args.add(idRefer);
+    			MessageList.addWarning(doc.getId(), 
+						4102,
+						eMedia, args);				
 				return false;				
 			}
 			else if(element.getTagName().compareTo("media")!=0) {
-				MessageList.addError(doc.getId(), 
-						"There is not a <media> element with id "+ idRefer + ".",
-						eMedia, MessageList.PORTUGUESE);
-				MessageList.addError(doc.getId(), 
-						"O elemento apontado pelo atributo refer ('"+idRefer+"') deve ser um elemento <media>.",
-						eMedia, MessageList.PORTUGUESE);				
+				Vector <String> args = new Vector <String>();
+    			args.add(idRefer);
+    			MessageList.addWarning(doc.getId(), 
+						4102,
+						eMedia, args);				
 				return false;
 			}
 		}		
@@ -276,12 +263,12 @@ public class Media extends ElementValidation{
     		String src = eMedia.getAttribute("src");
     		String extension = getExtension(src);
     		if (!types.containsKey(type) || !types.get(type).contains(extension)){
+    			Vector <String> args = new Vector <String>();
+    			args.add(type);
+    			args.add(idMedia);
     			MessageList.addWarning(doc.getId(), 
-						"Invalid extension for the type "+type+" defined in <media> " + idMedia + ".",
-						eMedia, MessageList.ENGLISH);
-    			MessageList.addWarning(doc.getId(), 
-						"Extens�o inv�lida para o tipo MIME "+type+" definido na <media> ('" + idMedia + "').",
-						eMedia, MessageList.PORTUGUESE);
+						4101,
+						eMedia, args);
     		}
     	}    	
     	return true;
