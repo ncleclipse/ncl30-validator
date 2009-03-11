@@ -1,3 +1,8 @@
+2009-03-11
+	- Mensagens de erros movidas para o arquivo messages.properties
+		- Facilitando internacionalização
+		- Resolvido o problema de codificação no NCL Eclipse
+		
 2009-02-13
 	- Validação do role quando fazia parte de um attributeAssessment dava falso erro.
 		Ok
