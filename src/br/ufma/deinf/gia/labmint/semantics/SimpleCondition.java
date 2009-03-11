@@ -102,7 +102,7 @@ public class SimpleCondition extends ElementValidation{
     }
 
     private boolean hasValidSimpleConditionQualifierAttribute(Element eSimpleCondition){
-        //TODO: All!
+        /*
     	if(eSimpleCondition.hasAttribute("max")){
     		String attMax = eSimpleCondition.getAttribute("max");
     		int maxValue = -1;
@@ -116,7 +116,7 @@ public class SimpleCondition extends ElementValidation{
     						eSimpleCondition);
     			}
     		}
-    	}
+    	}*/
         return true;
     }
 

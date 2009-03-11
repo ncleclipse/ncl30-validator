@@ -134,7 +134,7 @@ public class SimpleAction extends ElementValidation{
     }
 
     private boolean hasValidSimpleActionQualifierAttribute(Element eSimpleAction){
-        //TODO: All!
+        /*
     	if(eSimpleAction.hasAttribute("max")){
     		String attMax = eSimpleAction.getAttribute("max");
     		int maxValue = -1;
@@ -148,7 +148,7 @@ public class SimpleAction extends ElementValidation{
     						eSimpleAction);
     			}
     		}
-    	}
+    	}*/
         return true;
     }
 
