@@ -86,8 +86,9 @@ public class MessageList {
 			id = element.getAttribute("id");
 		String text = MessageHandler.getMessage(idTextMsg);
 
-		for (int i = 0; i < args.size(); i++)
-			text = text.replace("%s", args.get(i));
+		for (int i = 0; i < args.size(); i++){
+			text = text.replaceFirst("%s", args.get(i));
+		}
 
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
 				element, id);
@@ -166,7 +167,7 @@ public class MessageList {
 		String text = MessageHandler.getMessage(idTextMsg);
 
 		for (int i = 0; i < args.size(); i++)
-			text = text.replace("%s", args.get(i));
+			text = text.replaceFirst("%s", args.get(i));
 
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
 				element, id);
