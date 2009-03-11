@@ -51,9 +51,9 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
-import java.nio.charset.CodingErrorAction;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -128,32 +128,40 @@ public class Link extends ElementValidation{
     		if(conditions.containsKey(strRole)) eSimpleCondition = (Element) conditions.get(strRole);
     		else if(actions.containsKey(strRole)) eSimpleCondition = (Element) actions.get(strRole);
     		else{
-    			MessageList.addError(doc.getId(), "Role <"+strRole+"> is not appearing at XConnector element. ", eLink, MessageList.ENGLISH);
-    			MessageList.addError(doc.getId(), "Papel <"+strRole+"> n�o definido no elemento xconnector ('"+eLink.getAttribute("xconnector")+"').", eLink, MessageList.PORTUGUESE);
+    			Vector <String> args = new Vector <String>();
+    			args.add(strRole);
+    			args.add(eLink.getAttribute("xconnector"));
+    			MessageList.addError(doc.getId(), 3901, eLink, args);
     			return false;
     		}
 			
     		if(eSimpleCondition.hasAttribute("min") && !eSimpleCondition.getAttribute("min").equals("unbounded")){
 				Integer min = new Integer(eSimpleCondition.getAttribute("min"));
 				if(qtde.intValue() < min.intValue()){
-					MessageList.addError(doc.getId(), 
-							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
-							eLink, MessageList.ENGLISH);
-					MessageList.addError(doc.getId(), 
-							"Existem problemas com a quantidade de elementos que possuem role='"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
-							eLink, MessageList.PORTUGUESE);
+					Vector <String> args = new Vector <String>();
+					args.add(qtde.toString());
+	    			args.add(strRole);
+	    			args.add(min.toString());
+	    			
+	    			MessageList.addError(doc.getId(), 
+							3902,
+							eLink, args);
+	    			
 					ok = false; 
 				}
 			}
 			if(eSimpleCondition.hasAttribute("max") && !eSimpleCondition.getAttribute("max").equals("unbounded")){
 				Integer max = new Integer(eSimpleCondition.getAttribute("max"));
 				if(qtde.intValue() > max.intValue()){
-					MessageList.addError(doc.getId(), 
-							"There are problems with the quantity of elements with role "+strRole+". Please see min and max attributes in XConnector.",
-							eLink, MessageList.ENGLISH);
-					MessageList.addError(doc.getId(), 
-							"Existem problemas com a quantidade de elementos que possuem role = '"+strRole+"'. Verifique a quantidade m�nima e m�xima no xconnector.",
-							eLink, MessageList.PORTUGUESE);					
+					Vector <String> args = new Vector <String>();
+					args.add(qtde.toString());
+	    			args.add(strRole);
+	    			args.add(max.toString());
+	    			
+	    			MessageList.addError(doc.getId(), 
+							3903,
+							eLink, args);
+	    								
 					ok = false;
 				}
 			}			
@@ -167,12 +175,12 @@ public class Link extends ElementValidation{
     			String strRole = el.getAttribute("role");
     			if(min.intValue() > 0){
     				if(!qtdeRoles.containsKey(strRole)){
+    					Vector <String> args = new Vector <String>();
+    	    			args.add(strRole);
+    	    			args.add(min.toString());
     					MessageList.addError(doc.getId(), 
-    							"Bind element with role '"+strRole+"' must appear at least "+min.intValue()+" time(s).",
-    							eLink, MessageList.ENGLISH);
-    					MessageList.addError(doc.getId(), 
-    							"Elemento <bind> com atributo role ='"+strRole+"' deve aparecer pelo menos "+min.intValue()+" veze(s).",
-    							eLink, MessageList.PORTUGUESE);
+    							3904,
+    							eLink, args);
     					ok = false;
     				}
     			}
@@ -204,22 +212,19 @@ public class Link extends ElementValidation{
 		String idXConnector = eLink.getAttribute("xconnector");
 		Element element = doc.getElement(idXConnector); 
 		if( element==null ) {
+			Vector <String> args = new Vector <String>();
+			args.add(idXConnector);
 			MessageList.addError(doc.getId(), 
-				"There is not a <causalConnector> element with id '" + idXConnector + "'.",
-			   	eLink, MessageList.ENGLISH);
-				
-			MessageList.addError(doc.getId(), 
-				"O atributo xconnector ('" + idXConnector + "') referencia um elemento que n�o existe.",
-			   	eLink, MessageList.PORTUGUESE);
+					3905,
+				   	eLink, args);
 			return false;
 		}
 		else if( element.getTagName().compareTo("causalConnector")!=0 ) {
+			Vector <String> args = new Vector <String>();
+			args.add(idXConnector);
 			MessageList.addError(doc.getId(), 
-					"The element with id '" + idXConnector + "' is not a <causalConnector> element.",
-				   	eLink, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O valor do atributo xconnector ('" + idXConnector + "') n�o � um elemento <causalConnector>.",
-				   	eLink, MessageList.PORTUGUESE);			
+					3905,
+				   	eLink, args);			
 			return false;			
 		}
         return true;

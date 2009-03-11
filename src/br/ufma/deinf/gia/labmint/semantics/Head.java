@@ -52,6 +52,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -102,12 +103,12 @@ public class Head extends ElementValidation{
 				if(first) { first = false; lastP = p; lastEl = child;} 
 				else {
 					if( p < lastP) {
+						Vector <String> args = new Vector <String>();
+						args.add(child.getTagName());
+						args.add(lastEl.getTagName());
 						MessageList.addWarning(doc.getId(),
-								"Element <"+child.getTagName()+"> must appear before <"+lastEl.getTagName()+">.",
-								child, MessageList.ENGLISH);
-						MessageList.addWarning(doc.getId(),
-								"O elemento <"+child.getTagName()+"> deve aparecer antes do elemento <"+lastEl.getTagName()+">.",
-								child, MessageList.PORTUGUESE);
+								3801,
+								child, args);
 						ret = false;
 					}
 						

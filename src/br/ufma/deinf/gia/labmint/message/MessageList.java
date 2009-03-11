@@ -157,6 +157,22 @@ public class MessageList {
 			addWarning(file, text, element);
 		}
 	}
+	
+	public static void addWarning(String file, int idTextMsg, Element element,
+			Vector<String> args) {
+		String id = "";
+		if (element != null && element.hasAttribute("id"))
+			id = element.getAttribute("id");
+		String text = MessageHandler.getMessage(idTextMsg);
+
+		for (int i = 0; i < args.size(); i++)
+			text = text.replace("%s", args.get(i));
+
+		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
+				element, id);
+
+		warnings.add(msg);
+	}
 
 	public static void setLanguage(int language) {
 		atualLanguage = language;
