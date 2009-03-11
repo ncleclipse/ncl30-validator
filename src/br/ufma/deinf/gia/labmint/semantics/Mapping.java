@@ -51,6 +51,8 @@ http://www.laws.deinf.ufma.br
 package br.ufma.deinf.gia.labmint.semantics;
 
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -82,12 +84,8 @@ public class Mapping extends ElementValidation{
     		
     		if(!eMapping.hasAttribute("component")) {
     			MessageList.addError(doc.getId(), 
-						"The element <mapping> has an interface attribute but does not have a " +
-						"component attribute.",
-						eMapping, MessageList.ENGLISH);
-    			MessageList.addError(doc.getId(), 
-						"O elemento <mapping> possui um atributo 'interface', mas n�o possui um atributo 'component'.",
-						eMapping, MessageList.PORTUGUESE);    			
+						4001,
+						eMapping);    			
 				return  false;    			
     		}
         	
@@ -106,28 +104,23 @@ public class Mapping extends ElementValidation{
         			if(child.hasAttribute("id") && child.getAttribute("id").compareTo(idInterface)==0 ) {
         				if( child.getTagName().compareTo("area")!=0 && child.getTagName().compareTo("property")!=0 
         						&& child.getTagName().compareTo("port")!=0 && child.getTagName().compareTo("switchPort")!=0) {
+        					
+        					Vector <String> args = new Vector <String>();
+        					args.add(idComponent);
         					MessageList.addError(doc.getId(), 
-        							"The element pointed by attributte interface in " +
-        							"the <mapping> element must be an interface child of the component with id '" + idComponent + "'.",
-        							eMapping, MessageList.ENGLISH);
-        					MessageList.addError(doc.getId(), 
-        							"O elemento apontado pelo atributo interface no elemento " +
-        							"<mapping> deve ser o identificador de um elemento filho do n� ('" + idComponent + "').",
-        							eMapping, MessageList.PORTUGUESE);
+        							4002,
+        							eMapping, args);
         					return  false;
         				}
         				return true;
         			}
         		}
         	}
+        	Vector <String> args = new Vector <String>();
+			args.add(idComponent);
 			MessageList.addError(doc.getId(), 
-					"The element pointed by attributte interface in " +
-					"the <mapping> element must be an interface child of the component with id '" + idComponent + "'.",
-					eMapping, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O elemento apontado pelo atributo interface no elemento " +
-					"<mapping> deve ser o identificador de um elemento filho do n� ('" + idComponent + "').",
-					eMapping, MessageList.PORTUGUESE);
+					4002,
+					eMapping, args);
 			return  false;
     	}
     	return true;
@@ -140,25 +133,21 @@ public class Mapping extends ElementValidation{
     	String idComponent = eMapping.getAttribute("component");
     	Element element = doc.getElement(idComponent);
     	if( element==null ) {
+    		Vector <String> args = new Vector<String>();
+			args.add(idComponent);
 			MessageList.addError(doc.getId(), 
-					"There is not an element with id '" + idComponent + "'.",
-					eMapping, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O elemento apontado pelo atributo component ('" + idComponent + "') n�o existe.",
-					eMapping, MessageList.PORTUGUESE);
+					4003,
+					eMapping, args);
 			return false;
 		}
     	else if( element.getTagName().compareTo("context")!=0 
     			&& element.getTagName().compareTo("media")!=0
     			&& element.getTagName().compareTo("switch")!=0) {
+			Vector <String> args = new Vector<String>();
+			args.add(idComponent);
 			MessageList.addError(doc.getId(), 
-					"The element pointed by attributte component in " +
-					"the mapping element must be a <context>, <media> or <switch>.",
-					eMapping, MessageList.ENGLISH);
-			MessageList.addError(doc.getId(), 
-					"O elemento apontado pelo atributo component ('" + idComponent + "')" +
-					"deve ser um elemento <context>, <media> ou <switch>.",
-					eMapping, MessageList.PORTUGUESE);
+					4003,
+					eMapping, args);
 			return false;
     		
     	}
