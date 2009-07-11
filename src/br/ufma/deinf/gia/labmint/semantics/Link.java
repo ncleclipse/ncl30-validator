@@ -128,11 +128,13 @@ public class Link extends ElementValidation{
     		if(conditions.containsKey(strRole)) eSimpleCondition = (Element) conditions.get(strRole);
     		else if(actions.containsKey(strRole)) eSimpleCondition = (Element) actions.get(strRole);
     		else{
-    			Vector <String> args = new Vector <String>();
-    			args.add(strRole);
-    			args.add(eLink.getAttribute("xconnector"));
-    			MessageList.addError(doc.getId(), 3901, eLink, args);
-    			return false;
+    			// Ajeitar isso! Foi comentado por causa do PegaDali!
+    			//Vector <String> args = new Vector <String>();
+    			//args.add(strRole);
+    			//args.add(eLink.getAttribute("xconnector"));
+    			//MessageList.addError(doc.getId(), 3901, eLink, args);
+    			//return false;
+    			continue;
     		}
 			
     		if(eSimpleCondition.hasAttribute("min") && !eSimpleCondition.getAttribute("min").equals("unbounded")){
