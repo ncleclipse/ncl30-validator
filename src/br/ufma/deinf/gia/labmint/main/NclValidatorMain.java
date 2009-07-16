@@ -69,13 +69,7 @@ import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 public class NclValidatorMain {
 
 	public static void main(String[] args) {
-		// File docFile = new
-		// File("../../workspace/composer-java/files/connectors/composerConnectorBase.conn");
-		// File docFile = new
-		// File("testes/causalconnector/simple_action_qualifier_erro.conn");
-		File docFile = new File("tests/teste2.ncl");
-		// File docFile = new File("testes/head/dois_regionBase_ok.ncl");
-		// File docFile = new File("testes/multilingueTest.ncl");
+		File docFile = new File(args[0]);
 
 		Document doc = null;
 		MessageList.clear();
