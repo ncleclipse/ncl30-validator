@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,75 +46,108 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import br.ufma.deinf.gia.labmint.composer.NCLValidator;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.main.NclParseErrorHandler;
 import br.ufma.deinf.gia.labmint.message.Message;
 import br.ufma.deinf.gia.labmint.message.MessageList;
-
+import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 
 public class ncl30validator {
-		public static void main(String[] args) {
-			File docFile = new File(args[0]);
-			
-			Document doc = null;
+	public static void main(String[] args) {
+		File docFile = new File(args[0]);
+
+		Document doc = null;
+		MessageList.clear();
+		if (args.length > 1) {
+			int language = 0;
+			if (args[1].equals("pt") || args[1].equals("portugues")
+					|| args[1].equals("portuguese"))
+				language = MessageList.PORTUGUESE;
+			else if (args[1].equals("en") || args[1].equals("english"))
+				language = MessageList.ENGLISH;
+			MessageList.setLanguage(language);
+		} else
+			MessageList.setLanguage(MessageList.ENGLISH);
 			MessageList.clear();
-			if(args.length > 1){
-				int language = 0;
-				if(args[1].equals("pt") || args[1].equals("portugues") || args[1].equals("portuguese"))
-					language = MessageList.PORTUGUESE;
-				else if(args[1].equals("en") || args[1].equals("english"))
-					language = MessageList.ENGLISH;
-				MessageList.setLanguage(language);
+			MessageList.setLanguage(MessageList.PORTUGUESE);
+			try {
+				XMLParserExtend parser = new XMLParserExtend();
+
+				NclParseErrorHandler p = new NclParseErrorHandler();
+				p.setFile(docFile.getAbsolutePath());
+				parser.setErrorHandler(p);
+				parser.parse(docFile.getPath());
+				doc = parser.getDocument();
+
+				Vector<NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
+				// NclDocumentManager.resetDocumentManager();
+				NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(
+						doc);
+				documents.add(nclValidatorDocument);
+				NCLValidator.validate(documents);
+
+			} catch (IOException e) {
+				Vector<String> description = new Vector<String>();
+				description.add(e.getMessage());
+				MessageList.addError(docFile.getAbsolutePath(), 1001, null,
+						description);
+			} catch (SAXException e) {
+				Vector<String> description = new Vector<String>();
+				description.add(e.getMessage());
+				MessageList.addError(docFile.getAbsolutePath(), 1001, null,
+						description);
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			else MessageList.setLanguage(MessageList.ENGLISH);
-	        try {
-	        		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	        		DocumentBuilder db = dbf.newDocumentBuilder();
-	        		NclParseErrorHandler p = new NclParseErrorHandler();
-	        		p.setFile(docFile.getAbsolutePath());
-	        		db.setErrorHandler(p);
-	        		doc = db.parse(docFile);
-	        		
-	        		Vector <NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
-	        		//NclDocumentManager.resetDocumentManager();
-	        		NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(doc);
-	        		documents.add(nclValidatorDocument);
-	        		NCLValidator.validate(documents);
-	       		        		
-	        } 
-	        catch (Exception e) {
-	        	//TODO Alguma coisa
-	        	MessageList.addError(docFile.getAbsolutePath(), 1001, null);
-	        }
-	        
-			Vector <Message> warnings = NCLValidator.getWarnings();
-			Vector <Message> erros = NCLValidator.getErrors();	
-			//Imprime os warning        		
-			System.out.println("### Warnings ###");
-			for(int i = 0; i < warnings.size(); i++){
-					if(warnings.get(i).getElement() != null)
-						System.out.print("Element:'"+warnings.get(i).getElement().getTagName()+"' id:'"+warnings.get(i).getId()+"'");
-					System.out.println(" -> "+warnings.get(i).getDescription());
+
+			Vector<Message> warnings = NCLValidator.getWarnings();
+			Vector<Message> erros = NCLValidator.getErrors();
+			// Imprime os warning
+			System.out.println("\n\n### Warnings ###");
+			for (int i = 0; i < warnings.size(); i++) {
+				if (warnings.get(i).getElement() != null)
+					System.out.print("Element:'"
+							+ warnings.get(i).getElement().getTagName() + "' id:'"
+							+ warnings.get(i).getId() + "'");
+				System.out.println(" -> " + warnings.get(i).getDescription());
 			}
 			System.out.println("\n\n");
-			//Imprime os erros
-			System.out.println("### Erros ###");        		
-			for(int i = 0; i < erros.size(); i++){
-					if(erros.get(i).getElement() != null)			
-						System.out.println("Element:'"+erros.get(i).getElement().getTagName()+"' id:'"+erros.get(i).getId()+"'");
-					System.out.println(" -> "+erros.get(i).getDescription());
-			}        
-	          
-		}
+			// Imprime os erros
+			System.out.println("### Erros ###");
+			for (int i = 0; i < erros.size(); i++) {
+				if (erros.get(i).getElement() != null) {
+					System.out.println("Element:'"
+							+ erros.get(i).getElement().getTagName() + "' id:'"
+							+ erros.get(i).getId() + "'");
+					// SimpleLocator loc =
+					// handler.element2Locator(erros.get(i).getElement());
+					System.out.println(erros.get(i).getElement().getUserData(
+							"baseSystemId"));
+					System.out.println("line : "
+							+ erros.get(i).getElement().getUserData("startLine")
+							+ " Column: "
+							+ erros.get(i).getElement().getUserData("startColumn"));
+				}
+				System.out.println(" -> " + erros.get(i).getDescription());
+			}
+	}
 }
