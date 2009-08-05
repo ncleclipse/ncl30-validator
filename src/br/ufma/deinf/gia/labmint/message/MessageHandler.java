@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.sun.org.apache.xml.internal.serializer.utils.Messages;
+
 public class MessageHandler {
 	private static MessageHandler instance = null;
 	private static Properties properties;
-
+	private static String propertiesFile = "messages.properties";
 	private MessageHandler() {
 
 	}
@@ -20,13 +22,11 @@ public class MessageHandler {
 				properties = new Properties();
 
 				try {
-					java.net.URL url = ClassLoader
-							.getSystemResource("messages.properties");
+					java.net.URL url = ClassLoader.getSystemResource(propertiesFile);
 					properties.load(url.openStream());
-
 				} catch (IOException e) {
+					
 				}
-
 			}
 		}
 		return instance;
@@ -36,6 +36,10 @@ public class MessageHandler {
 		return properties.getProperty((new Integer(msg)).toString());
 	}
 
+	private static void setPropertiesFile(String propFile){
+		propertiesFile = propFile; 
+	} 
+	
 	public static String getMessage(int msg) {
 		getInstance();
 		String str = MessageHandler.getMessageTemplate(msg);
