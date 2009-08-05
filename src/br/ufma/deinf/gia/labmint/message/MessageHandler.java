@@ -9,7 +9,7 @@ import com.sun.org.apache.xml.internal.serializer.utils.Messages;
 public class MessageHandler {
 	private static MessageHandler instance = null;
 	private static Properties properties;
-	private static String propertiesFile = "messages.properties";
+	private static String propertiesFile = "messagesPt.properties";
 	private MessageHandler() {
 
 	}
