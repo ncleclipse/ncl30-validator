@@ -1,9 +1,10 @@
 TODO:
 	- Carregar arquivos de mensagens de erros externos.
 
+Vesao 1.4
 2009-03-11
 	- Mensagens de erros movidas para o arquivo messages.properties
-		- Facilitando internacionalização
+		- Facilitando internacionalizacao
 		- Resolvido o problema de codificação no NCL Eclipse
 		
 2009-02-13
