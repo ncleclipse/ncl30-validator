@@ -273,15 +273,19 @@ public class Bind extends ElementValidation {
 		if(componentIsMyContext(eBind)){
 			return true;
 		}
-		if(doc.getElement(eBind.getAttribute("component")).getTagName().equals("context")){
-			return true;
-		}
+		
 		
 		//System.out.println(ids);
 		
 		Element eLink = (Element) eBind.getParentNode();
 		Element eContext = (Element) eLink.getParentNode();
-		
+		if(doc.getElement(eBind.getAttribute("component")).getTagName().equals("context")){
+			if(doc.getElementInContext(eContext.getAttribute("id"), eBind.getAttribute("component"))!=null){
+			return true;
+			}
+		}
+		//Element body = (Element) eContext.getParentNode();
+		//System.out.println(body.getTagName());
 		NodeList nodeList = eContext.getChildNodes();
 
 		boolean ok = false;
