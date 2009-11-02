@@ -93,7 +93,6 @@ public class Port extends ElementValidation {
 		if (!hasValidPortComponentAttribute(ePort))
 			return false;
 		if (ePort.hasAttribute("interface")) {
-
 			if (!ePort.hasAttribute("component")) {
 				MessageList.addError(doc.getId(), 4203, ePort);
 				return false;
@@ -105,41 +104,43 @@ public class Port extends ElementValidation {
 			String idInterface = ePort.getAttribute("interface");
 			Element element = doc.getElement(idComponent);
 
-			while (element.hasAttribute("refer")) {
-				idComponent = element.getAttribute("refer");
-				element = doc.getElement(idComponent);
-			}
-
-			if (element == null) {
-				return false;
-			}
-
-			NodeList nodeList = element.getChildNodes();
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node node = nodeList.item(i);
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element child = (Element) node;
-					String tag = child.getTagName();
-					String id = null;
-					if (child.hasAttribute("id"))
-						id = child.getAttribute("id");
-					else if (child.hasAttribute("name"))
-						id = child.getAttribute("name");
-					if (id != null && id.compareTo(idInterface) == 0) {
-						if (tag.compareTo("area") != 0
-								&& tag.compareTo("property") != 0
-								&& tag.compareTo("port") != 0
-								&& tag.compareTo("switchPort") != 0) {
-							Vector<String> args = new Vector<String>();
-							args.add(idPort);
-							MessageList
-									.addError(doc.getId(), 4204, ePort, args);
-							return false;
+			do {
+				if (element == null) {
+					break;
+				}
+				
+				NodeList nodeList = element.getChildNodes();
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					Node node = nodeList.item(i);
+					if (node.getNodeType() == Node.ELEMENT_NODE) {
+						Element child = (Element) node;
+						String tag = child.getTagName();
+						String id = null;
+						if (child.hasAttribute("id"))
+							id = child.getAttribute("id");
+						else if (child.hasAttribute("name"))
+							id = child.getAttribute("name");
+						if (id != null && id.compareTo(idInterface) == 0) {
+							if (tag.compareTo("area") != 0
+									&& tag.compareTo("property") != 0
+									&& tag.compareTo("port") != 0
+									&& tag.compareTo("switchPort") != 0) {
+								Vector<String> args = new Vector<String>();
+								args.add(idPort);
+								MessageList.addError(doc.getId(), 4204, ePort,
+										args);
+								return false;
+							}
+							return true;
 						}
-						return true;
 					}
 				}
-			}
+				
+				idComponent = element.getAttribute("refer");
+				if(idComponent == null) break;
+				element = doc.getElement(idComponent);
+			} while (true);
+			
 			Vector<String> args = new Vector<String>();
 			args.add(idPort);
 			args.add(idComponent);

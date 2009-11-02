@@ -81,5 +81,4 @@ public class ConnectorParam extends ElementValidation{
         //TODO: All!
         return true;
     }
-
 }

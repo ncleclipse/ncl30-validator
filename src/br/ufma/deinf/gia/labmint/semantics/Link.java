@@ -66,6 +66,8 @@ import br.ufma.deinf.gia.labmint.message.MessageList;
 public class Link extends ElementValidation{
 	HashMap conditions = null;
 	HashMap actions = null;
+	HashMap connectorParam = null;
+	HashMap linkAndBindParam = null; 
 	
 	public Link(NclValidatorDocument doc) {
 		super(doc);
@@ -97,6 +99,9 @@ public class Link extends ElementValidation{
     	Element eCausalConnector = doc.getElement(idXConnector);
     	conditions = new HashMap<String, Element>();
     	actions = new HashMap<String, Element>();
+    	connectorParam = new HashMap<String, Element>();
+    	linkAndBindParam = new HashMap<String, Element>();
+    	
     	parseCausalConnector(eCausalConnector);
 
     	//Valida o Máximo e Mínimo dos Links 
@@ -137,9 +142,17 @@ public class Link extends ElementValidation{
     			continue;
     		}
 			
-    		if(eSimpleCondition.hasAttribute("min") && !eSimpleCondition.getAttribute("min").equals("unbounded")){
-				Integer min = new Integer(eSimpleCondition.getAttribute("min"));
-				if(qtde.intValue() < min.intValue()){
+    		//validate the min cardinality
+    		Integer min = new Integer(1);
+    		boolean unbounded = false;
+    		if(eSimpleCondition.hasAttribute("min")){
+    			if(!eSimpleCondition.getAttribute("min").equals("unbounded"))
+    				min = new Integer(eSimpleCondition.getAttribute("min"));
+    			else unbounded = true;
+    		}
+			
+    		if(!unbounded){
+    			if(qtde.intValue() < min.intValue()){
 					Vector <String> args = new Vector <String>();
 					args.add(qtde.toString());
 	    			args.add(strRole);
@@ -152,8 +165,17 @@ public class Link extends ElementValidation{
 					ok = false; 
 				}
 			}
-			if(eSimpleCondition.hasAttribute("max") && !eSimpleCondition.getAttribute("max").equals("unbounded")){
-				Integer max = new Integer(eSimpleCondition.getAttribute("max"));
+    		
+    		Integer max = new Integer(1);
+    		unbounded = false;
+    		
+    		if(eSimpleCondition.hasAttribute("max")){
+    			if(!eSimpleCondition.getAttribute("max").equals("unbounded"))
+    				min = new Integer(eSimpleCondition.getAttribute("max"));
+    			else unbounded = true;
+    		}
+    		
+			if(!unbounded){
 				if(qtde.intValue() > max.intValue()){
 					Vector <String> args = new Vector <String>();
 					args.add(qtde.toString());
@@ -168,26 +190,98 @@ public class Link extends ElementValidation{
 				}
 			}			
 		}
-		//Verifica se uma role deve aparecer e não aparece
+    	
+		//Verifica se uma condition deve aparecer e não aparece
     	Iterator itCondition = conditions.keySet().iterator();
     	while(itCondition.hasNext()){
     		Element el = (Element) conditions.get(itCondition.next());
+    		Integer min = new Integer(1);
+    		boolean unbounded = false;
     		if(el.hasAttribute("min")){
-    			Integer min = new Integer(el.getAttribute("min"));
-    			String strRole = el.getAttribute("role");
-    			if(min.intValue() > 0){
-    				if(!qtdeRoles.containsKey(strRole)){
-    					Vector <String> args = new Vector <String>();
-    	    			args.add(strRole);
-    	    			args.add(min.toString());
-    					MessageList.addError(doc.getId(), 
-    							3904,
-    							eLink, args);
-    					ok = false;
-    				}
+    			if(!el.getAttribute("min").equals("unbounded"))
+    				min = new Integer(el.getAttribute("min"));
+    			else unbounded = true;
+    		}
+    		String strRole = el.getAttribute("role");
+    		
+    		if(unbounded){
+    			if(!qtdeRoles.containsKey(strRole)){
+    				Vector <String> args = new Vector <String>();
+    	    		args.add(strRole);
+    	    		args.add("unbounded");
+    				MessageList.addError(doc.getId(), 
+    						3904,
+    						eLink, args);
+    				ok = false;
+    			}
+    			continue;
+    		}
+    		
+    		if(min.intValue() > 0){
+    			if(!qtdeRoles.containsKey(strRole)){
+    				Vector <String> args = new Vector <String>();
+    	    		args.add(strRole);
+    	    		args.add(min.toString());
+    				MessageList.addError(doc.getId(), 
+    						3904,
+    						eLink, args);
+    				ok = false;
     			}
     		}
-    	}
+		}
+		//Verifica se uma action deve aparecer e não aparece
+    	Iterator itAction = actions.keySet().iterator();
+    	while(itAction.hasNext()){
+    		Element el = (Element) actions.get(itAction.next());
+    		Integer min = new Integer(1);
+    		boolean unbounded = false;
+    		if(el.hasAttribute("min")){
+    			if(!el.getAttribute("min").equals("unbounded"))
+    				min = new Integer(el.getAttribute("min"));
+    			else unbounded = true;
+    		}
+    		String strRole = el.getAttribute("role");
+    		
+    		if(unbounded){
+    			if(!qtdeRoles.containsKey(strRole)){
+    				Vector <String> args = new Vector <String>();
+    	    		args.add(strRole);
+    	    		args.add("unbounded");
+    				MessageList.addError(doc.getId(), 
+    						3904,
+    						eLink, args);
+    				ok = false;
+    			}
+    			continue;
+    		}
+    		
+    		if(min.intValue() > 0){
+    			if(!qtdeRoles.containsKey(strRole)){
+    				Vector <String> args = new Vector <String>();
+    	    		args.add(strRole);
+    	    		args.add(min.toString());
+    				MessageList.addError(doc.getId(), 
+    						3904,
+    						eLink, args);
+    				ok = false;
+    			}
+    		}
+		}
+    	
+    	//TODO: validate if the parameter was declared when it is necessary
+    	/*parseLink();
+    	//valida se os parametros definidos no conector sao todos especificados no link
+    	Iterator itConnectorParam = connectorParam.keySet().iterator();
+    	while(itConnectorParam.hasNext()){
+    		String nameConnectorParam = (String) itConnectorParam.next();
+    		Element atualConnectorParam = (Element) connectorParam.get(nameConnectorParam);
+    		if(atualConnectorParam == null){
+    			Vector<String> args = new Vector<String>();
+				args.add(nameConnectorParam);
+				MessageList.addWarning(doc.getId(), 4601, eLink,
+						args);
+    		}
+    	}*/
     	return ok;
 	}
     
@@ -203,8 +297,23 @@ public class Link extends ElementValidation{
     				actions.put(element.getAttribute("role"), element);
     			else if(element.getTagName().equals("attributeAssessment") && element.hasAttribute("role")){
     				conditions.put(element.getAttribute("role"), element);
-    			}
+    			} else if(element.getTagName().equals("connectorParam") && element.hasAttribute("name"))
+    				connectorParam.put(element.getAttribute("name"), element);
     			parseCausalConnector(element);
+    		}
+    	}
+    }
+    
+    private void parseLink(Element eLink){
+    	NodeList list = eLink.getChildNodes();
+    	for(int i = 0; i < list.getLength(); i++){
+    		Node node = list.item(i);
+    		if(node.getNodeType() == Node.ELEMENT_NODE){
+    			Element element = (Element) node;
+    			if((element.getTagName().equals("linkParam") && element.hasAttribute("name"))
+    					|| (element.getTagName().equals("bindParam") && element.hasAttribute("name")))
+    				linkAndBindParam.put(element.getAttribute("name"), element);
+    			parseLink(element);
     		}
     	}
     }

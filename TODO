@@ -1,7 +1,17 @@
 TODO:
 	- Carregar arquivos de mensagens de erros externos.
-
-Vesao 1.4
+	- Verificar se o connectorParam foi declarado quando necessário (isso eh foda!).
+		Tem a ver com o fato de verificar se a variável eh usada por aquele action ou 
+		assesmentStatement e entaro verificar se foi declarado no linkParam ou no
+		bindParam daquele bind.
+	
+Versao 1.4.4
+2009-11-01
+	- Interface para area de um media com refer estava dando falso erro (BUG). (OK)  
+	- Gerando Warning quando bindParam ou linkParam nao aponta para um connectorParam 
+		existente.
+	
+Versao 1.4
 2009-03-11
 	- Mensagens de erros movidas para o arquivo messages.properties
 		- Facilitando internacionalizacao
