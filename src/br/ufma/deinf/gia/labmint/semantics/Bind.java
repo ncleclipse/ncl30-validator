@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,10 +46,9 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
-
 
 import java.util.Vector;
 
@@ -60,177 +59,254 @@ import org.w3c.dom.NodeList;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
+public class Bind extends ElementValidation {
 
-public class Bind extends ElementValidation{
-	
-    public Bind(NclValidatorDocument doc){
-        super(doc);
-    }
+	public Bind(NclValidatorDocument doc) {
+		super(doc);
+	}
 
-    public boolean validate(Element eBind){
-        boolean resultado = true;
+	public boolean validate(Element eBind) {
+		boolean resultado = true;
+		// System.out.println(eBind.getAttribute("component"));
+		// System.out.println(isinContext(eBind));
+		// Verifica se o atributo 'interface' do <bind> aponta para um elemento
+		// <area> ou <property>.
+		if (!hasValidBindInterfaceAttribute(eBind))
+			resultado = false;
 
-        //Verifica se o atributo 'interface' do <bind> aponta para um elemento <area> ou <property>.
-        if(!hasValidBindInterfaceAttribute(eBind)) resultado = false;
+		// Verifica se o atributo 'descriptor' do <bind> aponta para um
+		// <descriptor>.
+		if (!hasValidBindDescriptorAttribute(eBind))
+			resultado = false;
 
-        //Verifica se o atributo 'descriptor' do <bind> aponta para um <descriptor>.
-        if(!hasValidBindDescriptorAttribute(eBind)) resultado = false;
+		//
+		if (!hasValidBindRoleAttribute(eBind))
+			resultado = false;
 
-        //
-        if(!hasValidBindRoleAttribute(eBind)) resultado = false;
+		// Verifica se o atributo 'component' do <bind> aponta para um elemento
+		// <media>.
+		if (!hasValidBindComponentAttribute(eBind))
+			resultado = false;
 
-        //Verifica se o atributo 'component' do <bind> aponta para um elemento <media>.
-        if(!hasValidBindComponentAttribute(eBind)) resultado = false;
+		return resultado;
+	}
 
-        return resultado;
-    }
+	private boolean hasValidBindInterfaceAttribute(Element eBind) {
+		if (!eBind.hasAttribute("interface")) {
+			return true;
+		}
 
-    private boolean hasValidBindInterfaceAttribute(Element eBind){
-        if (!eBind.hasAttribute("interface")) {
-        	return true;
-        }
-
-        String idInterface = eBind.getAttribute("interface");
-    	if( !eBind.hasAttribute("component") ) {			
+		String idInterface = eBind.getAttribute("interface");
+		if (!eBind.hasAttribute("component")) {
 			MessageList.addError(doc.getId(), 3201, eBind);
 			return false;
-    	}
-    	
-    	String idComponent = eBind.getAttribute("component");
-    	Element element = doc.getElement(idComponent);
-    	if(element == null) return false;
-    	while(element.hasAttribute("refer")){
-        	NodeList nodeList = element.getChildNodes();
-        	for(int i=0; i<nodeList.getLength(); i++) {
-        		Node node = nodeList.item(i);
-        		if( node.getNodeType() == Node.ELEMENT_NODE ) {
-        			Element childElement = (Element)node; 
-        	    	String tagName = childElement.getTagName(); 
-        	    	if(tagName.compareTo("area")==0 && childElement.hasAttribute("id")) {
-        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-        	    			return true;
-        	    		}
-        	    	}
-        	    	if(tagName.compareTo("property")==0 && childElement.hasAttribute("name")) {
-        	    		if(childElement.getAttribute("name").compareTo(idInterface)==0) {
-        	    			return true;
-        	    		}
-        	    	}
-        	    	if(tagName.compareTo("port")==0 && childElement.hasAttribute("id")) {
-        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-        	    			return true;
-        	    		}
-        	    	}
-        	    	if(tagName.compareTo("switchPort")==0 && childElement.hasAttribute("id")) {
-        	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-        	    			return true;
-        	    		}    	    		
-        	    	}
-        		}
-        	}
-        	idComponent = element.getAttribute("refer");
-    		element = doc.getElement(idComponent);
-    		if(element == null) return false;
-    	}
-    	if(element==null) {
-    		return false;
-    	}
-    	NodeList nodeList = element.getChildNodes();
-    	for(int i=0; i<nodeList.getLength(); i++) {
-    		Node node = nodeList.item(i);
-    		if( node.getNodeType() == Node.ELEMENT_NODE ) {
-    			Element childElement = (Element)node; 
-    	    	String tagName = childElement.getTagName(); 
-    	    	if(tagName.compareTo("area")==0 && childElement.hasAttribute("id")) {
-    	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-    	    			return true;
-    	    		}
-    	    	}
-    	    	if(tagName.compareTo("property")==0 && childElement.hasAttribute("name")) {
-    	    		if(childElement.getAttribute("name").compareTo(idInterface)==0) {
-    	    			return true;
-    	    		}
-    	    	}
-    	    	if(tagName.compareTo("port")==0 && childElement.hasAttribute("id")) {
-    	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-    	    			return true;
-    	    		}
-    	    	}
-    	    	if(tagName.compareTo("switchPort")==0 && childElement.hasAttribute("id")) {
-    	    		if(childElement.getAttribute("id").compareTo(idInterface)==0) {
-    	    			return true;
-    	    		}    	    		
-    	    	}
-    		}
-    	}
-    	MessageList.addError(doc.getId(), 3202, eBind);
-    	return false;
-    }
-
-    private boolean hasValidBindDescriptorAttribute(Element eBind){
-    	if( eBind.hasAttribute("descriptor") ) {			
-			String idDescriptor = eBind.getAttribute("descriptor");
-			Element element = doc.getElement(idDescriptor); 
-			if (element==null ) {
-				Vector <String> args = new Vector<String>();
-				args.add(idDescriptor);
-				MessageList.addError(doc.getId(), 3203, eBind, args);
-				return false;
-			}
-			else if(element.getTagName().compareTo("descriptor")!=0){
-				Vector <String> args = new Vector<String>();
-				args.add(idDescriptor);
-				MessageList.addError(doc.getId(), 3203, eBind, args);
-				return false;
-			}
 		}
-        return true;
-    }
 
-    private boolean hasValidBindRoleAttribute(Element eBind){
-        //TODO: All!
-        return true;
-    }
-
-    private boolean hasValidBindComponentAttribute(Element eBind){
-    	
-    	//Obrigado a ter um atributo 'component' - Verificacao feita no Sintatico.
-    	if(!eBind.hasAttribute("component")) return false;
-    	String idComponent = eBind.getAttribute("component");
-    	Element element = doc.getElement(idComponent); 
-    	if( element==null ) {
-    		Vector <String> args = new Vector<String>();
-			args.add(idComponent);
-			MessageList.addError(doc.getId(), 3204, eBind, args);
+		String idComponent = eBind.getAttribute("component");
+		Element element = doc.getElement(idComponent);
+		if (element == null)
+			return false;
+		while (element.hasAttribute("refer")) {
+			NodeList nodeList = element.getChildNodes();
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element childElement = (Element) node;
+					String tagName = childElement.getTagName();
+					if (tagName.compareTo("area") == 0
+							&& childElement.hasAttribute("id")) {
+						if (childElement.getAttribute("id").compareTo(
+								idInterface) == 0) {
+							return true;
+						}
+					}
+					if (tagName.compareTo("property") == 0
+							&& childElement.hasAttribute("name")) {
+						if (childElement.getAttribute("name").compareTo(
+								idInterface) == 0) {
+							return true;
+						}
+					}
+					if (tagName.compareTo("port") == 0
+							&& childElement.hasAttribute("id")) {
+						if (childElement.getAttribute("id").compareTo(
+								idInterface) == 0) {
+							return true;
+						}
+					}
+					if (tagName.compareTo("switchPort") == 0
+							&& childElement.hasAttribute("id")) {
+						if (childElement.getAttribute("id").compareTo(
+								idInterface) == 0) {
+							return true;
+						}
+					}
+				}
+			}
+			idComponent = element.getAttribute("refer");
+			element = doc.getElement(idComponent);
+			if (element == null)
+				return false;
+		}
+		if (element == null) {
 			return false;
 		}
-    	else if( element.getTagName().compareTo("media") != 0 
-    			&& element.getTagName().compareTo("context") != 0
-    			&& element.getTagName().compareTo("switch") != 0) {
-    			if(!componentIsMyContext(eBind)){
-    				Vector <String> args = new Vector<String>();
-    				args.add(idComponent);
-    				MessageList.addError(doc.getId(), 3204, eBind, args);    				
-    				return false;
-    			}
-    	}
-    	return true;
-    }
-    /**
-     * Verifica se o component do Bind referencia o seu context (ou Body)
-     * @param eBind
-     * @return
-     */
+		NodeList nodeList = element.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element childElement = (Element) node;
+				String tagName = childElement.getTagName();
+				if (tagName.compareTo("area") == 0
+						&& childElement.hasAttribute("id")) {
+					if (childElement.getAttribute("id").compareTo(idInterface) == 0) {
+						return true;
+					}
+				}
+				if (tagName.compareTo("property") == 0
+						&& childElement.hasAttribute("name")) {
+					if (childElement.getAttribute("name")
+							.compareTo(idInterface) == 0) {
+						return true;
+					}
+				}
+				if (tagName.compareTo("port") == 0
+						&& childElement.hasAttribute("id")) {
+					if (childElement.getAttribute("id").compareTo(idInterface) == 0) {
+						return true;
+					}
+				}
+				if (tagName.compareTo("switchPort") == 0
+						&& childElement.hasAttribute("id")) {
+					if (childElement.getAttribute("id").compareTo(idInterface) == 0) {
+						return true;
+					}
+				}
+			}
+		}
+		MessageList.addError(doc.getId(), 3202, eBind);
+		return false;
+	}
+
+	private boolean hasValidBindDescriptorAttribute(Element eBind) {
+		if (eBind.hasAttribute("descriptor")) {
+			String idDescriptor = eBind.getAttribute("descriptor");
+			Element element = doc.getElement(idDescriptor);
+			if (element == null) {
+				Vector<String> args = new Vector<String>();
+				args.add(idDescriptor);
+				MessageList.addError(doc.getId(), 3203, eBind, args);
+				return false;
+			} else if (element.getTagName().compareTo("descriptor") != 0) {
+				Vector<String> args = new Vector<String>();
+				args.add(idDescriptor);
+				MessageList.addError(doc.getId(), 3203, eBind, args);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean hasValidBindRoleAttribute(Element eBind) {
+		// TODO: All!
+		return true;
+	}
+
+	private boolean hasValidBindComponentAttribute(Element eBind) {
+
+		// Obrigado a ter um atributo 'component' - Verificacao feita no
+		// Sintatico.
+		boolean myContext=componentIsMyContext(eBind);
+		if (!eBind.hasAttribute("component"))
+			return false;
+		String idComponent = eBind.getAttribute("component");
+		Element element = doc.getElement(idComponent);
+		if (element == null) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 3204, eBind, args);
+
+			return false;
+		} else if (element.getTagName().compareTo("media") != 0
+				&& element.getTagName().compareTo("context") != 0
+				&& element.getTagName().compareTo("switch") != 0) {
+			if (!myContext) {
+				Vector<String> args = new Vector<String>();
+				args.add(idComponent);
+				MessageList.addError(doc.getId(), 3204, eBind, args);
+				return false;
+			}
+		}
+		if (!isinContext(eBind)) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+			MessageList.addError(doc.getId(), 4202, eBind, args);
+
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Verifica se o component do Bind referencia o seu context (ou Body)
+	 * 
+	 * @param eBind
+	 * @return
+	 */
 	private boolean componentIsMyContext(Element eBind) {
 		// TODO Auto-generated method stub
+		
 		Element eLink = (Element) eBind.getParentNode();
-		Element eContext = (Element)eLink.getParentNode();
-		
-		if((eContext.getTagName().equals("body") || eContext.getTagName().equals("context"))
-				&& eContext.hasAttribute("id") && 
-				eContext.getAttribute("id").equals(eBind.getAttribute("component")))
-					return true;
-		
+		Element eContext = (Element) eLink.getParentNode();
+
+		if ((eContext.getTagName().equals("body") || eContext.getTagName()
+				.equals("context"))
+				&& eContext.hasAttribute("id")
+				&& eContext.getAttribute("id").equals(
+						eBind.getAttribute("component")))
+			return true;
+
 		return false;
+	}
+
+	private boolean isinContext(Element eBind) {
+		if(componentIsMyContext(eBind)){
+			return true;
+		}
+		if(doc.getElement(eBind.getAttribute("component")).getTagName().equals("context")){
+			return true;
+		}
+		
+		//System.out.println(ids);
+		
+		Element eLink = (Element) eBind.getParentNode();
+		Element eContext = (Element) eLink.getParentNode();
+		
+		NodeList nodeList = eContext.getChildNodes();
+
+		boolean ok = false;
+		Element child = null;
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				child = (Element) node;
+				
+				if (child.getTagName().equals("media")&&child.hasAttribute("id")) { // msg gerada pelo DTD
+					if (child.getAttribute("id").equals(
+							eBind.getAttribute("component"))) {
+						ok = true;
+						break;
+					}
+				}if (child.getTagName().equals("switch")&&child.hasAttribute("id")) { // msg gerada pelo DTD
+					if (child.getAttribute("id").equals(
+							eBind.getAttribute("component"))) {
+						ok = true;
+						break;
+					}
+				}
+			}
+		}
+		//System.out.println(ok);
+		return ok;
 	}
 }
