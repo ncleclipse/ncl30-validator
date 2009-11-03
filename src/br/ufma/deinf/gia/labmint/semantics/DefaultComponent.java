@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,10 +46,9 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
-
 
 import java.util.Vector;
 
@@ -58,41 +57,78 @@ import org.w3c.dom.Element;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
-
-public class DefaultComponent extends ElementValidation{
+public class DefaultComponent extends ElementValidation {
 
 	public DefaultComponent(NclValidatorDocument doc) {
 		super(doc);
 	}
 
 	private String idDefaultComponent = null;
-	
-    public boolean validate(Element eDefaultComponent){
-        boolean resultado = true;
 
-        idDefaultComponent = eDefaultComponent.getAttribute("id");
-        
-        //Verifica se o atributo 'component' de <defaultComponent> aponta para um <component>.
-        if(!hasValidDefaultComponentComponentAttribute(eDefaultComponent)) resultado = false;
+	public boolean validate(Element eDefaultComponent) {
+		boolean resultado = true;
 
-        return resultado;
-    }
+		idDefaultComponent = eDefaultComponent.getAttribute("id");
 
-    private boolean hasValidDefaultComponentComponentAttribute(Element eDefaultComponent){
-    	if(!eDefaultComponent.hasAttribute("component")) return false;
-    	//TODO: verificar apenas como filho do <switch>
-		String idComponent = eDefaultComponent.getAttribute("component");  
-		if( doc.getElement(idComponent)==null ) {
-			Vector <String> args = new Vector <String>();
+		// Verifica se o atributo 'component' de <defaultComponent> aponta para
+		// um <component>.
+		if (!hasValidDefaultComponentComponentAttribute(eDefaultComponent))
+			resultado = false;
+
+		return resultado;
+	}
+
+	private boolean hasValidDefaultComponentComponentAttribute(
+			Element eDefaultComponent) {
+		if (!eDefaultComponent.hasAttribute("component"))
+			return false;
+
+		String idComponent = eDefaultComponent.getAttribute("component");
+		if (doc.getElement(idComponent) == null) {
+			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
-			
-			MessageList.addError(doc.getId(), 
-					3501,
-			   		eDefaultComponent, args);			
+
+			MessageList.addError(doc.getId(), 3501, eDefaultComponent, args);
 			return false;
 		}
-		//TODO: verificar se est� no mesmo contexto
-        return true;
-    }
+		if (!componentIsInMySwitch(eDefaultComponent)) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+
+			MessageList.addError(doc.getId(), 3502, eDefaultComponent, args);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean componentIsInMySwitch(Element eDefaultComponent) {
+		// DTD checks if component exists and print message.
+		if (!eDefaultComponent.hasAttribute("component"))
+			return true;
+
+		Element component = doc.getElement(eDefaultComponent
+				.getAttribute("component"));
+
+		Element eSwitch = (Element) eDefaultComponent.getParentNode();
+		// this is error, but the DTD validates
+		if (eSwitch == null)
+			return false;
+
+		// get the element with id refered by component in the context
+		Element element = doc.getElementChild(eSwitch, eDefaultComponent
+				.getAttribute("component"));
+
+		// if it doesn't exists return false
+		if (element == null)
+			return false;
+
+		// check if the component refered is media, switch or component
+		if (element.getTagName().equals("media")
+				|| element.getTagName().equals("switch")
+				|| element.getTagName().equals("context"))
+			return true;
+
+		return false;
+	}
 
 }

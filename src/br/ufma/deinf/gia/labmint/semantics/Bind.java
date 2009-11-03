@@ -59,6 +59,11 @@ import org.w3c.dom.NodeList;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
+/**
+ * 
+ * @author <a href="mailto:robertogerson@telemidia.puc-rio.br">Roberto Gerson Azevedo</a>
+ *
+ */
 public class Bind extends ElementValidation {
 
 	public Bind(NclValidatorDocument doc) {
@@ -78,9 +83,9 @@ public class Bind extends ElementValidation {
 		if (!hasValidBindDescriptorAttribute(eBind))
 			resultado = false;
 
-		//Verifica se o atributo role do bind referencia um action,
-		//condition ou assessmentStatement do link referenciado por
-		//este conector
+		// Verifica se o atributo role do bind referencia um action,
+		// condition ou assessmentStatement do link referenciado por
+		// este conector
 		if (!hasValidBindRoleAttribute(eBind))
 			resultado = false;
 
@@ -214,36 +219,28 @@ public class Bind extends ElementValidation {
 	}
 
 	private boolean hasValidBindComponentAttribute(Element eBind) {
-
 		// Obrigado a ter um atributo 'component' - Verificacao feita no
-		// Sintatico.
+		// Sintatico DTD.
 		if (!eBind.hasAttribute("component"))
 			return false;
 		String idComponent = eBind.getAttribute("component");
 		Element element = doc.getElement(idComponent);
+		
 		if (element == null) {
 			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
 			MessageList.addError(doc.getId(), 3204, eBind, args);
 			return false;
-		} else if (element.getTagName().compareTo("media") != 0
-				&& element.getTagName().compareTo("context") != 0
-				&& element.getTagName().compareTo("switch") != 0) {
-			if (!componentIsMyContext(eBind)) {
-				Vector<String> args = new Vector<String>();
-				args.add(idComponent);
-				MessageList.addError(doc.getId(), 3204, eBind, args);
-				return false;
-			}
+		} else if (element.getTagName().equals("media")
+				|| element.getTagName().equals("context")
+				|| element.getTagName().equals("switch")) {
+			
+			if (componentIsInMyContext(eBind)) return true;
 		}
-		if (!isinContext(eBind)) {
-			Vector<String> args = new Vector<String>();
-			args.add(idComponent);
-			MessageList.addError(doc.getId(), 3204, eBind, args);
-
-			return false;
-		}
-		return true;
+		Vector<String> args = new Vector<String>();
+		args.add(idComponent);
+		MessageList.addError(doc.getId(), 3204, eBind, args);
+		return false;
 	}
 
 	/**
@@ -254,7 +251,11 @@ public class Bind extends ElementValidation {
 	 */
 	private boolean componentIsMyContext(Element eBind) {
 		Element eLink = (Element) eBind.getParentNode();
+		if (eLink == null)
+			return false;
 		Element eContext = (Element) eLink.getParentNode();
+		if (eContext == null)
+			return false;
 
 		if ((eContext.getTagName().equals("body") || eContext.getTagName()
 				.equals("context"))
@@ -265,49 +266,49 @@ public class Bind extends ElementValidation {
 
 		return false;
 	}
-	
-	private boolean isinContext(Element eBind) {
-		if(componentIsMyContext(eBind)){
-			return true;
-		}
-		
-		
-		//System.out.println(ids);
-		
-		Element eLink = (Element) eBind.getParentNode();
-		Element eContext = (Element) eLink.getParentNode();
-		if(doc.getElement(eBind.getAttribute("component")).getTagName().equals("context")){
-			if(doc.getElementInContext(eContext.getAttribute("id"), eBind.getAttribute("component"))!=null){
-			return true;
-			}
-		}
-		//Element body = (Element) eContext.getParentNode();
-		//System.out.println(body.getTagName());
-		NodeList nodeList = eContext.getChildNodes();
 
-		boolean ok = false;
-		Element child = null;
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				child = (Element) node;
-				
-				if (child.getTagName().equals("media")&&child.hasAttribute("id")) { // msg gerada pelo DTD
-					if (child.getAttribute("id").equals(
-							eBind.getAttribute("component"))) {
-						ok = true;
-						break;
-					}
-				}if (child.getTagName().equals("switch")&&child.hasAttribute("id")) { // msg gerada pelo DTD
-					if (child.getAttribute("id").equals(
-							eBind.getAttribute("component"))) {
-						ok = true;
-						break;
-					}
-				}
-			}
+	/**
+	 * Check if the component refered by the component attribute is in the same
+	 * context that the <bind>.
+	 * 
+	 * @param eBind
+	 * @return true if the component is in the same context that the bind
+	 */
+	private boolean componentIsInMyContext(Element eBind) {
+		// if bind refered the own context return true.
+		if (componentIsMyContext(eBind)) return true;
+
+		// DTD checks if component exists and print message.
+		if (!eBind.hasAttribute("component")) return true;
+
+		Element component = doc.getElement(eBind.getAttribute("component"));
+		// if the media refered is application/x-ginga-settings always is valid
+		if (component.getTagName().equals("media")
+				&& component.hasAttribute("type")
+				&& component.getAttribute("type").equals(
+						"application/x-ginga-settings")) {
+			return true;
 		}
-		//System.out.println(ok);
-		return ok;
+
+		Element eLink = (Element) eBind.getParentNode();
+		//this is error, but the DTD validates 
+		if (eLink == null) return false;
+		Element eContext = (Element) eLink.getParentNode();
+		if(eContext == null) return false;
+		
+		
+		// get the element with id refered by component in the context
+		Element element = doc.getElementChild(eContext, eBind.getAttribute("component"));
+		
+		//if it doesn't exists return false
+		if (element == null) return false;
+
+		//check if the component refered is media, swicth or component
+		if (element.getTagName().equals("media")
+				|| element.getTagName().equals("switch")
+				|| element.getTagName().equals("context"))
+			return true;
+
+		return false;
 	}
 }

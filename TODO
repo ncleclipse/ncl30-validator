@@ -1,9 +1,20 @@
 TODO:
 	- Carregar arquivos de mensagens de erros externos.
+	
+	- Utilizar o Reference para validação de referencia. Ele só existiu depois e por
+		isso a maior parte dessa validação é feita na mão! Ele foi criado para o 
+		ncl eclipse, mas pode ser muito útil aqui!
+		
 	- Verificar se o connectorParam foi declarado quando necessário (isso eh foda!).
 		Tem a ver com o fato de verificar se a variável eh usada por aquele action ou 
 		assesmentStatement e entaro verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
+	
+Versao 1.4.5
+2009-11-03
+	- Validação do bind para elementos que nao estao no mesmo contexto (ok)
+	- Validação do bindRule referenciando elementos que nao estao no mesmo switch (ok)
+	- Validação do defaultComponent referenciando elementos que nao estao no mesmo switch (ok)
 	
 Versao 1.4.4
 2009-11-01

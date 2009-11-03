@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,40 +46,104 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
+
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
+import br.ufma.deinf.gia.labmint.message.MessageList;
 
-public class BindRule extends ElementValidation{
+public class BindRule extends ElementValidation {
 
-    public BindRule(NclValidatorDocument doc){
-        super(doc);
-    }
+	public BindRule(NclValidatorDocument doc) {
+		super(doc);
+	}
 
-    public boolean validate(Element eBindRule){
-        boolean resultado = true;
+	public boolean validate(Element eBindRule) {
+		boolean resultado = true;
 
-        //
-        if(!hasValidBindRuleConstituentAttribute(eBindRule)) resultado = false;
+		//
+		if (!hasValidBindRuleConstituentAttribute(eBindRule))
+			resultado = false;
 
-        //
-        if(!hasValidBindRuleRuleAttribute(eBindRule)) resultado = false;
+		//
+		if (!hasValidBindRuleRuleAttribute(eBindRule))
+			resultado = false;
 
-        return resultado;
-    }
+		return resultado;
+	}
 
-    private boolean hasValidBindRuleConstituentAttribute(Element eBindRule){
-        //TODO: All!
-        return true;
-    }
+	private boolean hasValidBindRuleConstituentAttribute(Element eBindRule) {
+		// This error message is in the DTD validator
+		if (!eBindRule.hasAttribute("constituent"))
+			return false;
+		String idComponent = eBindRule.getAttribute("constituent");
 
-    private boolean hasValidBindRuleRuleAttribute(Element eBindRule){
-        //TODO: All!
-        return true;
-    }
+		Element eComponent = doc.getElement(idComponent);
+		if (eComponent != null && !eComponent.getTagName().equals("media")
+				&& !eComponent.getTagName().equals("switch")
+				&& !eComponent.getTagName().equals("context")) {
+					
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
 
+			MessageList.addError(doc.getId(), 4701, eBindRule, args);
+		}
+		if (!constituentIsInMySwitch(eBindRule)) {
+			Vector<String> args = new Vector<String>();
+			args.add(idComponent);
+
+			MessageList.addError(doc.getId(), 4702, eBindRule, args);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean hasValidBindRuleRuleAttribute(Element eBindRule) {
+		String idRule = eBindRule.getAttribute("rule");
+		Element rule = doc.getElement(idRule);
+
+		if(rule == null || !rule.getTagName().equals("rule")){
+			Vector<String> args = new Vector<String>();
+			args.add(eBindRule.getAttribute("rule"));
+
+			MessageList.addError(doc.getId(), 4703, eBindRule, args);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean constituentIsInMySwitch(Element eBindRule) {
+		// DTD checks if component exists and print message.
+		if (!eBindRule.hasAttribute("component"))
+			return true;
+
+		Element component = doc.getElement(eBindRule.getAttribute("component"));
+
+		Element eSwitch = (Element) eBindRule.getParentNode();
+		// this is error, but the DTD validates
+		if (eSwitch == null)
+			return false;
+
+		// get the element with id refered by component in the context
+		Element element = doc.getElementChild(eSwitch, eBindRule
+				.getAttribute("component"));
+
+		// if it doesn't exists return false
+		if (element == null)
+			return false;
+
+		// check if the component refered is media, swicth or component
+		if (element.getTagName().equals("media")
+				|| element.getTagName().equals("switch")
+				|| element.getTagName().equals("context"))
+			return true;
+
+		return false;
+
+	}
 }
