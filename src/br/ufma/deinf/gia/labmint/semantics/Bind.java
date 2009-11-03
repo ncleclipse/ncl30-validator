@@ -67,8 +67,7 @@ public class Bind extends ElementValidation {
 
 	public boolean validate(Element eBind) {
 		boolean resultado = true;
-		// System.out.println(eBind.getAttribute("component"));
-		// System.out.println(isinContext(eBind));
+
 		// Verifica se o atributo 'interface' do <bind> aponta para um elemento
 		// <area> ou <property>.
 		if (!hasValidBindInterfaceAttribute(eBind))
@@ -79,7 +78,9 @@ public class Bind extends ElementValidation {
 		if (!hasValidBindDescriptorAttribute(eBind))
 			resultado = false;
 
-		//
+		//Verifica se o atributo role do bind referencia um action,
+		//condition ou assessmentStatement do link referenciado por
+		//este conector
 		if (!hasValidBindRoleAttribute(eBind))
 			resultado = false;
 
@@ -216,7 +217,6 @@ public class Bind extends ElementValidation {
 
 		// Obrigado a ter um atributo 'component' - Verificacao feita no
 		// Sintatico.
-		boolean myContext=componentIsMyContext(eBind);
 		if (!eBind.hasAttribute("component"))
 			return false;
 		String idComponent = eBind.getAttribute("component");
@@ -225,12 +225,11 @@ public class Bind extends ElementValidation {
 			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
 			MessageList.addError(doc.getId(), 3204, eBind, args);
-
 			return false;
 		} else if (element.getTagName().compareTo("media") != 0
 				&& element.getTagName().compareTo("context") != 0
 				&& element.getTagName().compareTo("switch") != 0) {
-			if (!myContext) {
+			if (!componentIsMyContext(eBind)) {
 				Vector<String> args = new Vector<String>();
 				args.add(idComponent);
 				MessageList.addError(doc.getId(), 3204, eBind, args);
@@ -240,7 +239,7 @@ public class Bind extends ElementValidation {
 		if (!isinContext(eBind)) {
 			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
-			MessageList.addError(doc.getId(), 4202, eBind, args);
+			MessageList.addError(doc.getId(), 3204, eBind, args);
 
 			return false;
 		}
@@ -254,8 +253,6 @@ public class Bind extends ElementValidation {
 	 * @return
 	 */
 	private boolean componentIsMyContext(Element eBind) {
-		// TODO Auto-generated method stub
-		
 		Element eLink = (Element) eBind.getParentNode();
 		Element eContext = (Element) eLink.getParentNode();
 
@@ -268,7 +265,7 @@ public class Bind extends ElementValidation {
 
 		return false;
 	}
-
+	
 	private boolean isinContext(Element eBind) {
 		if(componentIsMyContext(eBind)){
 			return true;
