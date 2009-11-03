@@ -41,140 +41,141 @@ import br.ufma.deinf.gia.labmint.message.MessageList;
 import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 import br.ufma.deinf.laws.util.DocumentUtil;
 
-public class NclValidatorDocument{
+public class NclValidatorDocument {
 	protected Map<String, Element> elements;
 	protected Map<String, NclValidatorDocument> aliases;
 	protected Element root;
 	protected String id;
 	protected String path;
-	
 
-	public NclValidatorDocument(Document doc) throws ParserConfigurationException, URISyntaxException, SAXException, IOException{		
+	public NclValidatorDocument(Document doc)
+			throws ParserConfigurationException, URISyntaxException,
+			SAXException, IOException {
 		this.elements = new HashMap<String, Element>();
 		this.aliases = new HashMap<String, NclValidatorDocument>();
 		this.root = doc.getDocumentElement();
 		this.path = doc.getBaseURI();
-		//NclDocumentManager.addDocument(doc, this); //registra o documento que estah lendo no DocumentManager
+		// NclDocumentManager.addDocument(doc, this); //registra o documento que
+		// estah lendo no DocumentManager
 		this.id = null;
-		//JOptionPane.showMessageDialog(null, this.path);
-		System.out.println(">> Validating File = "+this.path);
+		// JOptionPane.showMessageDialog(null, this.path);
+		System.out.println(">> Validating File = " + this.path);
 
-        if(root.hasAttribute("id")) {
+		if (root.hasAttribute("id")) {
 			this.id = root.getAttribute("id");
-		}
-		else {
+		} else {
 			NodeList nodeList = root.getChildNodes();
-			for(int i=0; i<nodeList.getLength(); i++){
+			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
-				if(node.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element)node;
-					if(element.getTagName().compareTo("body")==0) {
-						if(element.hasAttribute("id")) {
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					if (element.getTagName().compareTo("body") == 0) {
+						if (element.hasAttribute("id")) {
 							this.id = element.getAttribute("id");
 						}
 					}
 				}
 			}
 		}
-		parse( this.root );
-		//XMLStaticElementPosition.calculatePositions(this);
+		parse(this.root);
+		// XMLStaticElementPosition.calculatePositions(this);
 	}
 
 	public String getId() {
 		return id;
 	}
-	
+
 	public Element getDocumentElement() {
 		return this.root;
 	}
-	
-	public Element getElement(String id){
-		if(elements.containsKey(id)) {
+
+	public Element getElement(String id) {
+		if (elements.containsKey(id)) {
 			return elements.get(id);
 		}
 
-		if( id.indexOf("#") < 0 ) {
-			return null; 
-		}
-
-		if( id.indexOf("#") != id.lastIndexOf("#") ) {
-			//two or more # chars
+		if (id.indexOf("#") < 0) {
 			return null;
 		}
-		
+
+		if (id.indexOf("#") != id.lastIndexOf("#")) {
+			// two or more # chars
+			return null;
+		}
+
 		int index = id.indexOf("#");
 		String alias = id.substring(0, index);
-		String docId = id.substring(index+1);
+		String docId = id.substring(index + 1);
 
-		if(!aliases.containsKey(alias)) {
+		if (!aliases.containsKey(alias)) {
 			return null;
 		}
 
 		NclValidatorDocument doc = aliases.get(alias);
 		return doc.getElement(docId);
 	}
-	
-	protected void parse(Element root){
-		if(root.hasAttribute("id")) {
+
+	protected void parse(Element root) {
+		if (root.hasAttribute("id")) {
 			String id = root.getAttribute("id");
-			if(!elements.containsKey(id)){
+			if (!elements.containsKey(id)) {
 				elements.put(id, root);
-			}
-			else{
-				Vector <String> args = new Vector <String>();
+			} else {
+				Vector<String> args = new Vector<String>();
 				args.add(id);
 				MessageList.addError(this.id, 3001, root, args);
 			}
 		}
-		if(root.getTagName().equals("importBase")){
-			if(root.hasAttribute("alias")){
-				if(root.hasAttribute("documentURI") && !root.getAttribute("documentURI").equals("")){
-					try{
+		if (root.getTagName().equals("importBase")) {
+			if (root.hasAttribute("alias")) {
+				if (root.hasAttribute("documentURI")
+						&& !root.getAttribute("documentURI").equals("")) {
+					try {
 						XMLParserExtend parser = new XMLParserExtend();
 						Document doc = null;
 						URI uri = new URI(root.getAttribute("documentURI"));
-//						Se documentUri eh absoluto					
-						if(uri.isAbsolute()) {
+						// Se documentUri eh absoluto
+						if (uri.isAbsolute()) {
 							parser.parse(uri.getPath());
 							doc = parser.getDocument();
-						}
-						else {
-							parser.parse(DocumentUtil.getAbsoluteFileName(this.getPath(), root.getAttribute("documentURI")));
+						} else {
+							parser.parse(DocumentUtil.getAbsoluteFileName(this
+									.getPath(), root
+									.getAttribute("documentURI")));
 							doc = parser.getDocument();
 						}
-						if(!this.addDocument(root.getAttribute("alias"), new NclValidatorDocument(doc))){
-							Vector <String> args = new Vector <String>();
+						if (!this.addDocument(root.getAttribute("alias"),
+								new NclValidatorDocument(doc))) {
+							Vector<String> args = new Vector<String>();
 							args.add(root.getAttribute("alias"));
 							MessageList.addError(this.id, 3002, root, args);
 						}
-					}
-					catch (Exception e) {
-						Vector <String> args = new Vector <String>();
+					} catch (Exception e) {
+						Vector<String> args = new Vector<String>();
 						args.add(e.getMessage());
 						MessageList.addError(this.id, 1003, root, args);
 					}
-				}
-				else{
+				} else {
 					MessageList.addError(this.getPath(), 3101, root);
 				}
-			}
-			else{
+			} else {
 				MessageList.addError(this.getPath(), 3102, root);
 			}
 		}
 
 		NodeList nodeList = root.getChildNodes();
-		for(int i=0; i<nodeList.getLength(); i++) {
+		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			if(node.getNodeType()==Node.ELEMENT_NODE) {
-				parse( (Element)node );
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				parse((Element) node);
 			}
 		}
 	}
-	
+
 	public boolean addDocument(String alias, NclValidatorDocument doc) {
-		if( aliases.containsKey(alias) ) return false;
-		aliases.put(alias, doc);	
+		if (aliases.containsKey(alias))
+			return false;
+		aliases.put(alias, doc);
 		return true;
 	}
 
@@ -213,34 +214,61 @@ public class NclValidatorDocument{
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getDir(){
+
+	public String getDir() {
 		String path = this.getPath();
-		for(int i = path.length()-1; i>=0; i--)
-			if (path.charAt(i)=='/') return path.substring(0, i+1);
+		for (int i = path.length() - 1; i >= 0; i--)
+			if (path.charAt(i) == '/')
+				return path.substring(0, i + 1);
 		return path;
 	}
+
 	/**
 	 * Retorna o elemento com o id dentro do context idContext.
+	 * 
 	 * @param idContext
 	 * @param id
 	 * @return
 	 */
-	public Element getElementInContext(String idContext, String id){
-		if(elements.containsKey(idContext)) {
+	public Element getElementInContext(String idContext, String id) {
+		if (elements.containsKey(idContext)) {
 			Element context = elements.get(idContext);
-			
+
 			NodeList nodeList = context.getChildNodes();
-			for(int i = 0; i < nodeList.getLength(); i++){
+			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
-	     		if(node.getNodeType() == Node.ELEMENT_NODE) {
-	     			Element child = (Element)node;
-	     			System.out.println(id+" -> "+child.getAttribute("id"));
-	     			if(child.getAttribute("id").equals(id))
-	     				return child;
-	     		}
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element child = (Element) node;
+					System.out.println(id + " -> " + child.getAttribute("id"));
+					if (child.getAttribute("id").equals(id))
+						return child;
+				}
 			}
 		}
+		return null;
+	}
+
+	/**
+	 * Retorna o elemento com o id dentro filho direto do element parent.
+	 * 
+	 * @param idContext
+	 * @param id
+	 * @return
+	 */
+	public Element getElementChild(Element parent, String id) {
+		if (parent == null)
+			return null;
+		NodeList nodeList = parent.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element child = (Element) node;
+				System.out.println(id + " -> " + child.getAttribute("id"));
+				if (child.getAttribute("id").equals(id))
+					return child;
+			}
+		}
+
 		return null;
 	}
 }
