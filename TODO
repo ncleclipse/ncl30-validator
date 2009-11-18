@@ -1,4 +1,12 @@
 TODO:
+	1. Validação baseado no xmlns - de acordo com o perfil da linguagem.
+	
+	2. O atributo region de regionBase precisa ser uma region que não é filha de um device="systemAudio(1)" ou device="systemScreesystemScreenn(1)"
+	
+	3. Problemas com a codificação da URI. Espaço, por exemplo, pode ser %20. Isso pode causar inconsistencias e validações erradas (falsos-negativos).
+
+	4. Gerar Warining quando extensao do src de media nao corresponder ao type definido na mesma media. 
+		
 	- Carregar arquivos de mensagens de erros externos.
 	
 	- Utilizar o Reference para validação de referencia. Ele só existiu depois e por
@@ -9,6 +17,7 @@ TODO:
 		Tem a ver com o fato de verificar se a variável eh usada por aquele action ou 
 		assesmentStatement e entaro verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
+		
 	
 Versao 1.4.5
 2009-11-03

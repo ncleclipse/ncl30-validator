@@ -221,6 +221,7 @@ public class Media extends ElementValidation{
         return true;
     }
     
+    //FIX: fix this function
     private boolean hasValidExtension(Element eMedia){
     	/*
     	if (eMedia.hasAttribute("src"))
@@ -275,30 +276,47 @@ public class Media extends ElementValidation{
     	
     		types.put("text/html", "html");
     		types.put("text/html", "htm");
+    		
     		types.put("text/css", "css");
+    		
     		types.put("text/xml", "xml");
+    		
     		types.put("image/bmp", "bmp");
     		types.put("image/png", "png");
+    		types.put("image/mng", "mng");
         	types.put("image/gif", "gif");
         	types.put("image/jpeg", "jpg");
         	types.put("image/jpeg", "jpeg");
         	//types.put("image/mpeg", "");
+        	
         	types.put("audio/basic", "wav");
         	//types.put("audio/ac3", "ac3"); 
         	types.put("audio/mp3", "mp3");
         	types.put("audio/mp2", "mp2");
-        	//types.put("audio/mpeg", "mpeg");
-        	//types.put("audio/mpeg", "mpg");
+        	types.put("audio/mpeg", "mpeg");
+        	types.put("audio/mpeg", "mpg");
         	types.put("audio/mpeg4", "mp4");
         	types.put("audio/mpeg4", "mpg4");
+        	
         	types.put("video/mpeg", "mpeg");
         	types.put("video/mpeg", "mpg");
+        	
+        	types.put("application/x-ginga-NCL", "ncl");
+        	types.put("application/x-ncl-NCL", "ncl");
+        	
         	types.put("application/x-ginga-NCLua", "lua");
-        	types.put("application/x-ginga-NCLet", "xlt");
-        	types.put("application/x-ginga-NCLet", "xlet");
+        	types.put("application/x-ncl-NCLua", "lua");
+        	
         	types.put("application/x-ginga-NCLet", "class");
+        	types.put("application/x-ncl-NCLet", "class");
+        	types.put("application/x-ginga-NCLet", "jar");
+        	types.put("application/x-ncl-NCLet", "jar");
+        	
         	types.put("application/x-ginga-settings", "");
+        	types.put("application/x-ncl-settings", "");
+        	
         	types.put("application/x-ginga-time", "");
+        	types.put("application/x-ncl-time", "");
     	}
     }
 
