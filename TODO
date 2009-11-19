@@ -5,7 +5,11 @@ TODO:
 	
 	3. Problemas com a codificação da URI. Espaço, por exemplo, pode ser %20. Isso pode causar inconsistencias e validações erradas (falsos-negativos).
 
-	4. Gerar Warining quando extensao do src de media nao corresponder ao type definido na mesma media. 
+	4. Gerar Warining quando extensao do src de media nao corresponder ao type definido na mesma media.
+	
+	5. Validação do refer: gerar mensagem de erro quando referencia algum pai, ou avô, etc. do proprio elemento.
+	
+	6. 
 		
 	- Carregar arquivos de mensagens de erros externos.
 	
@@ -18,6 +22,11 @@ TODO:
 		assesmentStatement e entaro verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
 		
+Versao 1.4.6
+2009-11-18
+	- zIndex na faixa de 0 a 255
+	- Types do src atualizados. (Ainda falta alguma coisa: ver TODO 4).
+	- Gerando mensagem de erro qndo um elemento que tb possui um refer é referenciado.
 	
 Versao 1.4.5
 2009-11-03
