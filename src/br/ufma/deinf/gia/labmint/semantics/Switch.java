@@ -22,7 +22,7 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-******************************************************************************
+ ******************************************************************************
 This file is part of the authoring environment in Nested Context Language -
 NCL Eclipse.
 
@@ -46,61 +46,68 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
-public class Switch extends ElementValidation{
+public class Switch extends ElementValidation {
 
-    public Switch(NclValidatorDocument doc) {
+	public Switch(NclValidatorDocument doc) {
 		super(doc);
 	}
 
-	public boolean validate(Element eSwitch){
-        boolean resultado = true;
+	public boolean validate(Element eSwitch) {
+		boolean resultado = true;
 
-        //
-        if(!hasValidSwitchIDAttribute(eSwitch)) resultado = false;
+		//
+		if (!hasValidSwitchIDAttribute(eSwitch))
+			resultado = false;
 
-        //Verifica se o atributo 'refer' da <switch> aponta para um outro elemento <swtich>.
-        if(!hasValidSwitchReferAttribute(eSwitch)) resultado = false;
+		// Verifica se o atributo 'refer' da <switch> aponta para um outro
+		// elemento <swtich>.
+		if (!hasValidSwitchReferAttribute(eSwitch))
+			resultado = false;
 
-        return resultado;
-    }
+		return resultado;
+	}
 
-    private boolean hasValidSwitchIDAttribute(Element eSwitch){
-        //TODO: All!
-        return true;
-    }
+	private boolean hasValidSwitchIDAttribute(Element eSwitch) {
+		// TODO: All!
+		return true;
+	}
 
-    private boolean hasValidSwitchReferAttribute(Element eSwitch){
-		if( eSwitch.hasAttribute("refer") ) {
-			if(!eSwitch.hasAttribute("id")) return false;//msg gerada pelo DTD
+	private boolean hasValidSwitchReferAttribute(Element eSwitch) {
+		if (eSwitch.hasAttribute("refer")) {
+			if (!eSwitch.hasAttribute("id"))
+				return false;// msg gerada pelo DTD
 			String idSwitch = eSwitch.getAttribute("id");
-			if(!eSwitch.hasAttribute("refer")) return false;//msg gerada pelo DTD
+			if (!eSwitch.hasAttribute("refer"))
+				return false;// msg gerada pelo DTD
 			String idRefer = eSwitch.getAttribute("refer");
 			Element element = doc.getElement(idRefer);
 
-			if(element==null){
-				MessageList.addError(doc.getId(), 
-						4501,
-				   		eSwitch);
+			if (element == null) {
+				MessageList.addError(doc.getId(), 4501, eSwitch);
+				return false;
+			} else if (element.getTagName().compareTo("switch") != 0) {
+				MessageList.addError(doc.getId(), 4501, eSwitch);
+				return false;
+			} else if (element.hasAttribute("refer")) {
+				//cannot refer a switch that has a refer too
+				Vector<String> args = new Vector<String>();
+				args.add(idRefer);
+				MessageList.addError(doc.getId(), 4109, eSwitch, args);
 				return false;
 			}
-			else if(element.getTagName().compareTo("switch")!=0 ) {
-				MessageList.addError(doc.getId(), 
-						4501,
-				   		eSwitch);				
-				return  false;
-			}
-		}		
-        return true;
-    }
+		}
+		return true;
+	}
 
 }
