@@ -22,10 +22,9 @@ ncleclipse@laws.deinf.ufma.br
 http://www.laws.deinf.ufma.br/ncleclipse
 http://www.laws.deinf.ufma.br
 
-*******************************************************************************/
+ *******************************************************************************/
 
 package br.ufma.deinf.gia.labmint.semantics;
-
 
 import java.util.Vector;
 
@@ -34,60 +33,65 @@ import org.w3c.dom.Element;
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 
-
-public class Context extends ElementValidation{
+public class Context extends ElementValidation {
 
 	public Context(NclValidatorDocument doc) {
 		super(doc);
 	}
 
 	private String idContext = null;
-	
-    public boolean validate(Element eContext){
-        boolean resultado = true;
 
-        idContext = eContext.getAttribute("id");
-        
-        //
-        if(!hasValidContextIDAttribute(eContext)) resultado = false;
+	public boolean validate(Element eContext) {
+		boolean resultado = true;
 
-        //Verifica se o atributo 'refer' de <context> aponta para um outro elemento <context>.
-        if(!hasValidContextReferAttribute(eContext)) resultado = false;
-        
+		idContext = eContext.getAttribute("id");
 
-        return resultado;
-    }
+		//
+		if (!hasValidContextIDAttribute(eContext))
+			resultado = false;
 
-    private boolean hasValidContextIDAttribute(Element eContext){
-        //TODO: All!
-        return true;
-    }
+		// Verifica se o atributo 'refer' de <context> aponta para um outro
+		// elemento <context>.
+		if (!hasValidContextReferAttribute(eContext))
+			resultado = false;
 
-    private boolean hasValidContextReferAttribute(Element eContext){
-    	if( eContext.hasAttribute("refer") ) {
-    		
+		return resultado;
+	}
+
+	private boolean hasValidContextIDAttribute(Element eContext) {
+		// TODO: All!
+		return true;
+	}
+
+	private boolean hasValidContextReferAttribute(Element eContext) {
+		if (eContext.hasAttribute("refer")) {
+			// TODO: Element cannot be a parent (grandparent,...) or a children
+			// (grandchildren, ...) from the element
 			String idRefer = eContext.getAttribute("refer");
 			Element element = doc.getElement(idRefer);
-			
-			if(element==null) {
-				Vector <String> args = new Vector<String>();
+
+			if (element == null) {
+				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
 
-				MessageList.addError(doc.getId(),
-						3401, eContext, args);				
+				MessageList.addError(doc.getId(), 3401, eContext, args);
 				return false;
-			}
-			
-			if( element.getTagName().compareTo("context")!=0 && element.getTagName() != "body") {
-				Vector <String> args = new Vector<String>();
+			} else if (element.getTagName().compareTo("context") != 0
+					&& element.getTagName() != "body") {
+				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
 
-				MessageList.addError(doc.getId(),
-						3401, eContext, args);
+				MessageList.addError(doc.getId(), 3401, eContext, args);
+				return false;
+			} else if (element.hasAttribute("refer")) {
+				// cannot refer an element that has a refer too
+				Vector<String> args = new Vector<String>();
+				args.add(idRefer);
+				MessageList.addError(doc.getId(), 4109, eContext, args);
 				return false;
 			}
 		}
-        return true;
-    }
+		return true;
+	}
 
 }
