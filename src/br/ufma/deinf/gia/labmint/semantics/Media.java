@@ -211,6 +211,14 @@ public class Media extends ElementValidation{
 						4102,
 						eMedia, args);				
 				return false;
+			} else if(element.hasAttribute("refer")){
+				//cannot refer a media that has a refer too
+				Vector <String> args = new Vector <String>();
+    			args.add(idRefer);
+    			MessageList.addWarning(doc.getId(), 
+						4109,
+						eMedia, args);				
+				return false;
 			}
 		}		
         return true;
@@ -307,12 +315,10 @@ public class Media extends ElementValidation{
         	types.put("application/x-ginga-NCLua", "lua");
         	types.put("application/x-ncl-NCLua", "lua");
         	
-        	types.put("application/x-ginga-NCLet", "xlt");
-        	types.put("application/x-ncl-NCLet", "xlt");
-        	types.put("application/x-ginga-NCLet", "xlet");
-        	types.put("application/x-ncl-NCLet", "xlet");
         	types.put("application/x-ginga-NCLet", "class");
         	types.put("application/x-ncl-NCLet", "class");
+        	types.put("application/x-ginga-NCLet", "jar");
+        	types.put("application/x-ncl-NCLet", "jar");
         	
         	types.put("application/x-ginga-settings", "");
         	types.put("application/x-ncl-settings", "");
