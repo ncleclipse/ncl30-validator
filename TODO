@@ -2,8 +2,9 @@ TODO:
 	1. Validacao baseado no xmlns - de acordo com o perfil da linguagem.
 		 A logica para os tres profiles (EDTV, BDTV e CausalConnector) nao estah
 		sendo feita. A logica seria:
-			Se atributo xmlns do <ncl> eh http://www.ncl.org.br/NCL3.0/EDTVProfile entao
-			faz como estah sendo feito;
+			Se atributo xmlns do <ncl> eh 
+				http://www.ncl.org.br/NCL3.0/EDTVProfile 
+			entao faz como estah sendo feito;
 				
 			Se atributo xmlns do <ncl> eh http://www.ncl.org.br/NCL3.0/BDTVProfile entao
 			nao aceita APENAS <meta>, <metadata> e <transactionBase> (o que vai excluir
@@ -38,6 +39,8 @@ TODO:
 		Tem a ver com o fato de verificar se a variavel eh usada por aquele action ou 
 		assesmentStatement e entao verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
+		
+	- Validar
 
 Versao 1.4.10
 2010-01-24
