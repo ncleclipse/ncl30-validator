@@ -83,21 +83,34 @@ public class BindRule extends ElementValidation {
 			return false;
 		String idComponent = eBindRule.getAttribute("constituent");
 
+		String fatherTagName = ((Element) eBindRule.getParentNode())
+				.getTagName();
 		Element eComponent = doc.getElement(idComponent);
-		if (eComponent != null && !eComponent.getTagName().equals("media")
-				&& !eComponent.getTagName().equals("switch")
-				&& !eComponent.getTagName().equals("context")) {
-					
-			Vector<String> args = new Vector<String>();
-			args.add(idComponent);
+		if (fatherTagName.equals("switch")) {
+			if (eComponent != null && !eComponent.getTagName().equals("media")
+					&& !eComponent.getTagName().equals("switch")
+					&& !eComponent.getTagName().equals("context")) {
 
-			MessageList.addError(doc.getId(), 4701, eBindRule, args);
+				Vector<String> args = new Vector<String>();
+				args.add(idComponent);
+
+				MessageList.addError(doc.getId(), 4701, eBindRule, args);
+			}
+		} else if (fatherTagName.equals("switchDescriptor")) {
+			if (eComponent != null
+					&& !eComponent.getTagName().equals("descriptor")) {
+
+				Vector<String> args = new Vector<String>();
+				args.add(idComponent);
+
+				MessageList.addError(doc.getId(), 4702, eBindRule, args);
+			}
 		}
 		if (!constituentIsInMySwitch(eBindRule)) {
 			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
 
-			MessageList.addError(doc.getId(), 4702, eBindRule, args);
+			MessageList.addError(doc.getId(), 4703, eBindRule, args);
 			return false;
 		}
 		return true;
@@ -107,11 +120,11 @@ public class BindRule extends ElementValidation {
 		String idRule = eBindRule.getAttribute("rule");
 		Element rule = doc.getElement(idRule);
 
-		if(rule == null || !rule.getTagName().equals("rule")){
+		if (rule == null || !rule.getTagName().equals("rule")) {
 			Vector<String> args = new Vector<String>();
 			args.add(eBindRule.getAttribute("rule"));
 
-			MessageList.addError(doc.getId(), 4703, eBindRule, args);
+			MessageList.addError(doc.getId(), 4704, eBindRule, args);
 			return false;
 		}
 		return true;
@@ -137,10 +150,11 @@ public class BindRule extends ElementValidation {
 		if (element == null)
 			return false;
 
-		// check if the component refered is media, swicth or component
+		// check if the component refered is media, switch or component
 		if (element.getTagName().equals("media")
 				|| element.getTagName().equals("switch")
-				|| element.getTagName().equals("context"))
+				|| element.getTagName().equals("context")
+				|| element.getTagName().equals("descriptor"))
 			return true;
 
 		return false;

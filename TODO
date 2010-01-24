@@ -44,7 +44,9 @@ TODO:
 
 Versao 1.4.10
 2010-01-24
-	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s). 
+	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s).
+	- BUG: falso negativo para descriptorSwitch apontando para descriptor.
+		-Resolvido! 
 	
 Versao 1.4.6
 2009-11-18
