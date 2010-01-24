@@ -38,7 +38,11 @@ TODO:
 		Tem a ver com o fato de verificar se a variavel eh usada por aquele action ou 
 		assesmentStatement e entao verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
-		
+
+Versao 1.4.10
+2010-01-24
+	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s). 
+	
 Versao 1.4.6
 2009-11-18
 	- zIndex na faixa de 0 a 255
