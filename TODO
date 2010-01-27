@@ -40,13 +40,18 @@ TODO:
 		assesmentStatement e entao verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
 		
-	- Validar
+	- Validar o set quando nao tem interface no bind.
+	
+	- Constituent não está validando contextual e não esta validando.
 
 Versao 1.4.10
 2010-01-24
 	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s).
 	- BUG: falso negativo para descriptorSwitch apontando para descriptor.
 		-Resolvido! 
+	- Constituent nao validava direito quando o elemento referenciado nao estava
+		presente!
+		-OK!
 	
 Versao 1.4.6
 2009-11-18

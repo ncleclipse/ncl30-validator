@@ -87,23 +87,25 @@ public class BindRule extends ElementValidation {
 				.getTagName();
 		Element eComponent = doc.getElement(idComponent);
 		if (fatherTagName.equals("switch")) {
-			if (eComponent != null && !eComponent.getTagName().equals("media")
+			if (eComponent == null || (!eComponent.getTagName().equals("media")
 					&& !eComponent.getTagName().equals("switch")
-					&& !eComponent.getTagName().equals("context")) {
+					&& !eComponent.getTagName().equals("context"))) {
 
 				Vector<String> args = new Vector<String>();
 				args.add(idComponent);
 
 				MessageList.addError(doc.getId(), 4701, eBindRule, args);
+				return false;
 			}
 		} else if (fatherTagName.equals("switchDescriptor")) {
-			if (eComponent != null
-					&& !eComponent.getTagName().equals("descriptor")) {
+			if (eComponent == null
+					|| (!eComponent.getTagName().equals("descriptor"))) {
 
 				Vector<String> args = new Vector<String>();
 				args.add(idComponent);
 
 				MessageList.addError(doc.getId(), 4702, eBindRule, args);
+				return false;
 			}
 		}
 		if (!constituentIsInMySwitch(eBindRule)) {
