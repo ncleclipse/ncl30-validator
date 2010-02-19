@@ -57,7 +57,7 @@ import org.w3c.dom.Element;
 public class MessageList {
 	public static final int PORTUGUESE = 0;
 	public static final int ENGLISH = 1;
-	public static final int SPANISH = 1;
+	public static final int SPANISH = 2;
 	private static Vector<Message> errors = new Vector<Message>();
 	private static Vector<Message> warnings = new Vector<Message>();
 	private static int atualLanguage = ENGLISH;
