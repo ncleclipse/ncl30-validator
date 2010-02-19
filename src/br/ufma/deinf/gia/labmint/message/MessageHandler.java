@@ -22,10 +22,7 @@
  ********************************************************************************/
 package br.ufma.deinf.gia.labmint.message;
 
-import java.util.MissingResourceException;
 import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Vector;
 
 /**
  * 
