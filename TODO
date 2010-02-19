@@ -43,7 +43,14 @@ TODO:
 	- Validar o set quando nao tem interface no bind.
 	
 	- Constituent não está validando contextual e não esta validando.
-
+	
+Versao 1.4.20
+2010-02-19
+	- BUG: documento importado pelo importNCL não estava sendo importado, 
+		resultando em falso negativo quando se referenciava a um elemento que
+		estava no outro documento.
+			- Status: Resolvido
+			
 Versao 1.4.10
 2010-01-24
 	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s).
