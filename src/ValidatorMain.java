@@ -20,7 +20,7 @@ public class ValidatorMain {
 	static Vector<File> files = new Vector<File>();
 	static int language;
 	static String[] warning={"Alertas","Warning","Alertas"};
-	static String[] error={"Error","Errors","Errores"};
+	static String[] error={"Erros","Errors","Errores"};
 	static String[] line ={"Linha: ","Line: ","Línea: "};
 	static String[] column={"Coluna: ","Column: ","Columna: "};
 	static String[] element={"Elemento: ","Element: ","Elemento: "};
@@ -135,8 +135,22 @@ public class ValidatorMain {
 	public static void main(String[] args) {
 		String[] languages = Locale.getISOLanguages();
 		String[] countries = Locale.getISOCountries();
+		int BR = 0;
+		int ES = 0;
 		
+		
+		for(int i =0 ; i < countries.length;i++){
+			if(countries[i].equals("BR")){
+				BR=i;
+				
+			}
+			if(countries[i].equals("ES")){
+				ES=i;
+			}
+		}
+		System.out.println(BR+" "+ES);
 		if(args.length< 1){
+			
 			
 			printMain();
 		}
@@ -154,7 +168,7 @@ public class ValidatorMain {
 		} else if (args.length > 1) {
 			if (args[0].equals("-pt")) {
 				language = MessageList.PORTUGUESE;
-				Locale.setDefault(new Locale(languages[134],countries[29]));
+				Locale.setDefault(new Locale(languages[134],countries[BR]));
 			}
 			if (args[0].equals("-en")) {
 				language = MessageList.ENGLISH;
@@ -162,7 +176,7 @@ public class ValidatorMain {
 			}
 			if (args[0].equals("-es")) {
 				language = MessageList.SPANISH;
-				Locale.setDefault(new Locale(languages[39],countries[66]));
+				Locale.setDefault(new Locale(languages[39],countries[ES]));
 			}
 
 			File f = new File(args[1]);
