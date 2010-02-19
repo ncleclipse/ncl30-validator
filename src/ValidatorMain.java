@@ -19,12 +19,12 @@ import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 public class ValidatorMain {
 	static Vector<File> files = new Vector<File>();
 	static int language;
-	static String[] warning={"Alertas","Warning","Alertas"};
-	static String[] error={"Erros","Errors","Errores"};
-	static String[] line ={"Linha: ","Line: ","Línea: "};
-	static String[] column={"Coluna: ","Column: ","Columna: "};
-	static String[] element={"Elemento: ","Element: ","Elemento: "};
-	
+	static String[] warning = { "Alertas", "Warning", "Alertas" };
+	static String[] error = { "Erros", "Errors", "Errores" };
+	static String[] line = { "Linha: ", "Line: ", "Línea: " };
+	static String[] column = { "Coluna: ", "Column: ", "Columna: " };
+	static String[] element = { "Elemento: ", "Element: ", "Elemento: " };
+
 	public static void buildFileTree(File f) {
 		if (!f.exists())
 			return;
@@ -99,7 +99,7 @@ public class ValidatorMain {
 			Vector<Message> warnings = NCLValidator.getWarnings();
 			Vector<Message> erros = NCLValidator.getErrors();
 
-			System.out.println("### "+warning[language]+" ###");
+			System.out.println("### " + warning[language] + " ###");
 			for (int i = 0; i < warnings.size(); i++) {
 				if (warnings.get(i).getElement() != null)
 					System.out.print("Element:'"
@@ -109,7 +109,7 @@ public class ValidatorMain {
 			}
 			System.out.println("\n\n");
 			// Imprime os erros
-			System.out.println("### "+ error[language] +" ###");
+			System.out.println("### " + error[language] + " ###");
 			for (int i = 0; i < erros.size(); i++) {
 				if (erros.get(i).getElement() != null) {
 					System.out.println(element[language]
@@ -117,12 +117,13 @@ public class ValidatorMain {
 							+ erros.get(i).getId() + "'");
 					// SimpleLocator loc =
 					// handler.element2Locator(erros.get(i).getElement());
-					//System.out.println(erros.get(i).getElement().getUserData(
-						//	"baseSystemId"));
+					// System.out.println(erros.get(i).getElement().getUserData(
+					// "baseSystemId"));
 					System.out.println(line[language]
 							+ erros.get(i).getElement()
 									.getUserData("startLine")
-							+ " "+column[language]
+							+ " "
+							+ column[language]
 							+ erros.get(i).getElement().getUserData(
 									"startColumn"));
 				}
@@ -133,25 +134,9 @@ public class ValidatorMain {
 	}
 
 	public static void main(String[] args) {
-		String[] languages = Locale.getISOLanguages();
-		String[] countries = Locale.getISOCountries();
-		int BR = 0;
-		int ES = 0;
-		
-		
-		for(int i =0 ; i < countries.length;i++){
-			if(countries[i].equals("BR")){
-				BR=i;
-				
-			}
-			if(countries[i].equals("ES")){
-				ES=i;
-			}
-		}
-		System.out.println(BR+" "+ES);
-		if(args.length< 1){
-			
-			
+
+		if (args.length < 1) {
+
 			printMain();
 		}
 		if (args.length == 1) {
@@ -168,7 +153,7 @@ public class ValidatorMain {
 		} else if (args.length > 1) {
 			if (args[0].equals("-pt")) {
 				language = MessageList.PORTUGUESE;
-				Locale.setDefault(new Locale(languages[134],countries[BR]));
+				Locale.setDefault(new Locale("pt", "BR"));
 			}
 			if (args[0].equals("-en")) {
 				language = MessageList.ENGLISH;
@@ -176,7 +161,7 @@ public class ValidatorMain {
 			}
 			if (args[0].equals("-es")) {
 				language = MessageList.SPANISH;
-				Locale.setDefault(new Locale(languages[39],countries[ES]));
+				Locale.setDefault(new Locale("es", "ES"));
 			}
 
 			File f = new File(args[1]);
