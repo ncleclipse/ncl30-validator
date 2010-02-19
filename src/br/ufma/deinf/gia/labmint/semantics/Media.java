@@ -142,48 +142,38 @@ public class Media extends ElementValidation{
     }
 
     private boolean hasValidMediaSrcAttribute(Element eMedia){
-    	if (eMedia.hasAttribute("src"))
+        if (eMedia.hasAttribute("src"))
         {
-        	String src = eMedia.getAttribute("src");
-        	
-        	File fMedia;
-			try {
-				URI uri = new URI(src);
-				//System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri=" + uri);
-				if(uri.isAbsolute())
-					fMedia = new File(uri);
-				else{
-					uri = new URI(doc.getDir()+src);
-					//System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri=" + uri);
-					if(!uri.isAbsolute()){
-						Vector <String> args = new Vector <String>();
-		    			args.add(src);
-		    			MessageList.addWarning(doc.getId(), 
-								4103,
-								eMedia, args);
-		    			return false;
-					}
-					else fMedia = new File(uri);
-				}
-				if(!fMedia.exists()){
-					Vector <String> args = new Vector <String>();
-	    			args.add(src);
-	    			MessageList.addWarning(doc.getId(), 
-							4103,
-							eMedia, args);
-	    			return false;
-					
-				}
-			} catch (Exception e) {
-				Vector <String> args = new Vector <String>();
-    			args.add(src);
-    			MessageList.addWarning(doc.getId(), 
-						4103,
-						eMedia, args);
-    			return false;
-			}
+            String src = eMedia.getAttribute("src");
+           
+            File fMedia;
+           
+           
+                fMedia = new File(src);
+               
+                //System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri=" + uri);
+                if(fMedia.isFile())
+                    return true;
+                else{
+                    String absolute = doc.getDir().toString()+src;
+                 //   System.out.println(absolute.substring(7));
+                    fMedia = new File(absolute.substring(7));
+                    //System.out.println((doc.getDir()+src));
+                    //System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri=" + uri);
+                    if(!fMedia.isFile()){
+                        Vector <String> args = new Vector <String>();
+                        args.add(src);
+                        MessageList.addWarning(doc.getId(),
+                                4103,
+                                eMedia, args);
+                        return false;
+                    }
+                   
+                }
+               
+           
         }
-		return true;
+        return true;
     }
 
     private boolean hasValidMediaIDAttribute(Element eMedia){
