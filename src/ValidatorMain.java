@@ -137,10 +137,6 @@ public class ValidatorMain {
 		String[] countries = Locale.getISOCountries();
 		
 		if(args.length< 1){
-			language =  MessageList.SPANISH;
-			File f = new File("tests/exemplo02.ncl");
-			buildFileTree(f);
-			run();
 			
 			printMain();
 		}

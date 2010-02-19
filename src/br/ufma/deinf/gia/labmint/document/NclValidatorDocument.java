@@ -59,7 +59,7 @@ public class NclValidatorDocument {
 		// estah lendo no DocumentManager
 		this.id = null;
 		// JOptionPane.showMessageDialog(null, this.path);
-		System.out.println(">> Validating File = " + this.path);
+		//System.out.println(">> Validating File = " + this.path);
 
 		if (root.hasAttribute("id")) {
 			this.id = root.getAttribute("id");
@@ -239,7 +239,7 @@ public class NclValidatorDocument {
 				Node node = nodeList.item(i);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element child = (Element) node;
-					System.out.println(id + " -> " + child.getAttribute("id"));
+					//System.out.println(id + " -> " + child.getAttribute("id"));
 					if (child.getAttribute("id").equals(id))
 						return child;
 				}
@@ -263,7 +263,7 @@ public class NclValidatorDocument {
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element child = (Element) node;
-				System.out.println(id + " -> " + child.getAttribute("id"));
+				//System.out.println(id + " -> " + child.getAttribute("id"));
 				if (child.getAttribute("id").equals(id))
 					return child;
 			}
