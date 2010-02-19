@@ -135,11 +135,7 @@ public class NclValidatorMain {
 	public static void main(String[] args) {
 
 		if (args.length < 1) {
-			Locale.setDefault(new Locale("pt", "BR"));
-
-			File f = new File("tests/exemplo02.ncl");
-			buildFileTree(f);
-			run();
+			
 			printMain();
 		}
 		if (args.length == 1) {
