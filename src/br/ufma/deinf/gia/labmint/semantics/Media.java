@@ -152,8 +152,7 @@ public class Media extends ElementValidation {
 				return true;
 			else {
 				String absolute = doc.getDir().toString() + src;
-
-				fMedia = new File(absolute.substring(7));
+				fMedia = new File(absolute.substring(5));
 
 				if (!fMedia.isFile()) {
 					Vector<String> args = new Vector<String>();
