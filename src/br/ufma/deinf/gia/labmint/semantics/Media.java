@@ -163,6 +163,41 @@ public class Media extends ElementValidation {
 
 			}
 
+
+			/*
+			File fMedia;
+			try {
+				URI uri = new URI(src);
+				// System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri="
+				// + uri);
+				if (uri.isAbsolute())
+					fMedia = new File(uri);
+				else {
+					uri = new URI(doc.getDir() + src);
+					// System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri="
+					// + uri);
+					if (!uri.isAbsolute()) {
+						Vector<String> args = new Vector<String>();
+						args.add(src);
+						MessageList.addWarning(doc.getId(), 4103, eMedia, args);
+						return false;
+					} else
+						fMedia = new File(uri);
+				}
+				if (!fMedia.exists()) {
+					Vector<String> args = new Vector<String>();
+					args.add(src);
+					MessageList.addWarning(doc.getId(), 4103, eMedia, args);
+					return false;
+
+				}
+			} catch (Exception e) {
+				Vector<String> args = new Vector<String>();
+				args.add(src);
+				MessageList.addWarning(doc.getId(), 4103, eMedia, args);
+				return false;
+			}*/
+
 		}
 		return true;
 	}
@@ -206,17 +241,22 @@ public class Media extends ElementValidation {
 	// FIX: fix this function
 	private boolean hasValidExtension(Element eMedia) {
 		/*
-		 * if (eMedia.hasAttribute("src")) { setTypes();
-		 * 
-		 * String src = eMedia.getAttribute("src"); String extension =
-		 * getExtension(src);
-		 * 
-		 * if (!types.containsValue(extension)){
-		 * MessageList.addError(documentId, "Invalid extension for <media> "+
-		 * idMedia + ".", eMedia); return false; }
-		 * 
-		 * }
-		 */
+		if (eMedia.hasAttribute("src"))
+		{
+			setTypes();
+			
+			String src = eMedia.getAttribute("src");
+			String extension = getExtension(src);
+			
+			if (!types.containsValue(extension)){
+				MessageList.addError(documentId, 
+						"Invalid extension for <media> "+ idMedia + ".",
+						eMedia);
+				return false;
+			}
+			
+		}
+		*/
 		return true;
 	}
 
