@@ -139,6 +139,7 @@ public class NclValidatorMain {
 
 			printMain();
 		}
+
 		if (args.length == 1) {
 
 			Locale.setDefault(Locale.getDefault());
