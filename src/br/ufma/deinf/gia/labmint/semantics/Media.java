@@ -28,6 +28,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.Vector;
 
@@ -38,7 +39,7 @@ import br.ufma.deinf.gia.labmint.message.MessageList;
 import br.ufma.deinf.laws.util.MultiHashMap;
 
 public class Media extends ElementValidation {
-
+	String[] protocols={"file:","http:","https","rstp","rtp","ncl-mirror:","sbtvd:"};
 	public Media(NclValidatorDocument doc) {
 		super(doc);
 		setTypes();
@@ -141,10 +142,51 @@ public class Media extends ElementValidation {
 	}
 
 	private boolean hasValidMediaSrcAttribute(Element eMedia) {
+
 		if (eMedia.hasAttribute("src")) {
+			File fMedia;
 			String src = eMedia.getAttribute("src");
 
-			File fMedia;
+			for (int i = 0; i < protocols.length; i++) {
+				if (src.contains(protocols[i])) {
+					try {
+						URI uri = new URI(src);
+						if (uri.isAbsolute()) {
+							fMedia = new File(uri);
+						} else {
+							uri = new URI(doc.getDir() + src);
+							if (!uri.isAbsolute()) {
+								Vector<String> args = new Vector<String>();
+								args.add(src);
+								MessageList.addWarning(doc.getId(), 4103,
+										eMedia, args);
+								return false;
+							} else {
+								fMedia = new File(uri);
+							}
+							if (!fMedia.exists()) {
+								Vector<String> args = new Vector<String>();
+								args.add(src);
+								MessageList.addWarning(doc.getId(), 4103,
+										eMedia, args);
+								return false;
+
+							}
+
+						}
+					} catch (URISyntaxException e) {
+						Vector <String> args = new Vector <String>();
+		    			args.add(src);
+		    			MessageList.addWarning(doc.getId(), 
+								4103,
+								eMedia, args);
+		    			return false;
+						
+					}
+
+					return true;
+				}
+			}
 
 			fMedia = new File(src);
 
@@ -152,7 +194,8 @@ public class Media extends ElementValidation {
 				return true;
 			else {
 				String absolute = doc.getDir().toString() + src;
-				fMedia = new File(absolute.substring(5));
+				// System.out.println(absolute);
+				fMedia = new File(absolute.substring(7));
 
 				if (!fMedia.isFile()) {
 					Vector<String> args = new Vector<String>();
@@ -162,41 +205,6 @@ public class Media extends ElementValidation {
 				}
 
 			}
-
-
-			/*
-			File fMedia;
-			try {
-				URI uri = new URI(src);
-				// System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri="
-				// + uri);
-				if (uri.isAbsolute())
-					fMedia = new File(uri);
-				else {
-					uri = new URI(doc.getDir() + src);
-					// System.out.println("br.ufma.deinf.gia.labmint.semantics.Media hasValidMediaSrcAttribute uri="
-					// + uri);
-					if (!uri.isAbsolute()) {
-						Vector<String> args = new Vector<String>();
-						args.add(src);
-						MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-						return false;
-					} else
-						fMedia = new File(uri);
-				}
-				if (!fMedia.exists()) {
-					Vector<String> args = new Vector<String>();
-					args.add(src);
-					MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-					return false;
-
-				}
-			} catch (Exception e) {
-				Vector<String> args = new Vector<String>();
-				args.add(src);
-				MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-				return false;
-			}*/
 
 		}
 		return true;
