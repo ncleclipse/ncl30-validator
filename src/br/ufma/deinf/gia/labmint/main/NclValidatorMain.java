@@ -38,17 +38,17 @@ public class NclValidatorMain {
 	}
 
 	public static void printMain() {
-		System.out.println("Usage: ncl30-validator.jar [-en|-pt|-es]{file} ");
-		System.out.println("'-en' - set languague to english");
-		System.out.println("'-pt' - set languague to portuguese");
-		System.out.println("'-en' - set languague to spanish");
+		System.out.println("Usage: ncl30-validator.jar [-nl][language]{file} ");
+		System.out.println("'-nl' - Select National Language ");
+		System.out.println("'-language' - Select one of the available languages:pt_BR(portuguese),es_ES(spanish),en_US(english)" );
+		
 		System.out.println("'file' input file or directory");
 		System.out
-				.println("Example 1: Validating a single NCL document with english messages: validator.jar -en filename");
+				.println("Example 1: Validating a single NCL document with english messages: validator.jar -nl en_US filename");
 		System.out
-				.println("Example 2: Validating a single NCL document with portuguese messages: validator.jar -pt filename");
+				.println("Example 2: Validating a single NCL document with portuguese messages: validator.jar -nl pt_BR filename");
 		System.out
-				.println("Example 3: Validating a single NCL document with spanish messages: validator.jar -es filename");
+				.println("Example 3: Validating a single NCL document with spanish messages: validator.jar -es_ES filename");
 
 	}
 
@@ -139,8 +139,8 @@ public class NclValidatorMain {
 			printMain();
 		}
 		if (args.length == 1) {
-			language = MessageList.ENGLISH;
-			Locale.setDefault(Locale.ENGLISH);
+			
+			Locale.setDefault(Locale.getDefault());
 			File f = new File(args[0]);
 
 			if (f.isFile() || f.isDirectory()) {
@@ -149,19 +149,24 @@ public class NclValidatorMain {
 			} else {
 				printMain();
 			}
-		} else if (args.length > 1) {
-			if (args[0].equals("-pt")) {
-				language = MessageList.PORTUGUESE;
-				Locale.setDefault(new Locale("pt", "BR"));
+		} else if (args.length > 2) {
+			if(args[0].equals("-nl")){
+				if(args[1].equals("pt_BR")){
+					language = MessageList.PORTUGUESE;
+					Locale.setDefault(new Locale("pt", "BR"));
+				}
+				if(args[1].equals("en_US")){
+					language = MessageList.ENGLISH;
+					Locale.setDefault(Locale.ENGLISH);
+				}
+				if(args[1].equals("es_ES")){
+					language = MessageList.SPANISH;
+					Locale.setDefault(new Locale("es", "ES"));
+				}
 			}
-			if (args[0].equals("-en")) {
-				language = MessageList.ENGLISH;
-				Locale.setDefault(Locale.ENGLISH);
-			}
-			if (args[0].equals("-es")) {
-				language = MessageList.SPANISH;
-				Locale.setDefault(new Locale("es", "ES"));
-			}
+			
+			
+			
 
 			File f = new File(args[1]);
 
