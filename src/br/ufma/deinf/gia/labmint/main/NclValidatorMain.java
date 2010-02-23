@@ -22,7 +22,6 @@ import br.ufma.deinf.gia.labmint.xml.XMLParserExtend;
 public class NclValidatorMain {
 	static Vector<File> files = new Vector<File>();
 	static int language;
-	
 
 	public static void buildFileTree(File f) {
 		if (!f.exists())
@@ -40,8 +39,9 @@ public class NclValidatorMain {
 	public static void printMain() {
 		System.out.println("Usage: ncl30-validator.jar [-nl][language]{file} ");
 		System.out.println("'-nl' - Select National Language ");
-		System.out.println("'-language' - Select one of the available languages:pt_BR(portuguese),es_ES(spanish),en_US(english)" );
-		
+		System.out
+				.println("'-language' - Select one of the available languages:pt_BR(portuguese),es_ES(spanish),en_US(english)");
+
 		System.out.println("'file' input file or directory");
 		System.out
 				.println("Example 1: Validating a single NCL document with english messages: validator.jar -nl en_US filename");
@@ -59,7 +59,7 @@ public class NclValidatorMain {
 
 			Document doc = null;
 			MessageList.clear();
-			MessageList.setLanguage(language);
+			// MessageList.setLanguage(language);
 
 			try {
 				XMLParserExtend parser = new XMLParserExtend();
@@ -108,7 +108,8 @@ public class NclValidatorMain {
 			}
 			System.out.println("\n\n");
 			// Imprime os erros
-			System.out.println("### " + NCLValidatorErrorMessages.getString("2") + " ###");
+			System.out.println("### "
+					+ NCLValidatorErrorMessages.getString("2") + " ###");
 			for (int i = 0; i < erros.size(); i++) {
 				if (erros.get(i).getElement() != null) {
 					System.out.println(NCLValidatorErrorMessages.getString("5")
@@ -135,11 +136,11 @@ public class NclValidatorMain {
 	public static void main(String[] args) {
 
 		if (args.length < 1) {
-			
+
 			printMain();
 		}
 		if (args.length == 1) {
-			
+
 			Locale.setDefault(Locale.getDefault());
 			File f = new File(args[0]);
 
@@ -150,25 +151,14 @@ public class NclValidatorMain {
 				printMain();
 			}
 		} else if (args.length > 2) {
-			if(args[0].equals("-nl")){
-				if(args[1].equals("pt_BR")){
-					language = MessageList.PORTUGUESE;
-					Locale.setDefault(new Locale("pt", "BR"));
-				}
-				if(args[1].equals("en_US")){
-					language = MessageList.ENGLISH;
-					Locale.setDefault(Locale.ENGLISH);
-				}
-				if(args[1].equals("es_ES")){
-					language = MessageList.SPANISH;
-					Locale.setDefault(new Locale("es", "ES"));
-				}
+			if (args[0].equals("-nl")) {
+				String nl = args[1];
+				String language = args[1].substring(0, 2);
+				String country = args[1].substring(3, 5);
+				Locale.setDefault(new Locale(language, country));
 			}
-			
-			
-			
 
-			File f = new File(args[1]);
+			File f = new File(args[2]);
 
 			if (f.isFile() || f.isDirectory()) {
 				buildFileTree(f);
