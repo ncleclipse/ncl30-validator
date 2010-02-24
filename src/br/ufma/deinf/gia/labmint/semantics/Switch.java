@@ -53,6 +53,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
@@ -74,7 +75,8 @@ public class Switch extends ElementValidation {
 		// elemento <swtich>.
 		if (!hasValidSwitchReferAttribute(eSwitch))
 			resultado = false;
-
+		
+		hasValidSwitchContext(eSwitch);
 		return resultado;
 	}
 
@@ -88,6 +90,7 @@ public class Switch extends ElementValidation {
 			if (!eSwitch.hasAttribute("id"))
 				return false;// msg gerada pelo DTD
 			String idSwitch = eSwitch.getAttribute("id");
+			
 			if (!eSwitch.hasAttribute("refer"))
 				return false;// msg gerada pelo DTD
 			String idRefer = eSwitch.getAttribute("refer");
@@ -108,6 +111,51 @@ public class Switch extends ElementValidation {
 			}
 		}
 		return true;
+	}
+	
+	private boolean hasValidSwitchContext(Element eSwitch){
+		String idSwitch = eSwitch.getAttribute("id");
+		
+		NodeList contexts=eSwitch.getElementsByTagName("context");
+		
+		NodeList bindRules=eSwitch.getElementsByTagName("bindRule");
+		
+		NodeList defaultComponent=eSwitch.getElementsByTagName("defaultComponent");
+		
+		NodeList media = eSwitch.getElementsByTagName("media");
+		
+		NodeList switchPort= eSwitch.getElementsByTagName("switchPort");
+		Vector<String> ids= new Vector<String>();
+		
+		Vector<String> refers= new Vector<String>();
+		
+		for(int i=0;i<media.getLength();i++){
+			ids.add(((Element) media.item(i)).getAttribute("id"));
+		}
+		
+		for (int i=0;i< contexts.getLength();i++){
+			ids.add(((Element) contexts.item(i)).getAttribute("id"));
+			//System.out.println(contextId.elementAt(i));
+		}
+		for(int i=0;i<bindRules.getLength();i++){
+			refers.add(((Element) bindRules.item(i)).getAttribute("constituent"));
+			
+		}
+		for(int i=0;i<defaultComponent.getLength();i++){
+			refers.add(((Element) defaultComponent.item(i)).getAttribute("component"));
+			//System.out.println(constituents.lastElement());
+		}
+		 for(int i=0;i<ids.size();i++){
+			 if(!refers.contains(ids.elementAt(i))){
+				 Vector<String> args = new Vector<String>();
+					args.add(ids.elementAt(i));
+					MessageList.addError(doc.getId(), 4502, eSwitch, args);
+					return false;
+			 }
+		 }
+		
+		return true;
+		
 	}
 
 }
