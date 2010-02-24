@@ -1,3 +1,5 @@
+-validar se todo filho do switch é apontado por algum bindRule ou defaultComponent
+-validar a media com espaço no nome.
 TODO:
 	1. Validacao baseado no xmlns - de acordo com o perfil da linguagem.
 		 A logica para os tres profiles (EDTV, BDTV e CausalConnector) nao estah
