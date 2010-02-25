@@ -53,6 +53,7 @@ package br.ufma.deinf.gia.labmint.semantics;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
@@ -76,7 +77,7 @@ public class Switch extends ElementValidation {
 		if (!hasValidSwitchReferAttribute(eSwitch))
 			resultado = false;
 		
-		hasValidSwitchContext(eSwitch);
+		hasValidSwitchChilds(eSwitch);
 		return resultado;
 	}
 
@@ -113,7 +114,7 @@ public class Switch extends ElementValidation {
 		return true;
 	}
 	
-	private boolean hasValidSwitchContext(Element eSwitch){
+	private boolean hasValidSwitchChilds(Element eSwitch){
 		String idSwitch = eSwitch.getAttribute("id");
 		
 		NodeList contexts=eSwitch.getElementsByTagName("context");
@@ -130,18 +131,22 @@ public class Switch extends ElementValidation {
 		Vector<String> refers= new Vector<String>();
 		
 		for(int i=0;i<media.getLength();i++){
+			if(media.item(i).getNodeType()== Node.ELEMENT_NODE)
 			ids.add(((Element) media.item(i)).getAttribute("id"));
 		}
 		
 		for (int i=0;i< contexts.getLength();i++){
+			if(contexts.item(i).getNodeType()==Node.ELEMENT_NODE)
 			ids.add(((Element) contexts.item(i)).getAttribute("id"));
 			//System.out.println(contextId.elementAt(i));
 		}
 		for(int i=0;i<bindRules.getLength();i++){
+			if(bindRules.item(i).getNodeType()==Node.ELEMENT_NODE)
 			refers.add(((Element) bindRules.item(i)).getAttribute("constituent"));
 			
 		}
 		for(int i=0;i<defaultComponent.getLength();i++){
+			if(defaultComponent.item(i).getNodeType()== Node.ELEMENT_NODE)
 			refers.add(((Element) defaultComponent.item(i)).getAttribute("component"));
 			//System.out.println(constituents.lastElement());
 		}
