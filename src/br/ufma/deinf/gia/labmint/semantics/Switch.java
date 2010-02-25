@@ -149,7 +149,7 @@ public class Switch extends ElementValidation {
 			 if(!refers.contains(ids.elementAt(i))){
 				 Vector<String> args = new Vector<String>();
 					args.add(ids.elementAt(i));
-					MessageList.addError(doc.getId(), 4502, doc.getElement(ids.elementAt(i)), args);
+					MessageList.addWarning(doc.getId(), 4502, doc.getElement(ids.elementAt(i)), args);
 					return false;
 			 }
 		 }
