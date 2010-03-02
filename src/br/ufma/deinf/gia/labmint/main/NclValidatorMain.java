@@ -36,20 +36,8 @@ public class NclValidatorMain {
 		}
 	}
 
-	public static void printMain() {
-		System.out.println("Usage: ncl30-validator.jar [-nl][language]{file} ");
-		System.out.println("'-nl' - Select National Language ");
-		System.out
-				.println("'-language' - Select one of the available languages:pt_BR(portuguese),es_ES(spanish),en_US(english)");
-
-		System.out.println("'file' input file or directory");
-		System.out
-				.println("Example 1: Validating a single NCL document with english messages: validator.jar -nl en_US filename");
-		System.out
-				.println("Example 2: Validating a single NCL document with portuguese messages: validator.jar -nl pt_BR filename");
-		System.out
-				.println("Example 3: Validating a single NCL document with spanish messages: validator.jar -es_ES filename");
-
+	public static void printHelp() {
+		System.out.println(NCLValidatorErrorMessages.getString("0"));
 	}
 
 	public static void run() {
@@ -136,22 +124,23 @@ public class NclValidatorMain {
 	public static void main(String[] args) {
 
 		if (args.length < 1) {
-
-			printMain();
+			printHelp();
 		}
-
-		if (args.length == 1) {
-
+		else if (args.length == 1) {
+			if(args[0].equals("--help") || args[0].equals("-h")){
+				printHelp();
+				return;
+			}
 			Locale.setDefault(Locale.getDefault());
 			File f = new File(args[0]);
-
+			
 			if (f.isFile() || f.isDirectory()) {
 				buildFileTree(f);
 				run();
 			} else {
-				printMain();
+				printHelp();
 			}
-		} else if (args.length > 2) {
+		} else if (args.length == 3) {
 			if (args[0].equals("-nl")) {
 				String nl = args[1];
 				String language = args[1].substring(0, 2);
@@ -160,14 +149,13 @@ public class NclValidatorMain {
 			}
 
 			File f = new File(args[2]);
-
 			if (f.isFile() || f.isDirectory()) {
 				buildFileTree(f);
 				run();
 			} else {
-				printMain();
+				printHelp();
 			}
-		}
+		} else printHelp();
 
 	}
 
