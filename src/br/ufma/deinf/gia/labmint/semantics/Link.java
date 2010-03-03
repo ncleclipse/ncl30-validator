@@ -298,18 +298,20 @@ public class Link extends ElementValidation {
 				 * if(conditions.containsKey(element.getAttribute("role"))){
 				 * System.out.println("c nao tem"); }
 				 */
+				if (element.hasAttribute("role")) {
+					if ((conditions.containsKey(element.getAttribute("role")))
+							|| (actions.containsKey(element
+									.getAttribute("role")))) {
+						continue;
+					} else {
+						Vector<String> args = new Vector<String>();
+						args.add(element.getAttribute("role"));
+						args.add(eCausalConnector.getAttribute("id"));
 
-				if ((conditions.containsKey(element.getAttribute("role")))
-						|| (actions.containsKey(element.getAttribute("role")))) {
-					continue;
-				} else {
-					Vector<String> args = new Vector<String>();
-					args.add(element.getAttribute("role"));
-					args.add(eCausalConnector.getAttribute("id"));
+						MessageList.addError(doc.getId(), 3907, element, args);
 
-					MessageList.addError(doc.getId(), 3907, element, args);
-
-					ok = false;
+						ok = false;
+					}
 				}
 			}
 		}
