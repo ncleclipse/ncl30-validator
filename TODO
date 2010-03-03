@@ -1,5 +1,6 @@
--validar se todo filho do switch � apontado por algum bindRule ou defaultComponent
--validar a media com espa�o no nome.
+-validar se todo filho do switch eh apontado por algum bindRule ou 
+	defaultComponent
+-validar a media com espaco no nome.
 TODO:
 	1. Validacao baseado no xmlns - de acordo com o perfil da linguagem.
 		 A logica para os tres profiles (EDTV, BDTV e CausalConnector) nao estah
@@ -46,53 +47,6 @@ TODO:
 	
 	- Constituent não está validando contextual e não esta validando.
 	
-Versao 1.4.20
-2010-02-19
-	- BUG: documento importado pelo importNCL não estava sendo importado, 
-		resultando em falso negativo quando se referenciava a um elemento que
-		estava no outro documento.
-			- Status: Resolvido
-			
-Versao 1.4.10
-2010-01-24
-	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s).
-	- BUG: falso negativo para descriptorSwitch apontando para descriptor.
-		-Resolvido! 
-	- Constituent nao validava direito quando o elemento referenciado nao estava
-		presente!
-		-OK!
-	
-Versao 1.4.6
-2009-11-18
-	- zIndex na faixa de 0 a 255
-	- Types do src atualizados. (Ainda falta alguma coisa: ver TODO 4).
-	- Gerando mensagem de erro qndo um elemento que tb possui um refer eh referenciado.
-	
-Versao 1.4.5
-2009-11-03
-	- Validacao do bind para elementos que nao estao no mesmo contexto (ok)
-	- Validacao do bindRule referenciando elementos que nao estao no mesmo switch (ok)
-	- Validacao do defaultComponent referenciando elementos que nao estao no mesmo switch (ok)
-Versao 1.4.4
-2009-11-01
-	- Interface para area de um media com refer estava dando falso erro (BUG). (OK)  
-	- Gerando Warning quando bindParam ou linkParam nao aponta para um connectorParam 
-		existente.
-	
-Versao 1.4
-2009-03-11
-	- Mensagens de erros movidas para o arquivo messages.properties
-		- Facilitando internacionalizacao
-		- Resolvido o problema de codificacao no NCL Eclipse
-		
-2009-02-13
-	- Validacao do role quando fazia parte de um attributeAssessment dava falso erro.
-		Ok
-	 
-2008-09-05
-	- BUG na validacao de role unico no conector estava com erro.
-		Ok!
-
 # Tipos de Dados #################################################
 	- porcentagem (nao to tratando .) 10.00 da pau!
 

@@ -1,0 +1,48 @@
+Versao 1.4.20
+2010-02-19
+	- BUG: documento importado pelo importNCL não estava sendo importado, 
+		resultando em falso negativo quando se referenciava a um elemento que
+		estava no outro documento. (ok)
+		
+Versao 1.4.10
+2010-01-24
+	- Erro 3904 em Ingles estava aparecendo veze(s) ao inves de time(s). (ok)
+	- BUG: falso negativo para descriptorSwitch apontando para descriptor. (ok)
+	- Constituent nao validava direito quando o elemento referenciado nao estava
+		presente. (ok)
+	
+Versao 1.4.6
+2009-11-18
+	- zIndex na faixa de 0 a 255 (ok)
+	- Types do src atualizados. (Ainda falta alguma coisa: ver TODO 4). (ok)
+	- Gerando mensagem de erro qndo um elemento que tb possui um refer eh 
+		referenciado. (ok)
+	
+Versao 1.4.5
+2009-11-03
+	- Validacao do bind para elementos que nao estao no mesmo contexto (ok)
+	- Validacao do bindRule referenciando elementos que nao estao no mesmo 
+		switch (ok)
+	- Validacao do defaultComponent referenciando elementos que nao estao no 
+		mesmo switch (ok)
+		
+Versao 1.4.4
+2009-11-01
+	- Interface para area de um media com refer estava dando falso erro (BUG).
+		(ok)
+
+	- Gerando Warning quando bindParam ou linkParam nao aponta para um 
+		connectorParam existente. (ok)
+	
+Versao 1.4
+2009-03-11
+	- Mensagens de erros movidas para o arquivo messages.properties (ok)
+		- Facilitando internacionalizacao
+		- Resolvido o problema de codificacao no NCL Eclipse
+		
+2009-02-13
+	- BUG Validacao do role quando fazia parte de um attributeAssessment dava 
+		falso erro. (ok)
+	 
+2008-09-05
+	- BUG na validacao de role unico no conector estava com erro. (ok)
