@@ -281,12 +281,12 @@ public class Link extends ElementValidation {
 		 * Vector<String>(); args.add(nameConnectorParam);
 		 * MessageList.addWarning(doc.getId(), 4601, eLink, args); } }
 		 */
-		for (int i = 0; i < list.getLength(); i++) {
+		/*for (int i = 0; i < list.getLength(); i++) {
 
 			if (list.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Node nod = (Element) list.item(i);
 				Element element = (Element) nod;
-				/*
+				
 				 * if(conditions.containsKey(element.getAttribute("role"))){
 				 * continue; }else
 				 * if(!actions.containsKey(element.getAttribute("role"))){
@@ -297,7 +297,7 @@ public class Link extends ElementValidation {
 				 * }else
 				 * if(conditions.containsKey(element.getAttribute("role"))){
 				 * System.out.println("c nao tem"); }
-				 */
+				 
 				if (element.hasAttribute("role")) {
 					if ((conditions.containsKey(element.getAttribute("role")))
 							|| (actions.containsKey(element
@@ -314,7 +314,7 @@ public class Link extends ElementValidation {
 					}
 				}
 			}
-		}
+		}*/
 		return ok;
 	}
 
