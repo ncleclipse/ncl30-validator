@@ -87,9 +87,10 @@ public class BindRule extends ElementValidation {
 				.getTagName();
 		Element eComponent = doc.getElement(idComponent);
 		if (fatherTagName.equals("switch")) {
-			if (eComponent == null || (!eComponent.getTagName().equals("media")
-					&& !eComponent.getTagName().equals("switch")
-					&& !eComponent.getTagName().equals("context"))) {
+			if (eComponent == null
+					|| (!eComponent.getTagName().equals("media")
+							&& !eComponent.getTagName().equals("switch") && !eComponent
+							.getTagName().equals("context"))) {
 
 				Vector<String> args = new Vector<String>();
 				args.add(idComponent);
@@ -122,7 +123,8 @@ public class BindRule extends ElementValidation {
 		String idRule = eBindRule.getAttribute("rule");
 		Element rule = doc.getElement(idRule);
 
-		if (rule == null || !rule.getTagName().equals("rule")) {
+		if (rule == null || (!rule.getTagName().equals("rule")
+				&& !rule.getTagName().equals("compositeRule"))) {
 			Vector<String> args = new Vector<String>();
 			args.add(eBindRule.getAttribute("rule"));
 

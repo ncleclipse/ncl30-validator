@@ -1,8 +1,12 @@
 Versao 1.4.20
+2010-03-13
+	- BUG corrigido: bindRule apontando para compositeRule estava dando falso 
+		negativo. (ok)
+	
 2010-02-19
-	- BUG: documento importado pelo importNCL não estava sendo importado, 
-		resultando em falso negativo quando se referenciava a um elemento que
-		estava no outro documento. (ok)
+	- BUG corrigido: documento importado pelo importNCL não estava sendo 
+	  	importado, resultando em falso negativo quando se referenciava a um 
+	  	elemento que estava no outro documento. (ok)
 		
 Versao 1.4.10
 2010-01-24
