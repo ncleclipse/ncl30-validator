@@ -1,4 +1,8 @@
 Versao 1.4.20
+2010-03-15 23:51
+	- BUG corrigido: bind quando era para o body, mesmo em contexto válido
+		estava gerando falso negativo. (ok)
+		
 2010-03-13
 	- BUG corrigido: bindRule apontando para compositeRule estava dando falso 
 		negativo. (ok)

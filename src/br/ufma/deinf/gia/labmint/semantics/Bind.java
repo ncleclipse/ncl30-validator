@@ -61,8 +61,9 @@ import br.ufma.deinf.gia.labmint.message.MessageList;
 
 /**
  * 
- * @author <a href="mailto:robertogerson@telemidia.puc-rio.br">Roberto Gerson Azevedo</a>
- *
+ * @author <a href="mailto:robertogerson@telemidia.puc-rio.br">Roberto Gerson
+ *         Azevedo</a>
+ * 
  */
 public class Bind extends ElementValidation {
 
@@ -225,17 +226,19 @@ public class Bind extends ElementValidation {
 			return false;
 		String idComponent = eBind.getAttribute("component");
 		Element element = doc.getElement(idComponent);
-		
+
 		if (element == null) {
 			Vector<String> args = new Vector<String>();
 			args.add(idComponent);
 			MessageList.addError(doc.getId(), 3204, eBind, args);
 			return false;
-		} else if (element.getTagName().equals("media")
+		} else if (element.getTagName().equals("body")
+				|| element.getTagName().equals("media")
 				|| element.getTagName().equals("context")
 				|| element.getTagName().equals("switch")) {
-			
-			if (componentIsInMyContext(eBind)) return true;
+
+			if (componentIsInMyContext(eBind))
+				return true;
 		}
 		Vector<String> args = new Vector<String>();
 		args.add(idComponent);
@@ -276,12 +279,15 @@ public class Bind extends ElementValidation {
 	 */
 	private boolean componentIsInMyContext(Element eBind) {
 		// if bind refered the own context return true.
-		if (componentIsMyContext(eBind)) return true;
+		if (componentIsMyContext(eBind))
+			return true;
 
 		// DTD checks if component exists and print message.
-		if (!eBind.hasAttribute("component")) return true;
+		if (!eBind.hasAttribute("component"))
+			return true;
 
 		Element component = doc.getElement(eBind.getAttribute("component"));
+
 		// if the media refered is application/x-ginga-settings always is valid
 		if (component.getTagName().equals("media")
 				&& component.hasAttribute("type")
@@ -291,19 +297,22 @@ public class Bind extends ElementValidation {
 		}
 
 		Element eLink = (Element) eBind.getParentNode();
-		//this is error, but the DTD validates 
-		if (eLink == null) return false;
+		// this is error, but the DTD validates
+		if (eLink == null)
+			return false;
 		Element eContext = (Element) eLink.getParentNode();
-		if(eContext == null) return false;
-		
-		
-		// get the element with id refered by component in the context
-		Element element = doc.getElementChild(eContext, eBind.getAttribute("component"));
-		
-		//if it doesn't exists return false
-		if (element == null) return false;
+		if (eContext == null)
+			return false;
 
-		//check if the component refered is media, swicth or component
+		// get the element with id refered by component in the context
+		Element element = doc.getElementChild(eContext, eBind
+				.getAttribute("component"));
+
+		// if it doesn't exists return false
+		if (element == null)
+			return false;
+
+		// check if the component refered is media, switch or component
 		if (element.getTagName().equals("media")
 				|| element.getTagName().equals("switch")
 				|| element.getTagName().equals("context"))
