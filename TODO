@@ -1,6 +1,3 @@
--validar se todo filho do switch eh apontado por algum bindRule ou 
-	defaultComponent
--validar a media com espaco no nome.
 TODO:
 	[BUG] Tipo de dado ID nao aceita começar com '_'.
 	
@@ -34,20 +31,25 @@ TODO:
 	
 	5. Validacao do refer: gerar mensagem de erro quando referencia algum pai, ou avo, etc. do proprio elemento.
 		
-	- Carregar arquivos de mensagens de erros externos.
+	6. Carregar arquivos de mensagens de erros externos.
 	
-	- Utilizar o Reference para validacao de referencias. Ele soh existiu depois e por
+	7. Utilizar o Reference para validacao de referencias. Ele soh existiu depois e por
 		isso a maior parte dessa validacao eh feita na mao! Ele foi criado para o 
 		ncl eclipse, mas pode ser muito muito aqui!
 		
-	- Verificar se o connectorParam foi declarado quando necessario (isso eh foda!).
+	8. Verificar se o connectorParam foi declarado quando necessario (isso eh muito dificil!).
 		Tem a ver com o fato de verificar se a variavel eh usada por aquele action ou 
 		assesmentStatement e entao verificar se foi declarado no linkParam ou no
 		bindParam daquele bind.
 		
-	- Validar o set quando nao tem interface no bind.
+	9. Validar o set quando nao tem interface no bind.
 	
-	- Constituent não está validando contextual e não esta validando.
+	10. Constituent não está validando contextual e não esta validando.
+	
+	11. validar o src da media com espaco no nome.
+	
+	12. validar se todo filho do switch eh apontado por algum bindRule ou 
+		defaultComponent
 	
 # Tipos de Dados #################################################
 	- porcentagem (nao to tratando .) 10.00 da pau!
