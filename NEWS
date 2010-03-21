@@ -1,4 +1,7 @@
 Versao 1.4.20
+2010-03-16
+	- [BUG Corrigido] Tipo de dado ID nao aceita começar com '_'.
+	
 2010-03-15 23:51
 	- BUG corrigido: bind quando era para o body, mesmo em contexto válido
 		estava gerando falso negativo. (ok)
