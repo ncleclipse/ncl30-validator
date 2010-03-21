@@ -170,11 +170,10 @@ public class Media extends ElementValidation {
 								MessageList.addWarning(doc.getId(), 4103,
 										eMedia, args);
 								return false;
-
 							}
 
 						}
-					} catch (URISyntaxException e) {
+					} catch (Exception e) {
 						Vector <String> args = new Vector <String>();
 		    			args.add(src);
 		    			MessageList.addWarning(doc.getId(), 
