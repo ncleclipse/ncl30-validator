@@ -169,6 +169,9 @@ public class Media extends ElementValidation {
 			File fMedia;
 			String src = eMedia.getAttribute("src");
 
+			//TODO: this is not sufficient to working with URL codification
+			src = src.replaceAll(" ", "%20");
+
 			for (int i = 0; i < protocols.length; i++) {
 				if (src.contains(protocols[i])) {
 					try {
@@ -202,7 +205,6 @@ public class Media extends ElementValidation {
 						return false;
 
 					}
-
 					return true;
 				}
 			}
@@ -212,11 +214,17 @@ public class Media extends ElementValidation {
 			if (fMedia.isFile())
 				return true;
 			else {
-				String absolute = doc.getDir().toString() + src;
-				// System.out.println(absolute);
-				fMedia = new File(absolute.substring(5));
-
-				if (!fMedia.isFile()) {
+				URI uri;
+				try {
+					uri = new URI(doc.getDir() + src);
+					fMedia = new File(uri);
+					if (!fMedia.isFile()) {
+						Vector<String> args = new Vector<String>();
+						args.add(src);
+						MessageList.addWarning(doc.getId(), 4103, eMedia, args);
+						return false;
+					}
+				} catch (Exception e) {
 					Vector<String> args = new Vector<String>();
 					args.add(src);
 					MessageList.addWarning(doc.getId(), 4103, eMedia, args);
