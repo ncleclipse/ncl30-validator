@@ -69,21 +69,23 @@ public class Message implements Serializable {
 	private String position;
 	private Element element;
 	private String id;
+	private int idMsg;
 	int line;
 	int column;
 
 	public Message(int type, String description, String resource,
-			String position, Element element, String id) {
+			String position, Element element, String id, int idMsg) {
 		this.type = type;
 		this.description = description;
 		this.resource = resource;
 		this.position = position;
 		this.element = element;
 		this.id = id;
+		this.setMsgID(idMsg);
 	}
 
 	public Message(int type, String description, String resource, int line,
-			int col, Element element, String id) {
+			int col, Element element, String id, int idMsg) {
 		this.type = type;
 		this.description = description;
 		this.resource = resource;
@@ -91,6 +93,7 @@ public class Message implements Serializable {
 		this.id = id;
 		this.line = line;
 		this.column = col;
+		this.setMsgID(idMsg);
 	}
 
 	/**
@@ -102,7 +105,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Sets the message description.
+	 * Set the message description.
 	 * @param description
 	 */
 	public void setDescription(String description) {
@@ -110,7 +113,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Gets the message location. In other words, the line in the resource file. 
+	 * Get the message location. In other words, the line in the resource file. 
 	 * @return
 	 */
 	public String getPosition() {
@@ -118,7 +121,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Sets the message location (the line in the resource file).
+	 * Set the message location (the line in the resource file).
 	 * @param location
 	 */
 	public void setPosition(String position) {
@@ -126,7 +129,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Gets the message type.
+	 * Get the message type.
 	 * @return
 	 */
 	public int getType() {
@@ -134,7 +137,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Sets the message type.
+	 * Set the message type.
 	 * @param type
 	 */
 	public void setType(int type) {
@@ -142,7 +145,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * Returns the file name where the message was originated.
+	 * Return the file name where the message was originated.
 	 * @return
 	 */
 	public String getResource() {
@@ -187,5 +190,13 @@ public class Message implements Serializable {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setMsgID(int idMsg) {
+		this.idMsg = idMsg;
+	}
+
+	public int getMsgID() {
+		return idMsg;
 	}
 }

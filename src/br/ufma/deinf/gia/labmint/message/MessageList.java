@@ -71,7 +71,7 @@ public class MessageList {
 			id = element.getAttribute("id");
 		String text = MessageHandler.getMessage(idTextMsg);
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
-				element, id);
+				element, id, idTextMsg);
 		// new ReportMessage()
 		// Message msg = new Message(file, text, element, row, col);
 		errors.add(msg);
@@ -89,7 +89,7 @@ public class MessageList {
 		}
 
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
-				element, id);
+				element, id, idTextMsg);
 
 		errors.add(msg);
 	}
@@ -100,7 +100,7 @@ public class MessageList {
 		if (element != null && element.hasAttribute("id"))
 			id = element.getAttribute("id");
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
-				element, id);
+				element, id, -1);
 		// new ReportMessage()
 		// Message msg = new Message(file, text, element, row, col);
 		errors.add(msg);
@@ -127,7 +127,7 @@ public class MessageList {
 			id = element.getAttribute("id");
 		String text = MessageHandler.getMessage(idTextMsg);
 		Message msg = new Message(Message.WARNING_MESSAGE, text, file, null,
-				element, id);
+				element, id, idTextMsg);
 		// Message msg = new Message(file, text, element, row, col);
 		warnings.add(msg);
 	}
@@ -138,7 +138,7 @@ public class MessageList {
 		if (element != null && element.hasAttribute("id"))
 			id = element.getAttribute("id");
 		Message msg = new Message(Message.WARNING_MESSAGE, text, file, null,
-				element, id);
+				element, id, -1);
 		// Message msg = new Message(file, text, element, row, col);
 		warnings.add(msg);
 	}
@@ -168,7 +168,7 @@ public class MessageList {
 			text = text.replaceFirst("%s", args.get(i));
 
 		Message msg = new Message(Message.ERROR_MESSAGE, text, file, null,
-				element, id);
+				element, id, idTextMsg);
 
 		warnings.add(msg);
 	}
