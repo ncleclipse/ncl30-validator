@@ -47,6 +47,7 @@
  ******************************************************************************/
 package br.ufma.deinf.gia.labmint.document;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -103,6 +104,7 @@ public class NclValidatorDocument {
 			}
 		}
 		parse(this.root);
+
 		// XMLStaticElementPosition.calculatePositions(this);
 	}
 
@@ -133,14 +135,16 @@ public class NclValidatorDocument {
 		String docId = id.substring(index + 1);
 
 		if (!aliases.containsKey(alias)) {
-			return null;
-		}
 
+			return null;
+
+		}
 		NclValidatorDocument doc = aliases.get(alias);
 		return doc.getElement(docId);
 	}
 
 	protected void parse(Element root) {
+
 		if (root.hasAttribute("id")) {
 			String id = root.getAttribute("id");
 			if (!elements.containsKey(id)) {
@@ -152,28 +156,53 @@ public class NclValidatorDocument {
 			}
 		}
 		if (root.getTagName().equals("importBase")
-				|| root.getTagName().equals("importNCL")) {
-			if (root.hasAttribute("alias")) {
-				if (root.hasAttribute("documentURI")
-						&& !root.getAttribute("documentURI").equals("")) {
+				|| root.getTagName().equals("importNCL")
+				|| root.getTagName().equals("link")) {
+			
+			if (root.hasAttribute("alias") || root.hasAttribute("xconnector")) {
+				String caminho = "";
+				String att = "";
+				String alias = "";
+				boolean gambiarra = false;
+				
+				if (root.hasAttribute("documentURI")) {
+					caminho = root.getAttribute("documentURI");
+					att = "documentURI";
+					alias = root.getAttribute("alias");
+				}
+				
+				if (caminho.equals("")) {
+					if (root.hasAttribute("xconnector")) {
+						caminho = root.getAttribute("xconnector");
+						int index = caminho.indexOf("#");
+						if (index != -1)
+							caminho = caminho.substring(0, index);
+						caminho = aliases.containsKey(caminho) ? aliases.get(
+								caminho).getPath() : caminho;
+						att = "xconnector";
+						alias = caminho;
+						gambiarra = true;
+					}
+				}
+				
+				if (!caminho.equals("")) {
 					try {
 						XMLParserExtend parser = new XMLParserExtend();
 						Document doc = null;
-						URI uri = new URI(root.getAttribute("documentURI"));
+						URI uri = new URI(caminho);
 						// Se documentUri eh absoluto
 						if (uri.isAbsolute()) {
 							parser.parse(uri.getPath());
 							doc = parser.getDocument();
 						} else {
 							parser.parse(DocumentUtil.getAbsoluteFileName(this
-									.getPath(), root
-									.getAttribute("documentURI")));
+									.getPath(), caminho));
 							doc = parser.getDocument();
 						}
-						if (!this.addDocument(root.getAttribute("alias"),
-								new NclValidatorDocument(doc))) {
+						if (!this.addDocument(alias, new NclValidatorDocument(
+								doc)) && gambiarra == false) {
 							Vector<String> args = new Vector<String>();
-							args.add(root.getAttribute("alias"));
+							args.add(alias);
 							MessageList.addError(this.id, 3002, root, args);
 						}
 					} catch (Exception e) {
