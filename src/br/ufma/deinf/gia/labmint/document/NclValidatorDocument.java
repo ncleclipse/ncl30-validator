@@ -182,6 +182,7 @@ public class NclValidatorDocument {
 						att = "xconnector";
 						alias = caminho;
 						auxiliar = true;
+						if(index ==-1)return;
 					}
 				}
 				
