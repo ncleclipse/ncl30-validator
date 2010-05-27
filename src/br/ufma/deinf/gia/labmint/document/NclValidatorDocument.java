@@ -163,7 +163,7 @@ public class NclValidatorDocument {
 				String caminho = "";
 				String att = "";
 				String alias = "";
-				boolean gambiarra = false;
+				boolean auxiliar = false;
 				
 				if (root.hasAttribute("documentURI")) {
 					caminho = root.getAttribute("documentURI");
@@ -181,7 +181,7 @@ public class NclValidatorDocument {
 								caminho).getPath() : caminho;
 						att = "xconnector";
 						alias = caminho;
-						gambiarra = true;
+						auxiliar = true;
 					}
 				}
 				
@@ -200,7 +200,7 @@ public class NclValidatorDocument {
 							doc = parser.getDocument();
 						}
 						if (!this.addDocument(alias, new NclValidatorDocument(
-								doc)) && gambiarra == false) {
+								doc)) && auxiliar == false) {
 							Vector<String> args = new Vector<String>();
 							args.add(alias);
 							MessageList.addError(this.id, 3002, root, args);
