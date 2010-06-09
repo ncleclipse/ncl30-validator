@@ -1,3 +1,7 @@
+Versao 1.5.1
+2010-06-09
+	- [BUG Corrigido] Cardinalidade max do Connector sempre estava sendo 1. 
+	
 Versao 1.5.0
 2010-03-16
 	- [BUG Corrigido] Tipo de dado ID nao aceita começar com '_'.
