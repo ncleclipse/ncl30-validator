@@ -177,7 +177,7 @@ public class Link extends ElementValidation {
 
 			if (eSimpleCondition.hasAttribute("max")) {
 				if (!eSimpleCondition.getAttribute("max").equals("unbounded"))
-					min = new Integer(eSimpleCondition.getAttribute("max"));
+					max = new Integer(eSimpleCondition.getAttribute("max"));
 				else
 					unbounded = true;
 			}
