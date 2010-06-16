@@ -74,11 +74,13 @@ public class DTDValidator {
 
 	private DTDValidator() {
 	}
+	
+	static boolean childs = false;
 
 	public static boolean validate(String fileName, Element root) {
 		boolean ret = true;
 		String tagName = root.getTagName();
-
+		
 		NCLStructure nclStructure = NCLStructure.getInstance();
 
 		if (!nclStructure.isElement(tagName)) {
@@ -135,9 +137,22 @@ public class DTDValidator {
 			if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
 				//value of attribute (user)
 				String value = node.getTextContent();
+				String attName = node.getNodeName();
+				
+				
+				if(attName.equals("type")){
+					if(value.equals("application/x-ncl-time")){
+						childs = true;
+					}
+				}
+				
+				
 				//data type of attribute (model)
-				Integer mdt = nclStructure.getDataType(tagName, node
-						.getNodeName());
+				
+				if(childs && (attName.equals("begin") || attName.equals("end")) ) {
+					attName+="2";
+				}
+				Integer mdt = nclStructure.getDataType(tagName, attName);
 
 				if (!DataType.isDataType(mdt.intValue(), value)) {
 					String strName = node.getNodeName();
@@ -294,6 +309,7 @@ public class DTDValidator {
 					ret = false;
 			}
 		}
+		if(childList.getLength()!=0) childs = false;
 		return ret;
 	}
 }
