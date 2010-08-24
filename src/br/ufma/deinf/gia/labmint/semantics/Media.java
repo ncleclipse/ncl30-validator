@@ -250,18 +250,18 @@ public class Media extends ElementValidation {
 			if (element == null) {
 				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
-				MessageList.addWarning(doc.getId(), 4102, eMedia, args);
+				MessageList.addError (doc.getId(), 4102, eMedia, args);
 				return false;
 			} else if (element.getTagName().compareTo("media") != 0) {
 				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
-				MessageList.addWarning(doc.getId(), 4102, eMedia, args);
+				MessageList.addError(doc.getId(), 4102, eMedia, args);
 				return false;
 			} else if (element.hasAttribute("refer")) {
 				// cannot refer a media that has a refer too
 				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
-				MessageList.addWarning(doc.getId(), 4109, eMedia, args);
+				MessageList.addError(doc.getId(), 4109, eMedia, args);
 				return false;
 			}
 		}
