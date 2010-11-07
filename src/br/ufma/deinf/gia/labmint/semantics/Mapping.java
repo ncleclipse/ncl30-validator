@@ -99,11 +99,24 @@ public class Mapping extends ElementValidation {
 					Element child = (Element) node;
 					if (child.hasAttribute("id")
 							&& child.getAttribute("id").compareTo(idInterface) == 0) {
+						
 						if (child.getTagName().compareTo("area") != 0
-								&& child.getTagName().compareTo("property") != 0
 								&& child.getTagName().compareTo("port") != 0
 								&& child.getTagName().compareTo("switchPort") != 0) {
 
+							Vector<String> args = new Vector<String>();
+							args.add(idComponent);
+							MessageList.addError(doc.getId(), 4002, eMapping,
+									args);
+							return false;
+						}
+						return true;
+					
+					} 
+					else if( child.hasAttribute("name") 
+							&& child.getAttribute("name").compareTo(idInterface) == 0){
+						
+						if (child.getTagName().compareTo("property") != 0){
 							Vector<String> args = new Vector<String>();
 							args.add(idComponent);
 							MessageList.addError(doc.getId(), 4002, eMapping,
