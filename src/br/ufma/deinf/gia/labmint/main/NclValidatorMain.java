@@ -108,7 +108,7 @@ public class NclValidatorMain {
 				Vector<NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
 
 				NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(
-						doc);
+						null, doc);
 				documents.add(nclValidatorDocument);
 				NCLValidator.validate(documents);
 

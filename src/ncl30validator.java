@@ -92,7 +92,7 @@ public class ncl30validator {
 
 			Vector<NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
 			// NclDocumentManager.resetDocumentManager();
-			NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(
+			NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(null,
 					doc);
 			documents.add(nclValidatorDocument);
 			NCLValidator.validate(documents);

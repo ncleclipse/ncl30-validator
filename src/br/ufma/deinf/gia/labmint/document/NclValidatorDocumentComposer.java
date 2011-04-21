@@ -64,7 +64,7 @@ public class NclValidatorDocumentComposer extends NclValidatorDocument {
 	public NclValidatorDocumentComposer(Document doc)
 			throws ParserConfigurationException, URISyntaxException,
 			SAXException, IOException {
-		super(doc);
+		super(null, doc);
 	}
 
 	protected void parse(Element root) {

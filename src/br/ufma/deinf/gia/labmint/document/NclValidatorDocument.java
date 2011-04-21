@@ -47,7 +47,6 @@
  ******************************************************************************/
 package br.ufma.deinf.gia.labmint.document;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -74,9 +73,16 @@ public class NclValidatorDocument {
 	protected String id;
 	protected String path;
 
-	public NclValidatorDocument(Document doc)
+	NclValidatorDocument father; // Father of this NclDocument
+
+	// This is useful to find if there is a cyclic dependency.
+
+	public NclValidatorDocument(NclValidatorDocument father, Document doc)
 			throws ParserConfigurationException, URISyntaxException,
 			SAXException, IOException {
+
+		this.father = father;
+
 		this.elements = new HashMap<String, Element>();
 		this.aliases = new HashMap<String, NclValidatorDocument>();
 		this.root = doc.getDocumentElement();
@@ -158,19 +164,19 @@ public class NclValidatorDocument {
 		if (root.getTagName().equals("importBase")
 				|| root.getTagName().equals("importNCL")
 				|| root.getTagName().equals("link")) {
-			
+
 			if (root.hasAttribute("alias") || root.hasAttribute("xconnector")) {
 				String caminho = "";
 				String att = "";
 				String alias = "";
 				boolean auxiliar = false;
-				
+
 				if (root.hasAttribute("documentURI")) {
 					caminho = root.getAttribute("documentURI");
 					att = "documentURI";
 					alias = root.getAttribute("alias");
 				}
-				
+
 				if (caminho.equals("")) {
 					if (root.hasAttribute("xconnector")) {
 						caminho = root.getAttribute("xconnector");
@@ -182,15 +188,38 @@ public class NclValidatorDocument {
 						att = "xconnector";
 						alias = caminho;
 						auxiliar = true;
-						if(index ==-1)return;
+						if (index == -1)
+							return;
 					}
 				}
-				
+
 				if (!caminho.equals("")) {
 					try {
 						XMLParserExtend parser = new XMLParserExtend();
 						Document doc = null;
 						URI uri = new URI(caminho);
+
+						// Search for a cyclic dependency.
+						/*NclValidatorDocument father = this;
+						String fullpath = DocumentUtil.getAbsoluteFileName(this
+								.getPath(), uri.getPath());
+						
+						while (father != null) {
+							//System.out
+							//		.println("Testing for a Cyclic dependency Error: "
+							//				+ fullpath
+							//				+ " : "
+							//				+ father.getPath());
+							if (fullpath.equals(father.getPath())) {
+								// there is a cyclic dependency
+								Vector<String> args = new Vector<String>();
+								args.add(uri.getPath());
+								MessageList.addError(this.id, 3103, root, args);
+								return;
+							}
+							father = father.getFather();
+						}*/
+
 						// Se documentUri eh absoluto
 						if (uri.isAbsolute()) {
 							parser.parse(uri.getPath());
@@ -201,7 +230,8 @@ public class NclValidatorDocument {
 							doc = parser.getDocument();
 						}
 						if (!this.addDocument(alias, new NclValidatorDocument(
-								doc)) && auxiliar == false) {
+								this, doc))
+								&& auxiliar == false) {
 							Vector<String> args = new Vector<String>();
 							args.add(alias);
 							MessageList.addError(this.id, 3002, root, args);
@@ -233,6 +263,10 @@ public class NclValidatorDocument {
 			return false;
 		aliases.put(alias, doc);
 		return true;
+	}
+
+	public NclValidatorDocument getFather() {
+		return this.father;
 	}
 
 	public Map<String, NclValidatorDocument> getAliases() {

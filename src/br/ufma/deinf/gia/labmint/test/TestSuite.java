@@ -108,7 +108,7 @@ public class TestSuite {
 				Vector<NclValidatorDocument> documents = new Vector<NclValidatorDocument>();
 				// NclDocumentManager.resetDocumentManager();
 				NclValidatorDocument nclValidatorDocument = new NclValidatorDocument(
-						doc);
+						null, doc);
 				documents.add(nclValidatorDocument);
 				NCLValidator.validate(documents);
 
