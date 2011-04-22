@@ -200,7 +200,7 @@ public class NclValidatorDocument {
 						URI uri = new URI(caminho);
 
 						// Search for a cyclic dependency.
-						/*NclValidatorDocument father = this;
+						NclValidatorDocument father = this;
 						String fullpath = DocumentUtil.getAbsoluteFileName(this
 								.getPath(), uri.getPath());
 						
@@ -218,7 +218,7 @@ public class NclValidatorDocument {
 								return;
 							}
 							father = father.getFather();
-						}*/
+						}
 
 						// Se documentUri eh absoluto
 						if (uri.isAbsolute()) {
