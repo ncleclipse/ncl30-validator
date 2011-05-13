@@ -202,7 +202,8 @@ public class Bind extends ElementValidation {
 				args.add(idDescriptor);
 				MessageList.addError(doc.getId(), 3203, eBind, args);
 				return false;
-			} else if (element.getTagName().compareTo("descriptor") != 0) {
+			} else if ( (element.getTagName().compareTo("descriptor") != 0)
+					&& (element.getTagName().compareTo("descriptorSwitch") != 0) ) {
 				Vector<String> args = new Vector<String>();
 				args.add(idDescriptor);
 				MessageList.addError(doc.getId(), 3203, eBind, args);
