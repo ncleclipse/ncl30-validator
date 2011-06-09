@@ -73,6 +73,7 @@ import br.ufma.deinf.laws.ncl.NCLStructure;
 public class DTDValidator {
 
 	private DTDValidator() {
+		
 	}
 	
 	static boolean childs = false;
