@@ -1,3 +1,8 @@
+Versao 1.5.2
+2011-06-09
+	- [BUG Corrigido] Não testava se o elemento root era realmente um elemento root
+		válido.
+	 
 Versao 1.5.1
 2010-06-09
 	- [BUG Corrigido] Cardinalidade max do Connector sempre estava sendo 1. 
