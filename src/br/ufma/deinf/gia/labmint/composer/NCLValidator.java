@@ -55,6 +55,7 @@ import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
 import br.ufma.deinf.gia.labmint.semantics.Semantics;
 import br.ufma.deinf.gia.labmint.syntax.DTDValidator;
+import br.ufma.deinf.laws.ncl.NCLStructure;
 
 public class NCLValidator {
 	private static NCLValidator instance = null;
@@ -80,6 +81,17 @@ public class NCLValidator {
 			doc = (NclValidatorDocument) it.next();
 			if (!DTDValidator.validate(fileName, doc.getDocumentElement())) {
 				dtdOk = false;
+			}
+			else {
+				// Test if the root element is one of the rootElements in the NCLStructure
+				String rootTagname = doc.getDocumentElement().getTagName(); 
+				if(!NCLStructure.getInstance().getRootElements().contains(rootTagname))
+				{
+					Vector<String> description = new Vector<String>();
+					description.add(rootTagname);
+					MessageList.addError(doc.getPath(), 2013, null,
+							description);
+				}
 			}
 		}
 
