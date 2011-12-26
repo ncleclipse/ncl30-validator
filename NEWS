@@ -1,3 +1,6 @@
+Versao 1.6.0
+2011-12-26
+	- [BUG Corrigido] Fix a ciclic refer. It was entering in an infinite loop.
 Versao 1.5.2
 2011-06-09
 	- [BUG Corrigido] Não testava se o elemento root era realmente um elemento root

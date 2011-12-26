@@ -111,6 +111,8 @@ public class Bind extends ElementValidation {
 		Element element = doc.getElement(idComponent);
 		if (element == null)
 			return false;
+		Vector <String> referPath = new Vector <String>();
+		referPath.add(idComponent);
 		while (element.hasAttribute("refer")) {
 			NodeList nodeList = element.getChildNodes();
 			for (int i = 0; i < nodeList.getLength(); i++) {
@@ -150,8 +152,10 @@ public class Bind extends ElementValidation {
 			}
 			idComponent = element.getAttribute("refer");
 			element = doc.getElement(idComponent);
-			if (element == null)
+			if (element == null || referPath.contains(idComponent))
 				return false;
+			else
+				referPath.add(idComponent);
 		}
 		if (element == null) {
 			return false;
