@@ -47,6 +47,7 @@
  ******************************************************************************/
 package br.ufma.deinf.gia.labmint.document;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -201,15 +202,15 @@ public class NclValidatorDocument {
 
 						// Search for a cyclic dependency.
 						NclValidatorDocument father = this;
-						String fullpath = DocumentUtil.getAbsoluteFileName(this
-								.getPath(), uri.getPath());
-						
+						String fullpath = DocumentUtil.getAbsoluteFileName(
+								this.getPath(), uri.getPath());
+
 						while (father != null) {
-							//System.out
-							//		.println("Testing for a Cyclic dependency Error: "
-							//				+ fullpath
-							//				+ " : "
-							//				+ father.getPath());
+							// System.out
+							// .println("Testing for a Cyclic dependency Error: "
+							// + fullpath
+							// + " : "
+							// + father.getPath());
 							if (fullpath.equals(father.getPath())) {
 								// there is a cyclic dependency
 								Vector<String> args = new Vector<String>();
@@ -225,8 +226,8 @@ public class NclValidatorDocument {
 							parser.parse(uri.getPath());
 							doc = parser.getDocument();
 						} else {
-							parser.parse(DocumentUtil.getAbsoluteFileName(this
-									.getPath(), caminho));
+							parser.parse(DocumentUtil.getAbsoluteFileName(
+									this.getPath(), caminho));
 							doc = parser.getDocument();
 						}
 						if (!this.addDocument(alias, new NclValidatorDocument(
@@ -361,5 +362,83 @@ public class NclValidatorDocument {
 		}
 
 		return null;
+	}
+
+	String[] protocols = { "file:", "http:", "https", "rstp", "rtp",
+			"ncl-mirror:", "sbtvd:" };
+
+	/**
+	 * Test if the sourceStr is a valid path (absolute or relative) w.r.t. this
+	 * document.
+	 * 
+	 * @param sourceStr The path to be validated.
+	 * @param element The element (in case of error, the error will be related
+	 * 		with this element.
+	 * @return
+	 */
+	public boolean validateSrc(String src, Element element) {
+		File fMedia;
+
+		// TODO: this is not sufficient to working with URL codification
+		src = src.replaceAll(" ", "%20");
+		for (int i = 0; i < protocols.length; i++) {
+			if (src.contains(protocols[i])) {
+				try {
+					URI uri = new URI(src);
+					if (uri.isAbsolute()) {
+						fMedia = new File(uri);
+					} else {
+						uri = new URI(this.getDir() + src);
+						if (!uri.isAbsolute()) {
+							Vector<String> args = new Vector<String>();
+							args.add(src);
+							MessageList.addWarning(this.getId(), 4103, element,
+									args);
+							return false;
+						} else {
+							fMedia = new File(uri);
+						}
+						if (!fMedia.exists()) {
+							Vector<String> args = new Vector<String>();
+							args.add(src);
+							MessageList.addWarning(this.getId(), 4103, element,
+									args);
+							return false;
+						}
+
+					}
+				} catch (Exception e) {
+					Vector<String> args = new Vector<String>();
+					args.add(src);
+					MessageList.addWarning(this.getId(), 4103, element, args);
+					return false;
+
+				}
+				return true;
+			}
+		}
+
+		fMedia = new File(src);
+		if (fMedia.isFile())
+			return true;
+		else {
+			URI uri;
+			try {
+				uri = new URI(this.getDir() + src);
+				fMedia = new File(uri);
+				if (!fMedia.isFile()) {
+					Vector<String> args = new Vector<String>();
+					args.add(src);
+					MessageList.addWarning(this.getId(), 4103, element, args);
+					return false;
+				}
+			} catch (Exception e) {
+				Vector<String> args = new Vector<String>();
+				args.add(src);
+				MessageList.addWarning(this.getId(), 4103, element, args);
+				return false;
+			}
+		}
+		return false;
 	}
 }

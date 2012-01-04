@@ -48,8 +48,6 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
-import java.io.File;
-import java.net.URI;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
@@ -59,8 +57,6 @@ import br.ufma.deinf.gia.labmint.message.MessageList;
 import br.ufma.deinf.laws.util.MultiHashMap;
 
 public class Media extends ElementValidation {
-	String[] protocols = { "file:", "http:", "https", "rstp", "rtp",
-			"ncl-mirror:", "sbtvd:" };
 
 	public Media(NclValidatorDocument doc) {
 		super(doc);
@@ -166,74 +162,10 @@ public class Media extends ElementValidation {
 	private boolean hasValidMediaSrcAttribute(Element eMedia) {
 
 		if (eMedia.hasAttribute("src")) {
-			File fMedia;
 			String src = eMedia.getAttribute("src");
-
-			//TODO: this is not sufficient to working with URL codification
-			src = src.replaceAll(" ", "%20");
-
-			for (int i = 0; i < protocols.length; i++) {
-				if (src.contains(protocols[i])) {
-					try {
-						URI uri = new URI(src);
-						if (uri.isAbsolute()) {
-							fMedia = new File(uri);
-						} else {
-							uri = new URI(doc.getDir() + src);
-							if (!uri.isAbsolute()) {
-								Vector<String> args = new Vector<String>();
-								args.add(src);
-								MessageList.addWarning(doc.getId(), 4103,
-										eMedia, args);
-								return false;
-							} else {
-								fMedia = new File(uri);
-							}
-							if (!fMedia.exists()) {
-								Vector<String> args = new Vector<String>();
-								args.add(src);
-								MessageList.addWarning(doc.getId(), 4103,
-										eMedia, args);
-								return false;
-							}
-
-						}
-					} catch (Exception e) {
-						Vector<String> args = new Vector<String>();
-						args.add(src);
-						MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-						return false;
-
-					}
-					return true;
-				}
-			}
-
-			fMedia = new File(src);
-
-			if (fMedia.isFile())
-				return true;
-			else {
-				URI uri;
-				try {
-					uri = new URI(doc.getDir() + src);
-					fMedia = new File(uri);
-					if (!fMedia.isFile()) {
-						Vector<String> args = new Vector<String>();
-						args.add(src);
-						MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-						return false;
-					}
-				} catch (Exception e) {
-					Vector<String> args = new Vector<String>();
-					args.add(src);
-					MessageList.addWarning(doc.getId(), 4103, eMedia, args);
-					return false;
-				}
-
-			}
-
+			return doc.validateSrc(src, eMedia);
 		}
+		
 		return true;
 	}
 
@@ -250,7 +182,7 @@ public class Media extends ElementValidation {
 			if (element == null) {
 				Vector<String> args = new Vector<String>();
 				args.add(idRefer);
-				MessageList.addError (doc.getId(), 4102, eMedia, args);
+				MessageList.addError(doc.getId(), 4102, eMedia, args);
 				return false;
 			} else if (element.getTagName().compareTo("media") != 0) {
 				Vector<String> args = new Vector<String>();
