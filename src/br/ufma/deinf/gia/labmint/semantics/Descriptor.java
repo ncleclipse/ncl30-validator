@@ -140,7 +140,11 @@ public class Descriptor extends ElementValidation {
 	}
 
 	private boolean hasValidDescriptorFocusSelSrcAttribute(Element eDescriptor) {
-		//TODO: All!
+		if(eDescriptor.hasAttribute("focusSelSrc"))
+		{
+			String focusSelSrc = eDescriptor.getAttribute("focusSelSrc");
+			return doc.validateSrc(focusSelSrc, eDescriptor);
+		}
 		return true;
 	}
 
@@ -166,7 +170,11 @@ public class Descriptor extends ElementValidation {
 	}
 
 	private boolean hasValidDescriptorFocusSrcAttribute(Element eDescriptor) {
-		//TODO: All!
+		if(eDescriptor.hasAttribute("focusSrc"))
+		{
+			String focusSelSrc = eDescriptor.getAttribute("focusSrc");
+			return doc.validateSrc(focusSelSrc, eDescriptor);
+		}
 		return true;
 	}
 
