@@ -102,10 +102,12 @@ public class Port extends ElementValidation {
 			String idInterface = ePort.getAttribute("interface");
 			Element element = doc.getElement(idComponent);
 
+			Vector<String> alreadyTestedId = new Vector<String>();
 			do {
 				if (element == null) {
 					break;
 				}
+				alreadyTestedId.add(idComponent);
 
 				NodeList nodeList = element.getChildNodes();
 				for (int i = 0; i < nodeList.getLength(); i++) {
@@ -135,7 +137,9 @@ public class Port extends ElementValidation {
 				}
 
 				idComponent = element.getAttribute("refer");
-				if (idComponent == null)
+				if (idComponent == null
+						|| idComponent == "" 
+						|| alreadyTestedId.contains(idComponent))
 					break;
 				element = doc.getElement(idComponent);
 			} while (true);
