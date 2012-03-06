@@ -76,6 +76,12 @@ public class TALValidation {
 			if (parent == null)
 				return false;
 		}
+		
+		if (!parent.hasAttribute("tal:template")){
+			MessageList.addError(docId, 5002, element);			
+			
+			return false;
+		}
 
 		String classAttributeValue = element.getAttribute("tal:class");
 		String templateAttributeValue = parent.getAttribute("tal:template");

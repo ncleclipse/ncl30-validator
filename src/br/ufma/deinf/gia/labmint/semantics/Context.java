@@ -48,20 +48,12 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
-import br.ufma.deinf.gia.labmint.xml.TALTemplateFinderContentHandler;
 import br.ufma.deinf.laws.tal.TALValidation;
 import br.ufma.deinf.laws.util.TALUtilities;
 
