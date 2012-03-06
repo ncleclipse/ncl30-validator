@@ -48,9 +48,14 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
+import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.laws.tal.TALValidation;
+import br.ufma.deinf.laws.util.TALUtilities;
 
 public class Area extends ElementValidation {
 
@@ -96,53 +101,58 @@ public class Area extends ElementValidation {
 		//
 		if (!hasValidAreaBeginAttribute(eArea))
 			resultado = false;
+		
+		hasValidTALClassAttribute(eArea);
 
 		return resultado;
 	}
 
 	private boolean hasValidAreaCoordsAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaTextAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaEndAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaLastAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaIDAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaPositionAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaAnchorLabelAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaFirstAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
 	private boolean hasValidAreaBeginAttribute(Element eArea) {
-		//TODO: All!
+		// TODO: All!
 		return true;
 	}
 
+	private boolean hasValidTALClassAttribute(Element eArea) {
+		return TALValidation.hasValidTALClassAttribute(eArea, doc.getId());
+	}
 }

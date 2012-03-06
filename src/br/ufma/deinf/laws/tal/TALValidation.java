@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Este arquivo é parte da implementação do ambiente de autoria em Nested 
  * Context Language - NCL Eclipse.
- * Direitos Autorais Reservados (c) 2007-2010 UFMA/LAWS (Laboratório de Sistemas 
+ * Direitos Autorais Reservados (c) 2007-2012 UFMA/LAWS (Laboratório de Sistemas 
  * Avançados da Web)
  *
  * Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo sob
@@ -24,7 +24,7 @@
  *******************************************************************************
  * This file is part of the authoring environment in Nested Context Language -
  * NCL Eclipse.
- * Copyright: 2007-2010 UFMA/LAWS (Laboratory of Advanced Web Systems), All
+ * Copyright: 2007-2012 UFMA/LAWS (Laboratory of Advanced Web Systems), All
  * Rights Reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -46,46 +46,80 @@
  *
  ******************************************************************************/
 
-package br.ufma.deinf.gia.labmint.semantics;
+package br.ufma.deinf.laws.tal;
+
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 
-import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
-import br.ufma.deinf.laws.tal.TALValidation;
+import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.laws.util.TALUtilities;
 
-public class Property extends ElementValidation {
+/**
+ * @author Rodrigo Costa <rodrim.c@laws.deinf.ufma.br>
+ *
+ */
+public class TALValidation {
+	public static boolean hasValidTALClassAttribute(Element element, String docId) {
+		if (!element.hasAttribute("tal:class"))
+			return true;
 
-	public Property(NclValidatorDocument doc) {
-		super(doc);
-	}
+		Element parent = (Element) element.getParentNode();
 
-	public boolean validate(Element eProperty) {
-		boolean resultado = true;
+		if (element.getTagName().equals("area")
+				|| element.getTagName().equals("property")) {
 
-		//
-		if (!hasValidPropertyNameAttribute(eProperty))
-			resultado = false;
+			if (parent == null)
+				return false;
 
-		//
-		if (!hasValidPropertyValueAttribute(eProperty))
-			resultado = false;
-		
-		hasValidTALClassAttribute(eProperty);
+			parent = (Element) parent.getParentNode();
+			if (parent == null)
+				return false;
+		}
 
-		return resultado;
-	}
+		String classAttributeValue = element.getAttribute("tal:class");
+		String templateAttributeValue = parent.getAttribute("tal:template");
 
-	private boolean hasValidPropertyNameAttribute(Element eProperty) {
-		//TODO: All!
+		if (parent != null) {
+			if (templateAttributeValue.equals("")) {
+				MessageList.addWarning(docId, 5002, element);
+
+			} else {
+
+				String[] values = TALUtilities
+						.splitTemplateAttributeValue(templateAttributeValue);
+
+				String relativeTemplatePath = values[0];
+				String templatePath = values[1];
+				String templateId = values[2];
+
+				Vector<String> accepts = TALUtilities
+						.getValidClassAttributeValues(element.getTagName(),
+								classAttributeValue, templatePath,
+								relativeTemplatePath, templateId);
+
+				if (accepts.size() == 0) {
+					Vector<String> args = new Vector<String>();
+					args.add(templateId);
+					args.add(element.getTagName());
+
+					MessageList.addWarning(docId, 5004, element, args);
+
+				} else if (!accepts.contains(classAttributeValue)) {
+					Vector<String> args = new Vector<String>();
+
+					String str = "";
+					for (String value : accepts)
+						str += "'" + value + "' ";
+					args.add(str);
+
+					MessageList.addWarning(docId, 5003, element, args);
+				}
+
+			}
+
+		}
+
 		return true;
-	}
-
-	private boolean hasValidPropertyValueAttribute(Element eProperty) {
-		//TODO: All!
-		return true;
-	}
-
-	private boolean hasValidTALClassAttribute(Element eProperty) {
-		return TALValidation.hasValidTALClassAttribute(eProperty, doc.getId());
 	}
 }

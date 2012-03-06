@@ -48,12 +48,22 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.gia.labmint.xml.TALTemplateFinderContentHandler;
+import br.ufma.deinf.laws.tal.TALValidation;
+import br.ufma.deinf.laws.util.TALUtilities;
 
 public class Context extends ElementValidation {
 
@@ -64,20 +74,25 @@ public class Context extends ElementValidation {
 	private String idContext = null;
 
 	public boolean validate(Element eContext) {
-		boolean resultado = true;
+		boolean result = true;
 
 		idContext = eContext.getAttribute("id");
 
 		//
 		if (!hasValidContextIDAttribute(eContext))
-			resultado = false;
+			result = false;
 
 		// Verifica se o atributo 'refer' de <context> aponta para um outro
 		// elemento <context>.
 		if (!hasValidContextReferAttribute(eContext))
-			resultado = false;
+			result = false;
 
-		return resultado;
+		if (!hasValidTALTemplateAttribute(eContext))
+			result = false;
+
+		hasValidTALClassAttribute(eContext);
+
+		return result;
 	}
 
 	private boolean hasValidContextIDAttribute(Element eContext) {
@@ -114,6 +129,60 @@ public class Context extends ElementValidation {
 			}
 		}
 		return true;
+	}
+
+	private boolean hasValidTALTemplateAttribute(Element eContext) {
+		if (!eContext.hasAttribute("tal:template"))
+			return true;
+
+		String templateAttributeValue = eContext.getAttribute("tal:template");
+		int index = templateAttributeValue.indexOf("#");
+		if (index == -1) {
+			Vector<String> args = new Vector<String>();
+			args.add(templateAttributeValue);
+
+			MessageList.addError(doc.getId(), 5001, eContext, args);
+		} else {
+
+			String values[] = TALUtilities
+					.splitTemplateAttributeValue(templateAttributeValue);
+
+			String path = values[1];// templateAttributeValue.substring(0,
+									// index);
+			String id = values[2];// templateAttributeValue.substring(index +
+									// 1);
+
+			// TALTemplateFinderContentHandler handler = new
+			// TALTemplateFinderContentHandler(
+			// id);
+			// XMLReader reader;
+			//
+			// reader = XMLReaderFactory.createXMLReader();
+			//
+			// reader.setContentHandler(handler);
+			// reader.setFeature("http://xml.org/sax/features/namespaces",
+			// false);
+			// InputSource input = new InputSource();
+			// // input.setEncoding("UTF-8");
+			// input.setByteStream(new FileInputStream(path));
+			// reader.parse(input);
+
+			if (!TALUtilities.hasTemplate(path, id)) {
+				Vector<String> args = new Vector<String>();
+				args.add(templateAttributeValue);
+
+				MessageList.addError(doc.getId(), 5001, eContext, args);
+
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
+	private boolean hasValidTALClassAttribute(Element eContext) {
+		return TALValidation.hasValidTALClassAttribute(eContext, doc.getId());
 	}
 
 }

@@ -74,6 +74,7 @@ public class XMLParserExtend extends DOMParser {
 			this.setFeature(
 					"http://apache.org/xml/features/dom/defer-node-expansion",
 					false);
+			this.setFeature("http://xml.org/sax/features/namespaces", false);
 		} catch (org.xml.sax.SAXException e) {
 			System.err.println("except" + e);
 		}

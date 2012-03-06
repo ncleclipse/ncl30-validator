@@ -16,9 +16,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>TAL10-common</name>
+			<type>2</type>
+			<location>/media/Dados/workspace/TAL10-common/src</location>
+		</link>
+		<link>
 			<name>ncl30-common</name>
 			<type>2</type>
-			<location>/home/roberto/workspace/ncl30-common/src</location>
+			<location>/media/Dados/workspace/ncl30-common/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -48,13 +48,18 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.laws.tal.TALValidation;
 import br.ufma.deinf.laws.util.MultiHashMap;
+import br.ufma.deinf.laws.util.TALUtilities;
 
 public class Media extends ElementValidation {
 
@@ -108,7 +113,7 @@ public class Media extends ElementValidation {
 		if (!eMedia.hasAttribute("refer")) {
 			// Atributo type é obrigatório se src não for definido
 			if (!eMedia.hasAttribute("src")) {
-				if (!eMedia.hasAttribute("type")) {
+				if (!eMedia.hasAttribute("type") && !eMedia.hasAttribute("tal:class")) {
 					MessageList.addError(doc.getId(), 4108, eMedia);
 					resultado = false;
 				}
@@ -117,6 +122,8 @@ public class Media extends ElementValidation {
 			MessageList.addWarning(doc.getId(), 4107, eMedia);
 			resultado = false;
 		}
+
+		hasValidTALClassAttribute(eMedia);
 
 		return resultado;
 	}
@@ -152,7 +159,7 @@ public class Media extends ElementValidation {
 				MessageList.addWarning(doc.getId(), 4105, eMedia, args);
 				return false;
 			}
-		} else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer")) {
+		} else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer") && !eMedia.hasAttribute("tal:class")) {
 			MessageList.addError(doc.getId(), 4104, eMedia);
 			return false;
 		}
@@ -165,7 +172,7 @@ public class Media extends ElementValidation {
 			String src = eMedia.getAttribute("src");
 			return doc.validateSrc(src, eMedia);
 		}
-		
+
 		return true;
 	}
 
@@ -302,6 +309,10 @@ public class Media extends ElementValidation {
 			types.put("application/x-ginga-time", "");
 			types.put("application/x-ncl-time", "");
 		}
+	}
+
+	private boolean hasValidTALClassAttribute(Element eMedia) {
+		return TALValidation.hasValidTALClassAttribute(eMedia, doc.getId());
 	}
 
 }
