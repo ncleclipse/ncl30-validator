@@ -1,22 +1,22 @@
 /*******************************************************************************
- * Este arquivo é parte da implementação do ambiente de autoria em Nested 
+ * Este arquivo Ã© parte da implementaÃ§Ã£o do ambiente de autoria em Nested 
  * Context Language - NCL Eclipse.
- * Direitos Autorais Reservados (c) 2007-2010 UFMA/LAWS (Laboratório de Sistemas 
- * Avançados da Web)
+ * Direitos Autorais Reservados (c) 2007-2010 UFMA/LAWS (LaboratÃ³rio de Sistemas 
+ * AvanÃ§ados da Web)
  *
- * Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo sob
- * os termos da Licença Pública Geral GNU versão 2 conforme publicada pela Free 
+ * Este programa Ã© software livre; vocÃª pode redistribuÃ­-lo e/ou modificÃ¡-lo sob
+ * os termos da LicenÃ§a PÃºblica Geral GNU versÃ£o 2 conforme publicada pela Free 
  * Software Foundation.
  *
- * Este programa é distribuído na expectativa de que seja útil, porém, SEM 
- * NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU
- * ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral do
- * GNU versão 2 para mais detalhes. Você deve ter recebido uma cópia da Licença
- * Pública Geral do GNU versão 2 junto com este programa; se não, escreva para a
- * Free Software Foundation, Inc., no endereço 59 Temple Street, Suite 330,
+ * Este programa Ã© distribuÃ­do na expectativa de que seja Ãºtil, porÃ©m, SEM 
+ * NENHUMA GARANTIA; nem mesmo a garantia implÃ­cita de COMERCIABILIDADE OU
+ * ADEQUAÃ‡ÃƒO A UMA FINALIDADE ESPECÃ�FICA. Consulte a LicenÃ§a PÃºblica Geral do
+ * GNU versÃ£o 2 para mais detalhes. VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a
+ * PÃºblica Geral do GNU versÃ£o 2 junto com este programa; se nÃ£o, escreva para a
+ * Free Software Foundation, Inc., no endereÃ§o 59 Temple Street, Suite 330,
  * Boston, MA 02111-1307 USA.
  *
- * Para maiores informações:
+ * Para maiores informaÃ§Ãµes:
  * - ncleclipse@laws.deinf.ufma.br
  * - http://www.laws.deinf.ufma.br/ncleclipse
  * - http://www.laws.deinf.ufma.br
@@ -48,18 +48,13 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Vector;
 
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
 import br.ufma.deinf.gia.labmint.message.MessageList;
-import br.ufma.deinf.laws.tal.TALValidation;
 import br.ufma.deinf.laws.util.MultiHashMap;
-import br.ufma.deinf.laws.util.TALUtilities;
 
 public class Media extends ElementValidation {
 
@@ -109,11 +104,11 @@ public class Media extends ElementValidation {
 		if (!hasValidExtensionForMediaType(eMedia))
 			resultado = false;
 
-		// Atributo refer não deve ser utilizado com o src simultaneamente
+		// Atributo refer nÃ£o deve ser utilizado com o src simultaneamente
 		if (!eMedia.hasAttribute("refer")) {
-			// Atributo type é obrigatório se src não for definido
+			// Atributo type Ã© obrigatÃ³rio se src nÃ£o for definido
 			if (!eMedia.hasAttribute("src")) {
-				if (!eMedia.hasAttribute("type") && !eMedia.hasAttribute("tal:class")) {
+				if (!eMedia.hasAttribute("type")) {
 					MessageList.addError(doc.getId(), 4108, eMedia);
 					resultado = false;
 				}
@@ -122,8 +117,6 @@ public class Media extends ElementValidation {
 			MessageList.addWarning(doc.getId(), 4107, eMedia);
 			resultado = false;
 		}
-
-		hasValidTALClassAttribute(eMedia);
 
 		return resultado;
 	}
@@ -159,7 +152,7 @@ public class Media extends ElementValidation {
 				MessageList.addWarning(doc.getId(), 4105, eMedia, args);
 				return false;
 			}
-		} else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer") && !eMedia.hasAttribute("tal:class")) {
+		} else if (!eMedia.hasAttribute("src") && !eMedia.hasAttribute("refer")) {
 			MessageList.addError(doc.getId(), 4104, eMedia);
 			return false;
 		}
@@ -172,7 +165,7 @@ public class Media extends ElementValidation {
 			String src = eMedia.getAttribute("src");
 			return doc.validateSrc(src, eMedia);
 		}
-
+		
 		return true;
 	}
 
@@ -309,10 +302,6 @@ public class Media extends ElementValidation {
 			types.put("application/x-ginga-time", "");
 			types.put("application/x-ncl-time", "");
 		}
-	}
-
-	private boolean hasValidTALClassAttribute(Element eMedia) {
-		return TALValidation.hasValidTALClassAttribute(eMedia, doc.getId());
 	}
 
 }

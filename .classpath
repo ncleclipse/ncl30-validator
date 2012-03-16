@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="TAL10-common"/>
 	<classpathentry kind="src" path="ncl30-common"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/media/Dados/workspace/ncl30-validator/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="/media/Dados/workspace/ncl30-validator/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
