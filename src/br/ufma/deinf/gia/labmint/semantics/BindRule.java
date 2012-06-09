@@ -79,16 +79,18 @@ public class BindRule extends ElementValidation {
 		// This error message is in the DTD validator
 		if (!eBindRule.hasAttribute("constituent"))
 			return false;
+		
 		String idComponent = eBindRule.getAttribute("constituent");
 
-		String fatherTagName = ((Element) eBindRule.getParentNode())
-				.getTagName();
+		Element parent = (Element) eBindRule.getParentNode();
+		String fatherTagName = parent.getTagName();
 		Element eComponent = doc.getElement(idComponent);
+		
 		if (fatherTagName.equals("switch")) {
 			if (eComponent == null
 					|| (!eComponent.getTagName().equals("media")
-							&& !eComponent.getTagName().equals("switch") && !eComponent
-							.getTagName().equals("context"))) {
+							&& !eComponent.getTagName().equals("switch") 
+							&& !eComponent.getTagName().equals("context"))) {
 
 				Vector<String> args = new Vector<String>();
 				args.add(idComponent);
@@ -96,7 +98,7 @@ public class BindRule extends ElementValidation {
 				MessageList.addError(doc.getId(), 4701, eBindRule, args);
 				return false;
 			}
-		} else if (fatherTagName.equals("switchDescriptor")) {
+		} else if (fatherTagName.equals("descriptorSwitch")) {
 			if (eComponent == null
 					|| (!eComponent.getTagName().equals("descriptor"))) {
 
@@ -135,30 +137,35 @@ public class BindRule extends ElementValidation {
 
 	private boolean constituentIsInMySwitch(Element eBindRule) {
 		// DTD checks if component exists and print message.
-		if (!eBindRule.hasAttribute("component"))
+		if (!eBindRule.hasAttribute("constituent"))
 			return true;
-
-		Element component = doc.getElement(eBindRule.getAttribute("component"));
 
 		Element eSwitch = (Element) eBindRule.getParentNode();
 		// this is error, but the DTD validates
 		if (eSwitch == null)
 			return false;
 
-		// get the element with id refered by component in the context
+		// get the element with id refered by constituent in the context
 		Element element = doc.getElementChild(eSwitch, eBindRule
-				.getAttribute("component"));
+				.getAttribute("constituent"));
 
 		// if it doesn't exists return false
 		if (element == null)
 			return false;
 
-		// check if the component refered is media, switch or component
-		if (element.getTagName().equals("media")
-				|| element.getTagName().equals("switch")
-				|| element.getTagName().equals("context")
-				|| element.getTagName().equals("descriptor"))
-			return true;
+		if(eSwitch.getTagName().equals("switch")) {
+			// check if the constituent refered is media, switch or component
+			if (element.getTagName().equals("media")
+					|| element.getTagName().equals("switch")
+					|| element.getTagName().equals("context")
+					|| element.getTagName().equals("descriptor"))
+				return true;
+		}
+		else if(eSwitch.getTagName().equals("descriptorSwitch")){
+			// check if the constituent refered is media, switch or component
+			if (element.getTagName().equals("descriptor"))
+				return true;
+		}
 
 		return false;
 
