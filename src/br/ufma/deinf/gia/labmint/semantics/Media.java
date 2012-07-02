@@ -160,7 +160,6 @@ public class Media extends ElementValidation {
 	}
 
 	private boolean hasValidMediaSrcAttribute(Element eMedia) {
-
 		if (eMedia.hasAttribute("src")) {
 			String src = eMedia.getAttribute("src");
 			return doc.validateSrc(src, eMedia);

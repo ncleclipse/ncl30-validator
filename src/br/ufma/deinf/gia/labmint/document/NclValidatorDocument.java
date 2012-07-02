@@ -382,6 +382,21 @@ public class NclValidatorDocument {
 		// TODO: this is not sufficient to working with URL codification
 		src = src.replaceAll(" ", "%20");
 		for (int i = 0; i < protocols.length; i++) {
+			String nclMirror = "ncl-mirror://";
+			if (src.startsWith(nclMirror)){
+				String mediaId = src.substring(nclMirror.length());
+				Element el = getElement(mediaId);
+				if (el != null && el.getTagName().equals("media"))
+					return true;
+				else{
+					Vector<String> args = new Vector<String>();
+					args.add(mediaId);
+					MessageList.addWarning(this.getId(), 4110, element,
+							args);
+					return false;
+				}
+
+			}
 			if (src.contains(protocols[i])) {
 				try {
 					URI uri = new URI(src);
