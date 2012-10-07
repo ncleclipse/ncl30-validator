@@ -24,9 +24,14 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
+import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.laws.ncl.AttributeValues;
+import br.ufma.deinf.laws.ncl.DataType;
 
 public class SimpleAction extends ElementValidation {
 
@@ -145,7 +150,26 @@ public class SimpleAction extends ElementValidation {
 	}
 
 	private boolean hasValidSimpleActionRoleAttribute(Element eSimpleAction) {
-		//TODO: All!
+		
+		// TODO: Check consistency among start, stop, etc. and the 
+		// transition and eventType attributes?
+		
+		if(eSimpleAction.hasAttribute("role")) {
+			String role = eSimpleAction.getAttribute("role");
+			if(!AttributeValues.getValues(DataType.SIMPLEACTION_ROLE).contains(role) &&
+					( !eSimpleAction.hasAttribute("transition") || 
+							!eSimpleAction.hasAttribute("eventType"))) {
+				
+				Vector <String> args = new Vector <String>();
+				args.add(AttributeValues.getValues(DataType.SIMPLEACTION_ROLE).toString());
+				
+				MessageList.addError(doc.getId(), 
+						4402,
+						eSimpleAction,
+						args);
+				return false;
+			}
+		}
 		return true;
 	}
 

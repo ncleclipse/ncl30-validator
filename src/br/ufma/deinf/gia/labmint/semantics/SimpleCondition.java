@@ -24,12 +24,17 @@
 
 package br.ufma.deinf.gia.labmint.semantics;
 
+import java.util.Vector;
+
 import org.w3c.dom.Element;
 
 import br.ufma.deinf.gia.labmint.document.NclValidatorDocument;
+import br.ufma.deinf.gia.labmint.message.MessageList;
+import br.ufma.deinf.laws.ncl.AttributeValues;
+import br.ufma.deinf.laws.ncl.DataType;
 
 public class SimpleCondition extends ElementValidation {
-
+	
 	public SimpleCondition(NclValidatorDocument doc) {
 		super(doc);
 	}
@@ -110,7 +115,25 @@ public class SimpleCondition extends ElementValidation {
 
 	private boolean hasValidSimpleConditionRoleAttribute(
 			Element eSimpleCondition) {
-		//TODO: All!
+		
+		// TODO: Check consistency among onBegin, onEnd, etc. and the 
+		// transition and eventType attributes? 
+		if(eSimpleCondition.hasAttribute("role")) {
+			String role = eSimpleCondition.getAttribute("role");
+			if(!AttributeValues.getValues(DataType.SIMPLECONDITION_ROLE).contains(role) &&
+					( !eSimpleCondition.hasAttribute("transition") || 
+							!eSimpleCondition.hasAttribute("eventType"))) {
+				
+				Vector <String> args = new Vector <String>();
+				args.add(AttributeValues.getValues(DataType.SIMPLECONDITION_ROLE).toString());
+				
+				MessageList.addError(doc.getId(), 
+						4402,
+						eSimpleCondition,
+						args);
+				return false;
+			}
+		}
 		return true;
 	}
 
