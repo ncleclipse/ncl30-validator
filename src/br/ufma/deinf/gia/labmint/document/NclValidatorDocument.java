@@ -341,7 +341,7 @@ public class NclValidatorDocument {
 	}
 
 	String[] protocols = { "file:", "http:", "https", "rstp", "rtp",
-			"ncl-mirror:", "sbtvd:" };
+			"ncl-mirror:", "sbtvd-ts:", "isdbt-ts:"};
 
 	/**
 	 * Test if the sourceStr is a valid path (absolute or relative) w.r.t. this
