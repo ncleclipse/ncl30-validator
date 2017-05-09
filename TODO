@@ -1,76 +1,82 @@
-TODO:
-	0. validação do focusSrc, focusSelSrc, etc, documentURI...
-		
-	1. Validacao baseado no xmlns - de acordo com o perfil da linguagem.
-		 A logica para os tres profiles (EDTV, BDTV e CausalConnector) nao estah
-		sendo feita. A logica seria:
-			Se atributo xmlns do <ncl> eh 
-				http://www.ncl.org.br/NCL3.0/EDTVProfile 
-			entao faz como estah sendo feito;
-				
-			Se atributo xmlns do <ncl> eh http://www.ncl.org.br/NCL3.0/BDTVProfile entao
-			nao aceita APENAS <meta>, <metadata> e <transactionBase> (o que vai excluir
-			<transaction>) no <head>;
-				
-			Se atributo xmlns do <ncl> eh http://www.ncl.org.br/NCL3.0/CausalConnectorProfile 
-			entao soh aceita a
-				estrutura:
-			<ncl>
-			 <head>
-			   <connectorBase>
-			     <causalConnector/>
-			   </connectorBase>
-			 </head>
-			</ncl>
-	
-	2. O atributo region de regionBase precisa ser uma region que nao eh filha de um device="systemAudio(1)" ou device="systemScreesystemScreenn(1)"
-	
-	3. Problemas com a codificacao da URI. Espaco, por exemplo, pode ser %20. Isso pode causar inconsistencias e validacoes erradas (falsos-negativos).
+# TODO for nclvalidator
 
-	4. Gerar Warning quando extensao do src de media nao corresponder ao type definido na mesma media.
-	
-	5. Validacao do refer: gerar mensagem de erro quando referencia algum pai, ou avo, etc. do proprio elemento.
-		
-	6. Carregar arquivos de mensagens de erros externos.
-	
-	7. Utilizar o Reference para validacao de referencias. Ele soh existiu depois e por
-		isso a maior parte dessa validacao eh feita na mao! Ele foi criado para o 
-		ncl eclipse, mas pode ser muito muito aqui!
-		
-	8. Verificar se o connectorParam foi declarado quando necessario (isso eh muito dificil!).
-		Tem a ver com o fato de verificar se a variavel eh usada por aquele action ou 
-		assesmentStatement e entao verificar se foi declarado no linkParam ou no
-		bindParam daquele bind.
-		
-	9. Validar o set quando nao tem interface no bind.
-	
-	10. Constituent não está validando contextual e não esta validando.
-	
-	11. validar o src da media com espaco no nome.
-	
-	12. validar se todo filho do switch eh apontado por algum bindRule ou 
-		defaultComponent
-	
-# Tipos de Dados #################################################
-	- porcentagem (nao to tratando .) 10.00 da pau!
+**Warning: This TODO list is not up to date**
 
-# Validacoes Pendentes ############################################
- 	- Component de Bind!
- 	- Quando o papel eh de set, deveria validar que o <bind> deveria ser component/interface apontando para um <property>
-	- switchPort
-	- descriptorSwitch
-	- defaultDescriptor
-	- rule
-	- compositeRule
-	- bindRule
-###################################################################
+0. Validate focusSrc, focusSelSrc, etc, documentURI,...
 
-# FALSO NEGATIVO ############################################
-??
-2008-08-09 - Ok
-Gerando erro quando o elemento estah declarado no elemento
-e este se referencia a outro.
+1. Support profiles validation based on the xmlns attribute.
 
-###################################################################
-Novidades
-??
+We currently do not hanle the three profiles supported by NCL (EDTV, BDTV e
+CausalConnector):
+
+If the xmlns attribute of  <ncl> is 'http://www.ncl.org.br/NCL3.0/EDTVProfile',
+then we should validate the way we are doing today.
+
+If the xmlns attribute of <ncl> is 'http://www.ncl.org.br/NCL3.0/BDTVProfile',
+then we should:
+
+  - accept ONLY <meta>, <metadata>, and <transactionBase> (excluding
+    <transaction>) in the <head>
+
+If the xmlns attribute of <ncl> is
+'http://www.ncl.org.br/NCL3.0/CausalConnectorProfile', then, whe should:
+
+  - accept only the following structure (and children)
+
+    <ncl>
+      <head>
+        <connectorBase>
+          <causalConnector/>
+        </connectorBase>
+      </head>
+    </ncl>
+
+
+2. The region attribute of  <regionBase> needs to be a <region> that is not
+   children of device="systemAudio(1)" ordevice="systemScreen(1)".
+
+3. Problems with URI codification. For instance, spaces can be %20.  This may
+   cause some inconsistencies and wrong validations false-negatives).
+
+4. Generate a warning when the extension of the src attribute in a <media> is
+   not equivalent to the type attribute of the <media>.
+
+5. Refer validation: generate an error message when pointing to some parent (or
+   grandparent, etc.) of the element doing the refer.
+
+6. Load external error messages.
+
+7. Use Reference class to validate references.  We implemented it later so that
+  most of the validation is still hand made.  This class was mainly created for
+  NCL Eclipse, but it can also be very useful here.
+
+8. Check if the connectorParam was declared when it is required (this is very hard!).
+  For that, we need to check if the variable is being used by that action or
+  assesmentStatement, and then check if it has been declared in a <linkParam> or
+  <bindParam> of the <bind> using the <causalConnector>.
+
+9. Validate the set action when there is no interface attribute on <bind>.
+
+10. constituent is not being correctly validated.
+
+11. Validate src attribute of <media> containing spaces.
+
+12. Validate if every children of <switch> is being pointed by a <bindRule> of
+    <defaultComponent>.
+	
+## Datatypes
+
+  - percentages is not handling '.', e.g. 10.00 does not work!
+
+## Still not working
+
+  - Component of the <bind> element!
+  - When attribute role is "set", the component/bind attributes of <bind>
+    should point to a <property>
+  - switchPort
+  - descriptorSwitch
+  - defaultDescriptor
+  - rule
+  - compositeRule
+  - bindRule
+
