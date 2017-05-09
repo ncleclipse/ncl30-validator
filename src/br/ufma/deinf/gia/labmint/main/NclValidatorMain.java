@@ -66,7 +66,8 @@ public class NclValidatorMain {
 	public static void run() {
 		for (int t = 0; t < files.size(); t++) {
 			File docFile = files.get(t);
-			System.out.println(docFile.getAbsolutePath());
+			System.out.println("Validating: " + docFile.getAbsolutePath());
+			System.out.println("");
 
 			Document doc = null;
 			MessageList.clear();
@@ -129,7 +130,7 @@ public class NclValidatorMain {
 
 				System.out.println(" -> " + warnings.get(i).getDescription());
 			}
-			System.out.println("\n");
+			System.out.println("");
 
 			// print errors
 			System.out.println(NCLValidatorErrorMessages.getString("2"));
