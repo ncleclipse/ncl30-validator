@@ -109,38 +109,48 @@ public class NclValidatorMain {
 			Vector<Message> warnings = NCLValidator.getWarnings();
 			Vector<Message> erros = NCLValidator.getErrors();
 
+			// print warnings
 			System.out.println(NCLValidatorErrorMessages.getString("1"));
 			for (int i = 0; i < warnings.size(); i++) {
-				if (warnings.get(i).getElement() != null)
+				if (warnings.get(i).getElement() != null) {
 					System.out.print(NCLValidatorErrorMessages.getString("5")
 							+ warnings.get(i).getElement().getTagName()
-							+ "' id:'" + warnings.get(i).getId() + "'");
+							+ "' id: '"
+							+ warnings.get(i).getId()
+							+ "', "
+							+ NCLValidatorErrorMessages.getString("3")
+							+ warnings.get(i).getElement()
+									.getUserData("startLine")
+							+ " "
+							+ NCLValidatorErrorMessages.getString("4")
+							+ warnings.get(i).getElement()
+									.getUserData("startColumn"));
+				}
+
 				System.out.println(" -> " + warnings.get(i).getDescription());
 			}
-			System.out.println("\n\n");
-			// Imprime os erros
-			System.out.println("### "
-					+ NCLValidatorErrorMessages.getString("2") + " ###");
+			System.out.println("\n");
+
+			// print errors
+			System.out.println(NCLValidatorErrorMessages.getString("2"));
 			for (int i = 0; i < erros.size(); i++) {
 				if (erros.get(i).getElement() != null) {
-					System.out.println(NCLValidatorErrorMessages.getString("5")
-							+ erros.get(i).getElement().getTagName() + "' id:'"
-							+ erros.get(i).getId() + "'");
-					// SimpleLocator loc =
-					// handler.element2Locator(erros.get(i).getElement());
-					// System.out.println(erros.get(i).getElement().getUserData(
-					// "baseSystemId"));
-					System.out.println(NCLValidatorErrorMessages.getString("3")
+					System.out.print(NCLValidatorErrorMessages.getString("5")
+							+ erros.get(i).getElement().getTagName()
+							+ "' id: '"
+							+ erros.get(i).getId()
+							+ "'"
+							+ ", "
+							+ NCLValidatorErrorMessages.getString("3")
 							+ erros.get(i).getElement()
 									.getUserData("startLine")
 							+ " "
 							+ NCLValidatorErrorMessages.getString("4")
-							+ erros.get(i).getElement().getUserData(
-									"startColumn"));
+							+ erros.get(i).getElement()
+									.getUserData("startColumn"));
 				}
 				System.out.println(" -> " + erros.get(i).getDescription());
 			}
-
 		}
 	}
 
